@@ -278,13 +278,17 @@ bool Console::PopulateInterpreter()
 {
     interpreters_->RemoveAllItems();
 
-    HashSet<Object*>* receivers = context_->GetEventReceivers(E_CONSOLECOMMAND);
-    if (!receivers || receivers->Empty())
+    EventReceiverGroup* group = context_->GetEventReceivers(E_CONSOLECOMMAND);
+    if (!group || group->receivers_.Empty())
         return false;
 
     Vector<String> names;
-    for (HashSet<Object*>::ConstIterator iter = receivers->Begin(); iter != receivers->End(); ++iter)
-        names.Push((*iter)->GetTypeName());
+    for (unsigned i = 0; i < group->receivers_.Size(); ++i)
+    {
+        Object* receiver = group->receivers_[i];
+        if (receiver)
+            names.Push(receiver->GetTypeName());
+    }
     Sort(names.Begin(), names.End());
 
     unsigned selection = M_MAX_UNSIGNED;
@@ -340,10 +344,15 @@ void Console::HandleTextFinished(StringHash eventType, VariantMap& eventData)
         SendEvent(E_CONSOLECOMMAND, newEventData);
 #endif
 
-        // Store to history, then clear the lineedit
-        history_.Push(line);
-        if (history_.Size() > historyRows_)
-            history_.Erase(history_.Begin());
+        // Make sure the line isn't the same as the last one
+        if (history_.Empty() || line != history_.Back())
+        {
+            // Store to history, then clear the lineedit
+            history_.Push(line);
+            if (history_.Size() > historyRows_)
+                history_.Erase(history_.Begin());
+        }
+        
         historyPosition_ = history_.Size();
 
         currentRow_.Clear();

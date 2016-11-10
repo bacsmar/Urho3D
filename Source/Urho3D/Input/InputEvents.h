@@ -221,6 +221,23 @@ URHO3D_EVENT(E_EXITREQUESTED, ExitRequested)
 {
 }
 
+/// Raw SDL input event.
+URHO3D_EVENT(E_SDLRAWINPUT, SDLRawInput)
+{
+    URHO3D_PARAM(P_SDLEVENT, SDLEvent);           // SDL_Event*
+    URHO3D_PARAM(P_CONSUMED, Consumed);            // bool
+}
+
+/// Input handling begins.
+URHO3D_EVENT(E_INPUTBEGIN, InputBegin)
+{
+}
+
+/// Input handling ends.
+URHO3D_EVENT(E_INPUTEND, InputEnd)
+{
+}
+
 static const int MOUSEB_LEFT = SDL_BUTTON_LMASK;
 static const int MOUSEB_MIDDLE = SDL_BUTTON_MMASK;
 static const int MOUSEB_RIGHT = SDL_BUTTON_RMASK;
@@ -232,6 +249,7 @@ static const int QUAL_CTRL = 2;
 static const int QUAL_ALT = 4;
 static const int QUAL_ANY = 8;
 
+static const int KEY_UNKNOWN = SDLK_UNKNOWN;
 static const int KEY_A = SDLK_a;
 static const int KEY_B = SDLK_b;
 static const int KEY_C = SDLK_c;

@@ -246,6 +246,7 @@ String category;
 Color color;
 Material customMaterial;
 float drawDistance;
+Rect drawRect;
 bool enabled;
 /* readonly */
 bool enabledEffective;
@@ -277,11 +278,14 @@ uint shadowMask;
 float speed;
 Sprite2D sprite;
 bool temporary;
+Rect textureRect;
 /* readonly */
 StringHash type;
 /* readonly */
 String typeName;
+bool useDrawRect;
 bool useHotSpot;
+bool useTextureRect;
 uint viewMask;
 /* readonly */
 int weakRefs;
@@ -301,12 +305,14 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool RemoveAllTracks();
 void RemoveAllTriggers();
 bool RemoveTrack(const String&);
 void RemoveTrigger(uint);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -333,6 +339,19 @@ String typeName;
 uint useTimer;
 /* readonly */
 int weakRefs;
+};
+
+class AnimationControl
+{
+
+// Properties:
+float autoFadeTime;
+float fadeTime;
+StringHash hash;
+String name;
+bool removeOnCompletion;
+float speed;
+float targetWeight;
 };
 
 class AnimationController
@@ -368,6 +387,7 @@ bool IsAtEnd(const String&) const;
 bool IsFadingIn(const String&) const;
 bool IsFadingOut(const String&) const;
 bool IsPlaying(const String&) const;
+bool IsPlaying(uint8) const;
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
@@ -409,6 +429,8 @@ const String& GetStartBone(const String&) const;
 // Properties:
 bool animationEnabled;
 /* readonly */
+Array<AnimationControl> animations;
+/* readonly */
 Array<Variant> attributeDefaults;
 /* readonly */
 Array<AttributeInfo> attributeInfos;
@@ -422,6 +444,8 @@ bool enabledEffective;
 uint id;
 /* readonly */
 Node node;
+/* readonly */
+uint numAnimations;
 /* readonly */
 uint numAttributes;
 ObjectAnimation objectAnimation;
@@ -454,8 +478,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -711,6 +737,7 @@ uint lightMask;
 float lodBias;
 Material material;
 uint maxLights;
+float minAngle;
 /* readonly */
 Node node;
 /* readonly */
@@ -789,8 +816,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -833,9 +860,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -880,6 +910,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -907,10 +938,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -923,6 +958,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -1032,8 +1068,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -1076,9 +1112,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetPressedChildOffset(int, int);
 void SetPressedOffset(int, int);
@@ -1126,6 +1165,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -1153,10 +1193,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -1169,6 +1213,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 /* readonly */
 bool pressed;
@@ -1276,6 +1321,8 @@ float fov;
 /* readonly */
 Frustum frustum;
 /* readonly */
+Matrix4 gpuProjection;
+/* readonly */
 float halfViewSize;
 /* readonly */
 uint id;
@@ -1288,7 +1335,6 @@ uint numAttributes;
 ObjectAnimation objectAnimation;
 float orthoSize;
 bool orthographic;
-/* readonly */
 Matrix4 projection;
 Vector2 projectionOffset;
 Plane reflectionPlane;
@@ -1358,8 +1404,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -1403,9 +1449,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -1452,6 +1501,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -1479,10 +1529,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -1495,6 +1549,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -3587,8 +3642,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -3631,9 +3686,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetShape(CursorShape);
 void SetShape(const String&);
@@ -3680,6 +3738,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -3707,10 +3766,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -3723,6 +3786,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -4042,6 +4106,7 @@ bool enabled;
 bool enabledEffective;
 /* readonly */
 uint id;
+bool lineAntiAlias;
 /* readonly */
 Node node;
 /* readonly */
@@ -4138,6 +4203,7 @@ uint numVertices;
 ObjectAnimation objectAnimation;
 bool occludee;
 bool occluder;
+bool optimizeBufferSize;
 /* readonly */
 int refs;
 float shadowDistance;
@@ -4169,6 +4235,7 @@ double ReadDouble();
 String ReadFileID();
 float ReadFloat();
 int ReadInt();
+int64 ReadInt64();
 IntRect ReadIntRect();
 IntVector2 ReadIntVector2();
 String ReadLine();
@@ -4184,6 +4251,7 @@ String ReadString();
 StringHash ReadStringHash();
 uint8 ReadUByte();
 uint ReadUInt();
+uint64 ReadUInt64();
 uint16 ReadUShort();
 uint ReadVLE();
 Variant ReadVariant();
@@ -4442,8 +4510,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -4490,9 +4558,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetPressedChildOffset(int, int);
 void SetPressedOffset(int, int);
@@ -4545,6 +4616,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -4576,10 +4648,14 @@ LayoutMode layoutMode;
 int layoutSpacing;
 /* readonly */
 ListView listView;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -4594,6 +4670,7 @@ uint numItems;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 /* readonly */
 UIElement placeholder;
 String placeholderText;
@@ -4804,6 +4881,7 @@ double ReadDouble();
 String ReadFileID();
 float ReadFloat();
 int ReadInt();
+int64 ReadInt64();
 IntRect ReadIntRect();
 IntVector2 ReadIntVector2();
 String ReadLine();
@@ -4819,6 +4897,7 @@ String ReadString();
 StringHash ReadStringHash();
 uint8 ReadUByte();
 uint ReadUInt();
+uint64 ReadUInt64();
 uint16 ReadUShort();
 uint ReadVLE();
 Variant ReadVariant();
@@ -4838,6 +4917,7 @@ bool WriteDouble(double);
 bool WriteFileID(const String&);
 bool WriteFloat(float);
 bool WriteInt(int);
+bool WriteInt64(int64);
 bool WriteIntRect(const IntRect&);
 bool WriteIntVector2(const IntVector2&);
 bool WriteLine(const String&);
@@ -4853,6 +4933,7 @@ bool WriteString(const String&);
 bool WriteStringHash(const StringHash&);
 bool WriteUByte(uint8);
 bool WriteUInt(uint);
+bool WriteUInt64(uint64);
 bool WriteUShort(uint16);
 bool WriteVLE(uint);
 bool WriteVariant(const Variant&);
@@ -4999,8 +5080,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 bool SaveXML(File, int, bool = false, const String& = "\t");
 bool SaveXML(VectorBuffer&, int, bool = false, const String& = "\t");
 bool SaveXML(const String&, int, bool = false, const String& = "\t");
@@ -5030,9 +5113,11 @@ class Frustum
 {
 // Methods:
 void Define(const BoundingBox&, const Matrix3x4&);
+void Define(const Matrix4&);
 void Define(const Vector3&, const Vector3&, const Matrix3x4&);
 void Define(float, float, float, float, float, const Matrix3x4&);
 void DefineOrtho(float, float, float, float, float, const Matrix3x4&);
+void DefineSplit(const Matrix4&, float, float);
 float Distance(const Vector3&) const;
 Intersection IsInside(const BoundingBox&);
 Intersection IsInside(const Sphere&);
@@ -5122,6 +5207,7 @@ bool deferredSupport;
 IntVector2 desktopResolution;
 /* readonly */
 bool deviceLost;
+bool dither;
 bool flushGPU;
 /* readonly */
 bool fullscreen;
@@ -5157,6 +5243,7 @@ bool sRGB;
 bool sRGBSupport;
 /* readonly */
 bool sRGBWriteSupport;
+String shaderCacheDir;
 /* readonly */
 bool tripleBuffer;
 /* readonly */
@@ -5187,6 +5274,7 @@ double ReadDouble();
 String ReadFileID();
 float ReadFloat();
 int ReadInt();
+int64 ReadInt64();
 IntRect ReadIntRect();
 IntVector2 ReadIntVector2();
 String ReadLine();
@@ -5202,6 +5290,7 @@ String ReadString();
 StringHash ReadStringHash();
 uint8 ReadUByte();
 uint ReadUInt();
+uint64 ReadUInt64();
 uint16 ReadUShort();
 uint ReadVLE();
 Variant ReadVariant();
@@ -5259,12 +5348,15 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool LoadColorLUT(File);
 bool LoadColorLUT(VectorBuffer&);
 bool Resize(int, int);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 bool SaveBMP(const String&) const;
+bool SaveDDS(const String&) const;
 bool SaveJPG(const String&, int) const;
 bool SavePNG(const String&) const;
 bool SaveTGA(const String&) const;
@@ -5349,6 +5441,7 @@ class Input
 {
 // Methods:
 int AddScreenJoystick(XMLFile = null, XMLFile = null);
+void CenterMousePosition();
 int GetKeyFromName(const String&) const;
 int GetKeyFromScancode(int) const;
 String GetKeyName(int) const;
@@ -5408,7 +5501,6 @@ int mouseMoveWheel;
 int mouseMoveX;
 /* readonly */
 int mouseMoveY;
-/* readonly */
 IntVector2 mousePosition;
 bool mouseVisible;
 /* readonly */
@@ -5466,6 +5558,8 @@ int width;
 class IntVector2
 {
 // Methods:
+float Length() const;
+uint ToHash() const;
 String ToString() const;
 
 // Properties:
@@ -5484,9 +5578,11 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(File, const String&) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -5543,9 +5639,15 @@ bool isObject;
 /* readonly */
 bool isString;
 /* readonly */
+JSONNumberType numberType;
+/* readonly */
+String numberTypeName;
+/* readonly */
 uint size;
 /* readonly */
 JSONValueType valueType;
+/* readonly */
+String valueTypeName;
 };
 
 class JoystickState
@@ -5625,6 +5727,8 @@ bool castShadows;
 /* readonly */
 String category;
 Color color;
+/* readonly */
+Color colorFromTemperature;
 float drawDistance;
 /* readonly */
 Color effectiveColor;
@@ -5668,15 +5772,18 @@ float shadowFadeDistance;
 FocusParameters shadowFocus;
 float shadowIntensity;
 uint shadowMask;
+float shadowMaxExtrusion;
 float shadowNearFarRatio;
 float shadowResolution;
 Texture shapeTexture;
 float specularIntensity;
+float temperature;
 bool temporary;
 /* readonly */
 StringHash type;
 /* readonly */
 String typeName;
+bool usePhysicalValues;
 uint viewMask;
 /* readonly */
 int weakRefs;
@@ -5719,8 +5826,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -5763,9 +5870,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -5816,6 +5926,7 @@ uint dragDropMode;
 uint echoCharacter;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -5843,11 +5954,15 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
 uint maxLength;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -5860,6 +5975,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -5944,8 +6060,8 @@ bool IsInsideCombined(IntVector2, bool);
 bool IsSelected(uint) const;
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -5990,9 +6106,12 @@ void SetFixedSize(int, int);
 void SetFixedWidth(int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetScrollBarsVisible(bool, bool);
 void SetSelections(Array<uint>);
@@ -6046,6 +6165,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -6076,10 +6196,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 bool multiselect;
@@ -6096,6 +6220,7 @@ ObjectAnimation objectAnimation;
 float opacity;
 float pageStep;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -6224,12 +6349,14 @@ bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
 bool Load(const JSONValue&);
+bool Load(const String&);
 bool Load(const XMLElement&);
 void RemoveShaderParameter(const String&);
 bool Save(File) const;
 bool Save(JSONValue&) const;
 bool Save(VectorBuffer&) const;
 bool Save(XMLElement&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 void SetShaderParameterAnimation(const String&, ValueAnimation, WrapMode = WM_LOOP, float = 1.0f);
 void SetShaderParameterAnimationSpeed(const String&, float);
@@ -6240,17 +6367,19 @@ void SetUVTransform(const Vector2&, float, float);
 void SortTechniques();
 
 // Properties:
+bool alphaToCoverage;
 /* readonly */
 String category;
 CullMode cullMode;
 BiasParameters depthBias;
 FillMode fillMode;
+bool lineAntiAlias;
 /* readonly */
 uint memoryUse;
 String name;
 uint numTechniques;
-/* readonly */
 bool occlusion;
+String pixelShaderDefines;
 /* readonly */
 int refs;
 uint8 renderOrder;
@@ -6270,6 +6399,7 @@ StringHash type;
 String typeName;
 /* readonly */
 uint useTimer;
+String vertexShaderDefines;
 /* readonly */
 int weakRefs;
 };
@@ -6421,8 +6551,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -6466,9 +6596,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPopupOffset(int, int);
 void SetPosition(int, int);
 void SetPressedChildOffset(int, int);
@@ -6521,6 +6654,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -6548,10 +6682,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -6564,6 +6702,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 UIElement popup;
 IntVector2 popupOffset;
 IntVector2 position;
@@ -6640,10 +6779,14 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 bool SetGeometry(uint, uint, Geometry);
+bool SetIndexBuffers(Array<IndexBuffer>);
+bool SetVertexBuffers(Array<Array<Array<VertexBuffer>, uint>, uint>);
 
 // Properties:
 BoundingBox boundingBox;
@@ -6687,6 +6830,7 @@ double ReadDouble();
 String ReadFileID();
 float ReadFloat();
 int ReadInt();
+int64 ReadInt64();
 IntRect ReadIntRect();
 IntVector2 ReadIntVector2();
 String ReadLine();
@@ -6702,6 +6846,7 @@ String ReadString();
 StringHash ReadStringHash();
 uint8 ReadUByte();
 uint ReadUInt();
+uint64 ReadUInt64();
 uint16 ReadUShort();
 uint ReadVLE();
 Variant ReadVariant();
@@ -6721,6 +6866,7 @@ bool WriteDouble(double);
 bool WriteFileID(const String&);
 bool WriteFloat(float);
 bool WriteInt(int);
+bool WriteInt64(int64);
 bool WriteIntRect(const IntRect&);
 bool WriteIntVector2(const IntVector2&);
 bool WriteLine(const String&);
@@ -6736,6 +6882,7 @@ bool WriteString(const String&);
 bool WriteStringHash(const StringHash&);
 bool WriteUByte(uint8);
 bool WriteUInt(uint);
+bool WriteUInt64(uint64);
 bool WriteUShort(uint16);
 bool WriteVLE(uint);
 bool WriteVariant(const Variant&);
@@ -7140,10 +7287,11 @@ void ApplyAttributes();
 Node Clone(CreateMode = REPLICATED);
 Component CloneComponent(Component, CreateMode, uint = 0);
 Component CloneComponent(Component, uint = 0);
-Node CreateChild(const String& = String ( ), CreateMode = REPLICATED, uint = 0);
+Node CreateChild(const String& = String ( ), CreateMode = REPLICATED, uint = 0, bool = false);
 Component CreateComponent(const String&, CreateMode = REPLICATED, uint = 0);
 ScriptObject CreateScriptObject(ScriptFile, const String&, CreateMode = REPLICATED);
 ScriptObject CreateScriptObject(const String&, const String&, CreateMode = REPLICATED);
+Node CreateTemporaryChild(const String& = String ( ), CreateMode = REPLICATED, uint = 0);
 Variant GetAttribute(const String&) const;
 ValueAnimation GetAttributeAnimation(const String&) const;
 float GetAttributeAnimationSpeed(const String&) const;
@@ -7193,6 +7341,7 @@ void RemoveComponents(const String&);
 void RemoveInstanceDefault();
 void RemoveObjectAnimation();
 bool RemoveTag(const String&);
+void ReorderComponent(Component, uint);
 void ResetDeepEnabled();
 void ResetToDefault();
 void Roll(float, TransformSpace = TS_LOCAL);
@@ -7224,6 +7373,7 @@ void SetInterceptNetworkUpdate(const String&, bool);
 void SetPosition2D(float, float);
 void SetScale(float);
 void SetScale2D(float, float);
+void SetTransform(const Matrix3x4&);
 void SetTransform(const Vector3&, const Quaternion&);
 void SetTransform(const Vector3&, const Quaternion&, const Vector3&);
 void SetTransform(const Vector3&, const Quaternion&, float);
@@ -7260,7 +7410,6 @@ Vector3 direction;
 bool enabled;
 /* readonly */
 bool enabledSelf;
-/* readonly */
 uint id;
 String name;
 /* readonly */
@@ -7349,10 +7498,12 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 void RemoveAttributeAnimation(ValueAnimation);
 void RemoveAttributeAnimation(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -7646,18 +7797,21 @@ void AddColorFrame(ColorFrame);
 void AddColorTime(Color&, float);
 void AddTextureFrame(TextureFrame);
 void AddTextureTime(Rect&, float);
+ParticleEffect Clone(const String& = String ( )) const;
 ColorFrame GetColorFrame(uint) const;
 TextureFrame GetTextureFrame(uint) const;
 bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Load(const XMLElement&);
 void RemoveColorFrame(uint);
 void RemoveTextureFrame(uint);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
 bool Save(XMLElement&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 void SetColorFrame(uint, ColorFrame);
 void SetTextureFrame(uint, TextureFrame);
@@ -7718,12 +7872,15 @@ int weakRefs;
 class ParticleEffect2D
 {
 // Methods:
+ParticleEffect2D Clone(const String& = String ( )) const;
 bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -7795,6 +7952,7 @@ Array<Variant> attributeDefaults;
 /* readonly */
 Array<AttributeInfo> attributeInfos;
 Array<Variant> attributes;
+AutoRemoveMode autoRemoveMode;
 /* readonly */
 Array<Billboard> billboards;
 /* readonly */
@@ -7944,7 +8102,7 @@ class Pass
 {
 
 // Properties:
-bool alphaMask;
+bool alphaToCoverage;
 BlendMode blendMode;
 CullMode cullMode;
 CompareMode depthTestMode;
@@ -7952,10 +8110,12 @@ bool depthWrite;
 bool desktop;
 PassLightingMode lightingMode;
 String pixelShader;
+String pixelShaderDefineExcludes;
 String pixelShaderDefines;
 /* readonly */
 int refs;
 String vertexShader;
+String vertexShaderDefineExcludes;
 String vertexShaderDefines;
 /* readonly */
 int weakRefs;
@@ -8207,6 +8367,34 @@ Array<Array<Vector3>> face;
 uint numFaces;
 };
 
+class ProgressBar
+{
+// Methods:
+void ChangeValue(float);
+bool HasSubscribedToEvent(Object, const String&);
+bool HasSubscribedToEvent(const String&);
+void SendEvent(const String&, VariantMap& = VariantMap ( ));
+void SetLoadingPercentStyle(const String&);
+
+// Properties:
+/* readonly */
+String category;
+/* readonly */
+BorderImage knob;
+Orientation orientation;
+float range;
+/* readonly */
+int refs;
+bool showPercentText;
+/* readonly */
+StringHash type;
+/* readonly */
+String typeName;
+float value;
+/* readonly */
+int weakRefs;
+};
+
 class PropertySet2D
 {
 // Methods:
@@ -8301,6 +8489,7 @@ void Define(const Vector2&);
 void Define(const Vector2&, const Vector2&);
 bool Defined() const;
 bool Equals(const Rect&) const;
+Intersection IsInside(const Rect&) const;
 Intersection IsInside(const Vector2&) const;
 void Merge(const Rect&);
 void Merge(const Vector2&);
@@ -8410,6 +8599,8 @@ RenderSurface linkedRenderTarget;
 uint numViewports;
 /* readonly */
 Texture parentTexture;
+/* readonly */
+bool resolveDirty;
 RenderSurfaceUpdateMode updateMode;
 /* readonly */
 TextureUsage usage;
@@ -8422,10 +8613,12 @@ class RenderTargetInfo
 {
 
 // Properties:
+bool autoResolve;
 bool cubemap;
 bool enabled;
 bool filtered;
 uint format;
+int multiSample;
 String name;
 bool persistent;
 bool sRGB;
@@ -8503,6 +8696,7 @@ StringHash type;
 /* readonly */
 String typeName;
 Array<Viewport> viewports;
+int vsmMultiSample;
 Vector2 vsmShadowParameters;
 /* readonly */
 int weakRefs;
@@ -8515,8 +8709,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -8933,10 +9129,11 @@ void Clear(bool = true, bool = true);
 void ClearRequiredPackageFiles();
 Component CloneComponent(Component, CreateMode, uint = 0);
 Component CloneComponent(Component, uint = 0);
-Node CreateChild(const String& = String ( ), CreateMode = REPLICATED, uint = 0);
+Node CreateChild(const String& = String ( ), CreateMode = REPLICATED, uint = 0, bool = false);
 Component CreateComponent(const String&, CreateMode = REPLICATED, uint = 0);
 ScriptObject CreateScriptObject(ScriptFile, const String&, CreateMode = REPLICATED);
 ScriptObject CreateScriptObject(const String&, const String&, CreateMode = REPLICATED);
+Node CreateTemporaryChild(const String& = String ( ), CreateMode = REPLICATED, uint = 0);
 Variant GetAttribute(const String&) const;
 ValueAnimation GetAttributeAnimation(const String&) const;
 float GetAttributeAnimationSpeed(const String&) const;
@@ -9005,6 +9202,7 @@ void RemoveComponents(const String&);
 void RemoveInstanceDefault();
 void RemoveObjectAnimation();
 bool RemoveTag(const String&);
+void ReorderComponent(Component, uint);
 void ResetToDefault();
 void Roll(float, TransformSpace = TS_LOCAL);
 void Rotate(const Quaternion&, TransformSpace = TS_LOCAL);
@@ -9033,6 +9231,7 @@ void SetInterceptNetworkUpdate(const String&, bool);
 void SetPosition2D(float, float);
 void SetScale(float);
 void SetScale2D(float, float);
+void SetTransform(const Matrix3x4&);
 void SetTransform(const Vector3&, const Quaternion&);
 void SetTransform(const Vector3&, const Quaternion&, const Vector3&);
 void SetTransform(const Vector3&, const Quaternion&, float);
@@ -9085,7 +9284,6 @@ Vector3 direction;
 float elapsedTime;
 /* readonly */
 String fileName;
-/* readonly */
 uint id;
 String name;
 /* readonly */
@@ -9187,8 +9385,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -9327,8 +9527,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -9369,9 +9569,12 @@ void SetFixedSize(int, int);
 void SetFixedWidth(int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -9420,6 +9623,7 @@ bool editable;
 /* readonly */
 float effectiveScrollStep;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -9446,10 +9650,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -9463,6 +9671,7 @@ ObjectAnimation objectAnimation;
 float opacity;
 Orientation orientation;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 float range;
@@ -9535,8 +9744,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -9577,9 +9786,12 @@ void SetFixedSize(int, int);
 void SetFixedWidth(int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetScrollBarsVisible(bool, bool);
 void SetSize(int, int);
@@ -9627,6 +9839,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -9653,10 +9866,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -9670,6 +9887,7 @@ ObjectAnimation objectAnimation;
 float opacity;
 float pageStep;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -9768,6 +9986,7 @@ bool WriteDouble(double);
 bool WriteFileID(const String&);
 bool WriteFloat(float);
 bool WriteInt(int);
+bool WriteInt64(int64);
 bool WriteIntRect(const IntRect&);
 bool WriteIntVector2(const IntVector2&);
 bool WriteLine(const String&);
@@ -9783,6 +10002,7 @@ bool WriteString(const String&);
 bool WriteStringHash(const StringHash&);
 bool WriteUByte(uint8);
 bool WriteUInt(uint);
+bool WriteUInt64(uint64);
 bool WriteUShort(uint16);
 bool WriteVLE(uint);
 bool WriteVariant(const Variant&);
@@ -9937,8 +10157,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -9981,9 +10201,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -10028,6 +10251,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -10057,10 +10281,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -10074,6 +10302,7 @@ ObjectAnimation objectAnimation;
 float opacity;
 Orientation orientation;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 float range;
@@ -10192,8 +10421,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -10345,7 +10576,7 @@ Array<Variant> attributeDefaults;
 /* readonly */
 Array<AttributeInfo> attributeInfos;
 Array<Variant> attributes;
-bool autoRemove;
+AutoRemoveMode autoRemoveMode;
 /* readonly */
 String category;
 bool enabled;
@@ -10432,7 +10663,7 @@ Array<Variant> attributeDefaults;
 /* readonly */
 Array<AttributeInfo> attributeInfos;
 Array<Variant> attributes;
-bool autoRemove;
+AutoRemoveMode autoRemoveMode;
 /* readonly */
 String category;
 bool enabled;
@@ -10629,8 +10860,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -10673,9 +10904,12 @@ void SetFullImageRect();
 void SetHotSpot(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(float, float);
 void SetScale(float);
 void SetScale(float, float);
@@ -10721,6 +10955,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -10747,10 +10982,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -10763,6 +11002,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 Vector2 position;
 int priority;
 /* readonly */
@@ -10805,8 +11045,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -10841,8 +11083,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -11117,6 +11361,7 @@ String category;
 Color color;
 Material customMaterial;
 float drawDistance;
+Rect drawRect;
 bool enabled;
 /* readonly */
 bool enabledEffective;
@@ -11145,11 +11390,14 @@ float shadowDistance;
 uint shadowMask;
 Sprite2D sprite;
 bool temporary;
+Rect textureRect;
 /* readonly */
 StringHash type;
 /* readonly */
 String typeName;
+bool useDrawRect;
 bool useHotSpot;
+bool useTextureRect;
 uint viewMask;
 /* readonly */
 int weakRefs;
@@ -11192,7 +11440,7 @@ bool ToBool() const;
 Color ToColor() const;
 double ToDouble() const;
 float ToFloat() const;
-int ToInt() const;
+int ToInt(int = 10) const;
 IntRect ToIntRect() const;
 IntVector2 ToIntVector2() const;
 String ToLower() const;
@@ -11200,7 +11448,7 @@ Matrix3 ToMatrix3() const;
 Matrix3x4 ToMatrix3x4() const;
 Matrix4 ToMatrix4() const;
 Quaternion ToQuaternion() const;
-uint ToUInt() const;
+uint ToUInt(int = 10) const;
 String ToUpper() const;
 Vector2 ToVector2() const;
 Vector3 ToVector3() const;
@@ -11239,9 +11487,11 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 void RemovePass(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -11294,6 +11544,7 @@ WrapMode GetAttributeAnimationWrapMode(const String&) const;
 Variant GetAttributeDefault(const String&) const;
 float GetHeight(const Vector3&) const;
 bool GetInterceptNetworkUpdate(const String&) const;
+TerrainPatch GetNeighborPatch(int, int) const;
 Vector3 GetNormal(const Vector3&) const;
 TerrainPatch GetPatch(int, int) const;
 bool HasSubscribedToEvent(Object, const String&);
@@ -11320,6 +11571,7 @@ void SetAttributeAnimationSpeed(const String&, float);
 void SetAttributeAnimationTime(const String&, float);
 void SetAttributeAnimationWrapMode(const String&, WrapMode);
 void SetInterceptNetworkUpdate(const String&, bool);
+void SetNeighbors(Terrain, Terrain, Terrain, Terrain);
 IntVector2 WorldToHeightMap(const Vector3&) const;
 
 // Properties:
@@ -11333,6 +11585,7 @@ bool castShadows;
 /* readonly */
 String category;
 float drawDistance;
+Terrain eastNeighbor;
 bool enabled;
 /* readonly */
 bool enabledEffective;
@@ -11346,6 +11599,7 @@ uint maxLights;
 uint maxLodLevels;
 /* readonly */
 Node node;
+Terrain northNeighbor;
 /* readonly */
 uint numAttributes;
 /* readonly */
@@ -11364,6 +11618,7 @@ int refs;
 float shadowDistance;
 uint shadowMask;
 bool smoothing;
+Terrain southNeighbor;
 Vector3 spacing;
 bool temporary;
 /* readonly */
@@ -11373,6 +11628,7 @@ String typeName;
 uint viewMask;
 /* readonly */
 int weakRefs;
+Terrain westNeighbor;
 uint zoneMask;
 };
 
@@ -11496,8 +11752,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -11540,9 +11796,12 @@ bool SetFont(Font, int);
 bool SetFont(const String&, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSelection(uint, uint = M_MAX_UNSIGNED);
 void SetSize(int, int);
@@ -11595,6 +11854,7 @@ bool effectRoundStroke;
 IntVector2 effectShadowOffset;
 int effectStrokeThickness;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -11608,7 +11868,6 @@ bool focus;
 FocusMode focusMode;
 /* readonly */
 Font font;
-/* readonly */
 int fontSize;
 int height;
 HorizontalAlignment horizontalAlignment;
@@ -11624,10 +11883,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -11644,6 +11907,7 @@ uint numRows;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -11763,7 +12027,6 @@ FaceCameraMode faceCameraMode;
 bool fixedScreenSize;
 /* readonly */
 Font font;
-/* readonly */
 int fontSize;
 HorizontalAlignment horizontalAlignment;
 /* readonly */
@@ -11822,13 +12085,18 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 void SetNumLevels(uint);
 
 // Properties:
 Array<TextureAddressMode> addressMode;
+uint anisotropy;
+/* readonly */
+bool autoResolve;
 Texture backupTexture;
 Color borderColor;
 /* readonly */
@@ -11851,11 +12119,17 @@ Array<int> levelWidth;
 /* readonly */
 uint levels;
 /* readonly */
+bool levelsDirty;
+/* readonly */
 uint memoryUse;
 Array<int> mipsToSkip;
+/* readonly */
+int multiSample;
 String name;
 /* readonly */
 int refs;
+/* readonly */
+bool resolveDirty;
 bool sRGB;
 /* readonly */
 StringHash type;
@@ -11880,15 +12154,20 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 bool SetData(Image, bool = false);
 void SetNumLevels(uint);
-bool SetSize(int, int, uint, TextureUsage = TEXTURE_STATIC);
+bool SetSize(int, int, uint, TextureUsage = TEXTURE_STATIC, int = 1, bool = true);
 
 // Properties:
 Array<TextureAddressMode> addressMode;
+uint anisotropy;
+/* readonly */
+bool autoResolve;
 Texture backupTexture;
 Color borderColor;
 /* readonly */
@@ -11911,13 +12190,19 @@ Array<int> levelWidth;
 /* readonly */
 uint levels;
 /* readonly */
+bool levelsDirty;
+/* readonly */
 uint memoryUse;
 Array<int> mipsToSkip;
+/* readonly */
+int multiSample;
 String name;
 /* readonly */
 int refs;
 /* readonly */
 RenderSurface renderSurface;
+/* readonly */
+bool resolveDirty;
 bool sRGB;
 /* readonly */
 StringHash type;
@@ -11941,8 +12226,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 bool SetData(uint, Image, bool = false);
 void SetNumLevels(uint);
@@ -11950,6 +12237,9 @@ bool SetSize(uint, int, int, uint, TextureUsage = TEXTURE_STATIC);
 
 // Properties:
 Array<TextureAddressMode> addressMode;
+uint anisotropy;
+/* readonly */
+bool autoResolve;
 Texture backupTexture;
 Color borderColor;
 /* readonly */
@@ -11973,13 +12263,19 @@ Array<int> levelWidth;
 /* readonly */
 uint levels;
 /* readonly */
+bool levelsDirty;
+/* readonly */
 uint memoryUse;
 Array<int> mipsToSkip;
+/* readonly */
+int multiSample;
 String name;
 /* readonly */
 int refs;
 /* readonly */
 RenderSurface renderSurface;
+/* readonly */
+bool resolveDirty;
 bool sRGB;
 /* readonly */
 StringHash type;
@@ -12003,8 +12299,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 bool SetData(Image, bool = false);
 void SetNumLevels(uint);
@@ -12012,6 +12310,9 @@ bool SetSize(int, int, int, uint, TextureUsage = TEXTURE_STATIC);
 
 // Properties:
 Array<TextureAddressMode> addressMode;
+uint anisotropy;
+/* readonly */
+bool autoResolve;
 Texture backupTexture;
 Color borderColor;
 /* readonly */
@@ -12034,11 +12335,17 @@ Array<int> levelWidth;
 /* readonly */
 uint levels;
 /* readonly */
+bool levelsDirty;
+/* readonly */
 uint memoryUse;
 Array<int> mipsToSkip;
+/* readonly */
+int multiSample;
 String name;
 /* readonly */
 int refs;
+/* readonly */
+bool resolveDirty;
 bool sRGB;
 /* readonly */
 StringHash type;
@@ -12063,15 +12370,20 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 bool SetData(CubeMapFace, Image, bool = false);
 void SetNumLevels(uint);
-bool SetSize(int, uint, TextureUsage = TEXTURE_STATIC);
+bool SetSize(int, uint, TextureUsage = TEXTURE_STATIC, int = 1);
 
 // Properties:
 Array<TextureAddressMode> addressMode;
+uint anisotropy;
+/* readonly */
+bool autoResolve;
 Texture backupTexture;
 Color borderColor;
 /* readonly */
@@ -12094,13 +12406,19 @@ Array<int> levelWidth;
 /* readonly */
 uint levels;
 /* readonly */
+bool levelsDirty;
+/* readonly */
 uint memoryUse;
 Array<int> mipsToSkip;
+/* readonly */
+int multiSample;
 String name;
 /* readonly */
 int refs;
 /* readonly */
 Array<RenderSurface> renderSurfaces;
+/* readonly */
+bool resolveDirty;
 bool sRGB;
 /* readonly */
 StringHash type;
@@ -12392,8 +12710,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 
 // Properties:
@@ -12448,8 +12768,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -12490,9 +12810,12 @@ void SetFixedSize(int, int);
 void SetFixedWidth(int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -12536,6 +12859,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -12560,10 +12884,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -12576,6 +12904,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -12641,6 +12970,7 @@ UIElement LoadLayout(XMLFile, XMLFile);
 bool SaveLayout(File, UIElement);
 bool SaveLayout(VectorBuffer&, UIElement);
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
+void SetCustomSize(int, int);
 void SetFocusElement(UIElement, bool = false);
 void SetHeight(float);
 void SetWidth(float);
@@ -12653,6 +12983,7 @@ String clipBoardText;
 Cursor cursor;
 /* readonly */
 IntVector2 cursorPosition;
+IntVector2 customSize;
 float defaultToolTipDelay;
 float doubleClickInterval;
 int dragBeginDistance;
@@ -12715,8 +13046,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -12757,9 +13088,12 @@ void SetFixedSize(int, int);
 void SetFixedWidth(int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -12802,6 +13136,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -12826,10 +13161,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 String name;
@@ -12842,6 +13181,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -12881,8 +13221,10 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 bool Save(File) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 void SetEventFrame(float, const String&, const VariantMap& = VariantMap ( ));
 void SetKeyFrame(float, const Variant&);
@@ -12932,6 +13274,7 @@ const Matrix3& GetMatrix3() const;
 const Matrix3x4& GetMatrix3x4() const;
 const Matrix4& GetMatrix4() const;
 const Quaternion& GetQuaternion() const;
+const Rect& GetRect() const;
 const ResourceRef& GetResourceRef() const;
 const ResourceRefList& GetResourceRefList() const;
 const String& GetString() const;
@@ -12982,6 +13325,7 @@ bool IsNaN() const;
 Vector2 Lerp(const Vector2&, float) const;
 void Normalize();
 Vector2 Normalized() const;
+float ProjectOntoAxis(const Vector2&) const;
 String ToString() const;
 
 // Properties:
@@ -13008,6 +13352,7 @@ bool IsNaN() const;
 Vector3 Lerp(const Vector3&, float) const;
 void Normalize();
 Vector3 Normalized() const;
+float ProjectOntoAxis(const Vector3&) const;
 String ToString() const;
 
 // Properties:
@@ -13031,6 +13376,7 @@ float DotProduct(const Vector4&) const;
 bool Equals(const Vector4&) const;
 bool IsNaN() const;
 Vector4 Lerp(const Vector4&, float) const;
+float ProjectOntoAxis(const Vector3&) const;
 String ToString() const;
 
 // Properties:
@@ -13055,6 +13401,7 @@ double ReadDouble();
 String ReadFileID();
 float ReadFloat();
 int ReadInt();
+int64 ReadInt64();
 IntRect ReadIntRect();
 IntVector2 ReadIntVector2();
 String ReadLine();
@@ -13070,6 +13417,7 @@ String ReadString();
 StringHash ReadStringHash();
 uint8 ReadUByte();
 uint ReadUInt();
+uint64 ReadUInt64();
 uint16 ReadUShort();
 uint ReadVLE();
 Variant ReadVariant();
@@ -13090,6 +13438,7 @@ bool WriteDouble(double);
 bool WriteFileID(const String&);
 bool WriteFloat(float);
 bool WriteInt(int);
+bool WriteInt64(int64);
 bool WriteIntRect(const IntRect&);
 bool WriteIntVector2(const IntVector2&);
 bool WriteLine(const String&);
@@ -13105,6 +13454,7 @@ bool WriteString(const String&);
 bool WriteStringHash(const StringHash&);
 bool WriteUByte(uint8);
 bool WriteUInt(uint);
+bool WriteUInt64(uint64);
 bool WriteUShort(uint16);
 bool WriteVLE(uint);
 bool WriteVariant(const Variant&);
@@ -13212,8 +13562,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -13257,9 +13607,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -13310,6 +13663,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -13340,10 +13694,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 bool modal;
@@ -13362,6 +13720,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -13413,7 +13772,7 @@ bool HasSubscribedToEvent(const String&);
 Vector3 ScreenToWorldPoint(int, int, float) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 void SetRenderPath(XMLFile);
-Vector2 WorldToScreenPoint(const Vector3&) const;
+IntVector2 WorldToScreenPoint(const Vector3&) const;
 
 // Properties:
 Camera camera;
@@ -13482,8 +13841,8 @@ bool IsInside(IntVector2, bool);
 bool IsInsideCombined(IntVector2, bool);
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
-bool LoadChildXML(XMLFile, XMLFile = null);
-bool LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
+UIElement LoadChildXML(XMLFile, XMLFile = null);
+UIElement LoadChildXML(const XMLElement&, XMLFile = null, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
 bool LoadXML(File);
 bool LoadXML(VectorBuffer&);
@@ -13526,9 +13885,12 @@ void SetFullImageRect();
 void SetHoverOffset(int, int);
 void SetInterceptNetworkUpdate(const String&, bool);
 void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ));
+void SetMaxAnchor(float, float);
 void SetMaxSize(int, int);
+void SetMinAnchor(float, float);
 void SetMinSize(int, int);
 void SetParent(UIElement, uint = M_MAX_UNSIGNED);
+void SetPivot(float, float);
 void SetPosition(int, int);
 void SetSize(int, int);
 bool SetStyle(const String&, XMLFile = null);
@@ -13573,6 +13935,7 @@ int dragButtonCount;
 uint dragDropMode;
 bool editable;
 bool elementEventSender;
+bool enableAnchor;
 bool enabled;
 /* readonly */
 bool enabledSelf;
@@ -13602,10 +13965,14 @@ IntRect layoutBorder;
 Vector2 layoutFlexScale;
 LayoutMode layoutMode;
 int layoutSpacing;
+Vector2 maxAnchor;
 int maxHeight;
+IntVector2 maxOffset;
 IntVector2 maxSize;
 int maxWidth;
+Vector2 minAnchor;
 int minHeight;
+IntVector2 minOffset;
 IntVector2 minSize;
 int minWidth;
 bool modal;
@@ -13624,6 +13991,7 @@ uint numChildren;
 ObjectAnimation objectAnimation;
 float opacity;
 UIElement parent;
+Vector2 pivot;
 IntVector2 position;
 int priority;
 /* readonly */
@@ -13757,11 +14125,13 @@ bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool Load(File);
 bool Load(VectorBuffer&);
+bool Load(const String&);
 void Patch(XMLElement);
 void Patch(XMLFile);
 bool Save(File) const;
 bool Save(File, const String&) const;
 bool Save(VectorBuffer&) const;
+bool Save(const String&) const;
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 String ToString(const String& = String ( "\t" )) const;
 
@@ -13923,6 +14293,13 @@ enum AnimationBlendMode
 {
 ABM_LERP,
 ABM_ADDITIVE,
+};
+
+enum AutoRemoveMode
+{
+REMOVE_DISABLED,
+REMOVE_COMPONENT,
+REMOVE_NODE,
 };
 
 enum BlendMode
@@ -14088,6 +14465,7 @@ FC_ROTATE_XYZ,
 FC_ROTATE_Y,
 FC_LOOKAT_XYZ,
 FC_LOOKAT_Y,
+FC_LOOKAT_MIXED,
 FC_DIRECTION,
 };
 
@@ -14125,6 +14503,7 @@ enum HorizontalAlignment
 HA_LEFT,
 HA_CENTER,
 HA_RIGHT,
+HA_CUSTOM,
 };
 
 enum HttpRequestState
@@ -14155,6 +14534,14 @@ enum Intersection
 OUTSIDE,
 INTERSECTS,
 INSIDE,
+};
+
+enum JSONNumberType
+{
+JSONNT_NAN,
+JSONNT_INT,
+JSONNT_UINT,
+JSONNT_FLOAT_DOUBLE,
 };
 
 enum JSONValueType
@@ -14208,6 +14595,7 @@ enum NavigationPushiness
 NAVIGATIONPUSHINESS_LOW,
 NAVIGATIONPUSHINESS_MEDIUM,
 NAVIGATIONPUSHINESS_HIGH,
+NAVIGATIONPUSHINESS_NONE,
 };
 
 enum NavigationQuality
@@ -14443,6 +14831,7 @@ VAR_MATRIX3X4,
 VAR_MATRIX4,
 VAR_DOUBLE,
 VAR_STRINGVECTOR,
+VAR_RECT,
 };
 
 enum VertexElementSemantic
@@ -14476,6 +14865,7 @@ enum VerticalAlignment
 VA_TOP,
 VA_CENTER,
 VA_BOTTOM,
+VA_CUSTOM,
 };
 
 enum WrapMode
@@ -14493,6 +14883,7 @@ float Asin(float);
 float Atan(float);
 float Atan2(float, float);
 float Ceil(float);
+int CeilToInt(float);
 float Clamp(float, float, float);
 int Clamp(int, int, int);
 void ClearDelayedExecute(const String& = String ( ));
@@ -14504,6 +14895,8 @@ void DelayedExecute(float, bool, const String&, const Array<Variant> = null);
 bool Equals(float, float);
 void ErrorDialog(const String&, const String&);
 float Floor(float);
+int FloorToInt(float);
+float Fract(float);
 uint GetAlphaFormat();
 Array<String> GetArguments();
 String GetConsoleInput();
@@ -14543,6 +14936,7 @@ uint GetReadableDepthFormat();
 String GetTextureUnitName(TextureUnit);
 bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
+float InverseLerp(float, float, float);
 bool IsAbsolutePath(const String&);
 bool IsAlpha(uint);
 bool IsDigit(uint);
@@ -14550,6 +14944,7 @@ bool IsNaN(float);
 bool IsPowerOfTwo(uint);
 String Join(Array<String>&, const String&);
 float Lerp(float, float, float);
+float Ln(float);
 void MarkNetworkUpdate();
 float Max(float, float);
 int Max(int, int);
@@ -14577,6 +14972,8 @@ void RegisterEventName(const String&);
 void Remove();
 String RemoveTrailingSlash(const String&);
 String ReplaceExtension(const String&, const String&);
+float Round(float);
+int RoundToInt(float);
 uint SDBMHash(uint, uint8);
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 void SetGlobalVar(const String&, Variant&);
@@ -14586,6 +14983,9 @@ float Sign(float);
 float Sin(float);
 float SmoothStep(float, float, float);
 float Sqrt(float);
+float StableRandom(const Vector2&);
+float StableRandom(const Vector3&);
+float StableRandom(float);
 const String& GetTypeName(StringHash);
 void SubscribeToEvent(Object, const String&, const String&);
 void SubscribeToEvent(const String&, const String&);
@@ -14598,6 +14998,29 @@ void UnsubscribeFromAllEventsExcept(Array<String>);
 void UnsubscribeFromEvent(Object, const String&);
 void UnsubscribeFromEvent(const String&);
 void UnsubscribeFromEvents(Object);
+Vector2 VectorCeil(const Vector2&);
+Vector3 VectorCeil(const Vector3&);
+Vector4 VectorCeil(const Vector4&);
+IntVector2 VectorCeilToInt(const Vector2&);
+Vector2 VectorFloor(const Vector2&);
+Vector3 VectorFloor(const Vector3&);
+Vector4 VectorFloor(const Vector4&);
+IntVector2 VectorFloorToInt(const Vector2&);
+Vector2 VectorLerp(const Vector2&, const Vector2&, const Vector2&);
+Vector3 VectorLerp(const Vector3&, const Vector3&, const Vector3&);
+Vector4 VectorLerp(const Vector4&, const Vector4&, const Vector4&);
+IntVector2 VectorMax(const IntVector2&, const IntVector2&);
+Vector2 VectorMax(const Vector2&, const Vector2&);
+Vector3 VectorMax(const Vector3&, const Vector3&);
+Vector4 VectorMax(const Vector4&, const Vector4&);
+IntVector2 VectorMin(const IntVector2&, const IntVector2&);
+Vector2 VectorMin(const Vector2&, const Vector2&);
+Vector3 VectorMin(const Vector3&, const Vector3&);
+Vector4 VectorMin(const Vector4&, const Vector4&);
+Vector2 VectorRound(const Vector2&);
+Vector3 VectorRound(const Vector3&);
+Vector4 VectorRound(const Vector4&);
+IntVector2 VectorRoundToInt(const Vector2&);
 bool WriteDrawablesToOBJ(Array<Drawable>, File, bool, bool, bool = false);
 
 // Global properties
@@ -14633,6 +15056,7 @@ UI ui;
 uint AM_COMPONENTID;
 uint AM_DEFAULT;
 uint AM_FILE;
+uint AM_FILEREADONLY;
 uint AM_LATESTDATA;
 uint AM_NET;
 uint AM_NODEID;
@@ -14673,7 +15097,6 @@ uint DD_SOURCE;
 uint DD_SOURCE_AND_TARGET;
 uint DD_TARGET;
 uint DEBUGHUD_SHOW_ALL;
-uint DEBUGHUD_SHOW_ALL_MEMORY;
 uint DEBUGHUD_SHOW_EVENTPROFILER;
 uint DEBUGHUD_SHOW_MEMORY;
 uint DEBUGHUD_SHOW_MODE;
@@ -14801,6 +15224,7 @@ int KEY_SPACE;
 int KEY_T;
 int KEY_TAB;
 int KEY_U;
+int KEY_UNKNOWN;
 int KEY_UP;
 int KEY_V;
 int KEY_W;

@@ -927,7 +927,7 @@ bool CScriptArray::operator==(const CScriptArray &other) const
         if( cmpContext == 0 )
         {
             // TODO: Ideally this context would be retrieved from a pool, so we don't have to
-            //       create a new one everytime. We could keep a context with the array object
+            //       create a new one every time. We could keep a context with the array object
             //       but that would consume a lot of resources as each context is quite heavy.
             cmpContext = objType->GetEngine()->CreateContext();
         }
@@ -1136,7 +1136,7 @@ int CScriptArray::Find(asUINT startAt, void *value) const
         if( cmpContext == 0 )
         {
             // TODO: Ideally this context would be retrieved from a pool, so we don't have to
-            //       create a new one everytime. We could keep a context with the array object
+            //       create a new one every time. We could keep a context with the array object
             //       but that would consume a lot of resources as each context is quite heavy.
             cmpContext = objType->GetEngine()->CreateContext();
         }
@@ -1309,7 +1309,7 @@ void CScriptArray::Sort(asUINT startAt, asUINT count, bool asc)
         if( cmpContext == 0 )
         {
             // TODO: Ideally this context would be retrieved from a pool, so we don't have to
-            //       create a new one everytime. We could keep a context with the array object
+            //       create a new one every time. We could keep a context with the array object
             //       but that would consume a lot of resources as each context is quite heavy.
             cmpContext = objType->GetEngine()->CreateContext();
         }
@@ -2086,7 +2086,6 @@ bool CScriptDictValue::Get(asIScriptEngine *engine, void *value, int typeId) con
         if ((m_typeId & asTYPEID_MASK_OBJECT) &&
             engine->RefCastObject(m_valueObj, engine->GetObjectTypeById(m_typeId), engine->GetObjectTypeById(typeId), &cast) >= 0)
         {
-            engine->AddRefScriptObject(m_valueObj, engine->GetObjectTypeById(m_typeId));
             *(void**)value = m_valueObj;
 
             return true;
