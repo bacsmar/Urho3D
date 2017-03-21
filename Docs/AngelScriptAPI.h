@@ -603,6 +603,8 @@ Array<String> enumNames;
 uint mode;
 String name;
 VariantType type;
+/* readonly */
+Array<String> variantStructureElementNames;
 };
 
 class Audio
@@ -2355,9 +2357,11 @@ int weakRefs;
 class Console
 {
 // Methods:
+void AddAutoComplete(const String&);
 void CopySelectedRows() const;
 bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
+void RemoveAutoComplete(const String&);
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 void Toggle();
 void UpdateElements();
@@ -2603,6 +2607,7 @@ bool enabledEffective;
 float frequencyHz;
 /* readonly */
 uint id;
+float length;
 /* readonly */
 Node node;
 /* readonly */
@@ -4047,12 +4052,13 @@ int weakRefs;
 class DebugRenderer
 {
 // Methods:
-void AddBoundingBox(const BoundingBox&, const Color&, bool = true);
+void AddBoundingBox(const BoundingBox&, const Color&, bool = true, bool = false);
 void AddCircle(const Vector3&, const Vector3&, float, const Color&, int = 64, bool = true);
 void AddCross(const Vector3&, float, const Color&, bool = true);
 void AddFrustum(const Frustum&, const Color&, bool = true);
 void AddLine(const Vector3&, const Vector3&, const Color&, bool = true);
 void AddNode(Node, float = 1.0, bool = true);
+void AddPolygon(const Vector3&, const Vector3&, const Vector3&, const Vector3&, const Color&, bool = true);
 void AddPolyhedron(const Polyhedron&, const Color&, bool = true);
 void AddQuad(const Vector3&, float, float, const Color&, bool = true);
 void AddSkeleton(Skeleton, const Color&, bool = true);
@@ -5094,6 +5100,8 @@ IntVector2 absoluteGlyphOffset;
 /* readonly */
 String category;
 /* readonly */
+FontType fontType;
+/* readonly */
 uint memoryUse;
 String name;
 /* readonly */
@@ -5189,7 +5197,7 @@ void PrecacheShaders(File);
 void PrecacheShaders(VectorBuffer&);
 void SendEvent(const String&, VariantMap& = VariantMap ( ));
 bool SetMode(int, int);
-bool SetMode(int, int, bool, bool, bool, bool, bool, bool, int);
+bool SetMode(int, int, bool, bool, bool, bool, bool, bool, int, int, int);
 void SetWindowPosition(int, int);
 bool TakeScreenShot(Image);
 bool ToggleFullscreen();
@@ -5204,7 +5212,7 @@ String category;
 /* readonly */
 bool deferredSupport;
 /* readonly */
-IntVector2 desktopResolution;
+Array<IntVector2> desktopResolution;
 /* readonly */
 bool deviceLost;
 bool dither;
@@ -5222,6 +5230,8 @@ bool instancingSupport;
 /* readonly */
 bool lightPrepassSupport;
 /* readonly */
+int monitorCount;
+/* readonly */
 int multiSample;
 /* readonly */
 Array<int> multiSampleLevels;
@@ -5237,13 +5247,15 @@ int refs;
 /* readonly */
 bool resizable;
 /* readonly */
-Array<IntVector2> resolutions;
+Array<Array<IntVector3>> resolutions;
 bool sRGB;
 /* readonly */
 bool sRGBSupport;
 /* readonly */
 bool sRGBWriteSupport;
 String shaderCacheDir;
+/* readonly */
+IntVector2 size;
 /* readonly */
 bool tripleBuffer;
 /* readonly */
@@ -5569,6 +5581,21 @@ int x;
 int y;
 };
 
+class IntVector3
+{
+// Methods:
+float Length() const;
+uint ToHash() const;
+String ToString() const;
+
+// Properties:
+/* readonly */
+Array<int> data;
+int x;
+int y;
+int z;
+};
+
 class JSONFile
 {
 // Methods:
@@ -5745,6 +5772,7 @@ Frustum frustum;
 uint id;
 /* readonly */
 bool inView;
+float length;
 uint lightMask;
 LightType lightType;
 float lodBias;
@@ -5761,6 +5789,7 @@ ObjectAnimation objectAnimation;
 bool occludee;
 bool occluder;
 bool perVertex;
+float radius;
 Texture rampTexture;
 float range;
 /* readonly */
@@ -7316,6 +7345,7 @@ bool HasComponent(const String&) const;
 bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 bool HasTag(const String&);
+bool IsChildOf(Node) const;
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
 bool LoadJSON(const JSONValue&, bool = false);
@@ -8423,10 +8453,10 @@ void FromRotationTo(const Vector3&, const Vector3&);
 Quaternion Inverse() const;
 bool IsNaN() const;
 float LengthSquared() const;
-Quaternion Nlerp(Quaternion, float, bool) const;
+Quaternion Nlerp(const Quaternion&, float, bool) const;
 void Normalize();
 Quaternion Normalized() const;
-Quaternion Slerp(Quaternion, float) const;
+Quaternion Slerp(const Quaternion&, float) const;
 String ToString() const;
 
 // Properties:
@@ -9040,6 +9070,7 @@ void ApplyAttributes();
 void ApplyForce(const Vector2&, const Vector2&, bool);
 void ApplyForceToCenter(const Vector2&, bool);
 void ApplyLinearImpulse(const Vector2&, const Vector2&, bool);
+void ApplyLinearImpulseToCenter(const Vector2&, bool);
 void ApplyTorque(float, bool);
 void DrawDebugGeometry(DebugRenderer, bool);
 Variant GetAttribute(const String&) const;
@@ -9171,6 +9202,7 @@ Node InstantiateXML(File, const Vector3&, const Quaternion&, CreateMode = REPLIC
 Node InstantiateXML(VectorBuffer&, const Vector3&, const Quaternion&, CreateMode = REPLICATED);
 Node InstantiateXML(XMLFile, const Vector3&, const Quaternion&, CreateMode = REPLICATED);
 Node InstantiateXML(const XMLElement&, const Vector3&, const Quaternion&, CreateMode = REPLICATED);
+bool IsChildOf(Node) const;
 bool Load(File, bool = false);
 bool Load(VectorBuffer&, bool = false);
 bool LoadAsync(File, LoadMode = LOAD_SCENE_AND_RESOURCES);
@@ -11441,14 +11473,17 @@ Color ToColor() const;
 double ToDouble() const;
 float ToFloat() const;
 int ToInt(int = 10) const;
+int64 ToInt64(int = 10) const;
 IntRect ToIntRect() const;
 IntVector2 ToIntVector2() const;
+IntVector3 ToIntVector3() const;
 String ToLower() const;
 Matrix3 ToMatrix3() const;
 Matrix3x4 ToMatrix3x4() const;
 Matrix4 ToMatrix4() const;
 Quaternion ToQuaternion() const;
 uint ToUInt(int = 10) const;
+uint64 ToUInt64(int = 10) const;
 String ToUpper() const;
 Vector2 ToVector2() const;
 Vector3 ToVector3() const;
@@ -12028,6 +12063,8 @@ bool fixedScreenSize;
 /* readonly */
 Font font;
 int fontSize;
+/* readonly */
+int height;
 HorizontalAlignment horizontalAlignment;
 /* readonly */
 uint id;
@@ -13262,14 +13299,17 @@ VectorBuffer GetBuffer() const;
 double GetDouble() const;
 float GetFloat() const;
 int GetInt() const;
+int GetInt64() const;
 RefCounted GetPtr() const;
 ScriptObject GetScriptObject() const;
 StringHash GetStringHash() const;
 Array<String> GetStringVector() const;
 uint GetUInt() const;
+uint64 GetUInt64() const;
 Array<Variant> GetVariantVector() const;
 const IntRect& GetIntRect() const;
 const IntVector2& GetIntVector2() const;
+const IntVector3& GetIntVector3() const;
 const Matrix3& GetMatrix3() const;
 const Matrix3x4& GetMatrix3x4() const;
 const Matrix4& GetMatrix4() const;
@@ -14043,16 +14083,20 @@ Color GetColor(const String&) const;
 double GetDouble(const String&) const;
 float GetFloat(const String&) const;
 int GetInt(const String&) const;
+int64 GetInt64(const String&) const;
 IntRect GetIntRect(const String&) const;
 IntVector2 GetIntVector2(const String&) const;
+IntVector3 GetIntVector3(const String&) const;
 Matrix3 GetMatrix3(const String&) const;
 Matrix3x4 GetMatrix3x4(const String&) const;
 Matrix4 GetMatrix4(const String&) const;
 XMLElement GetNext(const String& = String ( )) const;
+XMLElement GetOrCreateChild(const String&);
 Quaternion GetQuaternion(const String&) const;
 ResourceRef GetResourceRef() const;
 ResourceRefList GetResourceRefList() const;
 uint GetUInt(const String&) const;
+uint64 GetUInt64(const String&) const;
 String GetValue() const;
 Variant GetVariant() const;
 VariantMap GetVariantMap() const;
@@ -14079,8 +14123,10 @@ bool SetColor(const String&, const Color&);
 bool SetDouble(const String&, double);
 bool SetFloat(const String&, float);
 bool SetInt(const String&, int);
+bool SetInt64(const String&, int64);
 bool SetIntRect(const String&, const IntRect&);
 bool SetIntVector2(const String&, const IntVector2&);
+bool SetIntVector3(const String&, const IntVector3&);
 bool SetMatrix3(const String&, const Matrix3&);
 bool SetMatrix3x4(const String&, const Matrix3x4&);
 bool SetMatrix4(const String&, const Matrix4&);
@@ -14088,6 +14134,7 @@ bool SetQuaternion(const String&, const Quaternion&);
 bool SetResourceRef(const String&, const ResourceRef&);
 bool SetResourceRefList(const String&, const ResourceRefList&);
 bool SetUInt(const String&, uint);
+bool SetUInt64(const String&, uint64);
 bool SetValue(const String&);
 bool SetVariant(const Variant&);
 bool SetVariantMap(const VariantMap&);
@@ -14120,6 +14167,7 @@ class XMLFile
 // Methods:
 XMLElement CreateRoot(const String&);
 bool FromString(const String&);
+XMLElement GetOrCreateRoot(const String&);
 XMLElement GetRoot(const String& = String ( ));
 bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
@@ -14491,6 +14539,13 @@ FM_FOCUSABLE,
 FM_FOCUSABLE_DEFOCUSABLE,
 };
 
+enum FontType
+{
+FONT_NONE,
+FONT_FREETYPE,
+FONT_BITMAP,
+};
+
 enum HighlightMode
 {
 HM_NEVER,
@@ -14733,6 +14788,7 @@ FILTER_NEAREST,
 FILTER_BILINEAR,
 FILTER_TRILINEAR,
 FILTER_ANISOTROPIC,
+FILTER_NEAREST_ANISOTROPIC,
 FILTER_DEFAULT,
 };
 
@@ -14825,6 +14881,7 @@ VAR_VARIANTVECTOR,
 VAR_VARIANTMAP,
 VAR_INTRECT,
 VAR_INTVECTOR2,
+VAR_INTVECTOR3,
 VAR_PTR,
 VAR_MATRIX3,
 VAR_MATRIX3X4,
@@ -14918,6 +14975,7 @@ uint GetMaxBones();
 String GetMiniDumpDir();
 uint GetNumLogicalCPUs();
 uint GetNumPhysicalCPUs();
+Array<AttributeInfo> GetObjectAttributeInfos(const String&);
 Array<String> GetObjectCategories();
 Array<String> GetObjectsByCategory(const String&);
 String GetParentPath(const String&);
@@ -14934,6 +14992,8 @@ uint GetRGFloat32Format();
 uint GetRandomSeed();
 uint GetReadableDepthFormat();
 String GetTextureUnitName(TextureUnit);
+VariantType GetVariantTypeFromName(const String&);
+String GetVariantTypeName(VariantType);
 bool HasSubscribedToEvent(Object, const String&);
 bool HasSubscribedToEvent(const String&);
 float InverseLerp(float, float, float);
@@ -15002,18 +15062,22 @@ Vector2 VectorCeil(const Vector2&);
 Vector3 VectorCeil(const Vector3&);
 Vector4 VectorCeil(const Vector4&);
 IntVector2 VectorCeilToInt(const Vector2&);
+IntVector3 VectorCeilToInt(const Vector3&);
 Vector2 VectorFloor(const Vector2&);
 Vector3 VectorFloor(const Vector3&);
 Vector4 VectorFloor(const Vector4&);
 IntVector2 VectorFloorToInt(const Vector2&);
+IntVector3 VectorFloorToInt(const Vector3&);
 Vector2 VectorLerp(const Vector2&, const Vector2&, const Vector2&);
 Vector3 VectorLerp(const Vector3&, const Vector3&, const Vector3&);
 Vector4 VectorLerp(const Vector4&, const Vector4&, const Vector4&);
 IntVector2 VectorMax(const IntVector2&, const IntVector2&);
+IntVector3 VectorMax(const IntVector3&, const IntVector3&);
 Vector2 VectorMax(const Vector2&, const Vector2&);
 Vector3 VectorMax(const Vector3&, const Vector3&);
 Vector4 VectorMax(const Vector4&, const Vector4&);
 IntVector2 VectorMin(const IntVector2&, const IntVector2&);
+IntVector3 VectorMin(const IntVector3&, const IntVector3&);
 Vector2 VectorMin(const Vector2&, const Vector2&);
 Vector3 VectorMin(const Vector3&, const Vector3&);
 Vector4 VectorMin(const Vector4&, const Vector4&);
@@ -15021,6 +15085,7 @@ Vector2 VectorRound(const Vector2&);
 Vector3 VectorRound(const Vector3&);
 Vector4 VectorRound(const Vector4&);
 IntVector2 VectorRoundToInt(const Vector2&);
+IntVector3 VectorRoundToInt(const Vector3&);
 bool WriteDrawablesToOBJ(Array<Drawable>, File, bool, bool, bool = false);
 
 // Global properties

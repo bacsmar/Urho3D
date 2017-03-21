@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2016 the Urho3D project.
+// Copyright (c) 2008-2017 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,24 @@
 // THE SOFTWARE.
 //
 
-#include <Urho3D/LibraryInfo.h>
-#include <iostream>
+#pragma once
 
-using namespace Urho3D;
+#include "../IO/Serializer.h"
+#include "../IO/Deserializer.h"
 
-int main(int argc, char* argv[])
+namespace Urho3D
 {
-    std::cout << GetRevision() << "\n" << GetCompilerDefines();
-}
+
+/// A common root class for objects that implement both Serializer and Deserializer.
+class URHO3D_API AbstractFile : public Deserializer, public Serializer
+{
+public:
+    /// Construct.
+    AbstractFile() : Deserializer() { }
+    /// Construct.
+    AbstractFile(unsigned int size) : Deserializer(size) { }
+    /// Destruct.
+    virtual ~AbstractFile() { }
+};
+
+};

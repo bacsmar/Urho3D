@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2016 the Urho3D project.
+// Copyright (c) 2008-2017 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -85,12 +85,12 @@ namespace Urho3D
 
 int DoSystemCommand(const String& commandLine, bool redirectToLog, Context* context)
 {
-#if !defined(NO_POPEN) && !defined(MINI_URHO)
+#if !defined(__EMSCRIPTEN__) && !defined(MINI_URHO)
     if (!redirectToLog)
 #endif
         return system(commandLine.CString());
 
-#if !defined(NO_POPEN) && !defined(MINI_URHO)
+#if !defined(__EMSCRIPTEN__) && !defined(MINI_URHO)
     // Get a platform-agnostic temporary file name for stderr redirection
     String stderrFilename;
     String adjustedCommandLine(commandLine);

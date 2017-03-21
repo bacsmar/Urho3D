@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2016 the Urho3D project.
+// Copyright (c) 2008-2017 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ namespace Urho3D
 {
 
 class Camera;
+class CollisionShape2D;
 class RigidBody2D;
 
 /// 2D Physics raycast hit.
@@ -105,6 +106,8 @@ public:
     virtual void DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color);
     /// Draw a transform. Choose your own length scale.
     virtual void DrawTransform(const b2Transform& xf);
+    /// Draw a point.
+    virtual void DrawPoint(const b2Vec2& p, float32 size, const b2Color& color);
 
     /// Step the simulation forward.
     void Update(float timeStep);
@@ -209,7 +212,6 @@ protected:
     /// Handle scene being assigned.
     virtual void OnSceneSet(Scene* scene);
 
-private:
     /// Handle the scene subsystem update event, step simulation here.
     void HandleSceneSubsystemUpdate(StringHash eventType, VariantMap& eventData);
     /// Send begin contact events.
@@ -264,6 +266,10 @@ private:
         SharedPtr<Node> nodeB_;
         /// Box2D contact.
         b2Contact* contact_;
+        /// Shape A.
+        SharedPtr<CollisionShape2D> shapeA_;
+        /// Shape B.
+        SharedPtr<CollisionShape2D> shapeB_;
     };
     /// Begin contact infos.
     Vector<ContactInfo> beginContactInfos_;

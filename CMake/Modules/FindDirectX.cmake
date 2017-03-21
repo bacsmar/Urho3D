@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008-2016 the Urho3D project.
+# Copyright (c) 2008-2017 the Urho3D project.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -84,7 +84,7 @@ if (NOT MSVC_VERSION GREATER 1600 OR MINGW)     # MinGW reuses the logic below t
                 message (FATAL_ERROR "Could not find MinGW system root. "
                     "Use MINGW_SYSROOT environment variable or build option to specify the location of system root.")
             endif ()
-            set (MINGW_SYSROOT ${MINGW_SYSROOT} CACHE PATH "Path to MinGW system root (MinGW build only); should only be used when the system root could not be auto-detected" FORCE)
+            set (MINGW_SYSROOT ${MINGW_SYSROOT} CACHE PATH "Path to MinGW system root (MinGW only); should only be used when the system root could not be auto-detected" FORCE)
         endif ()
         # MinGW Cross-compiling uses CMAKE_FIND_ROOT_PATH while MinGW on Windows host uses CMAKE_PREFIX_PATH
         if (CMAKE_HOST_WIN32)
