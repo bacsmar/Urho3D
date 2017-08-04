@@ -1536,11 +1536,6 @@ namespace Urho3D
 - %Max %Layers : int
 - %Draw %Obstacles : bool
 
-### IKConstraint
-- %Stiffness : float
-- %Stretchiness : float
-- %Length %Constraints : Vector2
-
 ### IKEffector
 - %Target %Node : String
 - %Chain %Length : int
@@ -1550,16 +1545,17 @@ namespace Urho3D
 - %Rotation %Weight : float
 - %Rotation %Decay : float
 - %Nlerp %Weight : bool
-- %Inherit %Parent %Rotation : bool
 
 ### IKSolver
 - %Algorithm : int
 - %Max %Iterations : int
 - %Convergence %Tolerance : float
-- %Bone %Rotations : bool
-- %Target %Rotation : bool
-- %Continuous %Solving : bool
-- %Update %Pose : bool
+- %Joint %Rotations : bool
+- %Target %Rotations : bool
+- %Update %Original %Pose : bool
+- %Update %Active %Pose : bool
+- %Use %Original %Pose : bool
+- %Enable %Constraints : bool
 - %Auto %Solve : bool
 
 ### Light
@@ -1854,6 +1850,7 @@ namespace Urho3D
 - %Particle %Effect : ResourceRef
 - %Sprite : ResourceRef
 - %Blend %Mode : int
+- %Is %Emitting : bool
 
 ### PhysicsWorld
 - %Gravity : Vector3
@@ -2368,7 +2365,7 @@ namespace Urho3D
 - %Variables : VariantMap
 - %Tags : StringVector
 - %Font : ResourceRef
-- %Font %Size : int
+- %Font %Size : float
 - %Text : String
 - %Text %Alignment : int
 - %Row %Spacing : float
@@ -2386,7 +2383,7 @@ namespace Urho3D
 - %Is %Enabled : bool
 - %Font : ResourceRef
 - %Material : ResourceRef
-- %Font %Size : int
+- %Font %Size : float
 - %Text : String
 - %Text %Alignment : int
 - %Row %Spacing : float
@@ -6457,6 +6454,7 @@ Methods:
 - void AddQuad(const Vector3&, float, float, const Color&, bool = true)
 - void AddSkeleton(Skeleton@, const Color&, bool = true)
 - void AddSphere(const Sphere&, const Color&, bool = true)
+- void AddSphereSector(const Sphere&, const Quaternion&, float, bool, const Color&, bool = true)
 - void AddTriangle(const Vector3&, const Vector3&, const Vector3&, const Color&, bool = true)
 - void ApplyAttributes()
 - void DrawDebugGeometry(DebugRenderer@, bool)
@@ -6638,6 +6636,8 @@ Methods:
 - Vector4 ReadVector4()
 - VectorBuffer ReadVectorBuffer(uint)
 - uint Seek(uint)
+- uint SeekRelative(int)
+- uint Tell() const
 
 Properties:
 
@@ -7209,7 +7209,9 @@ Methods:
 - Vector4 ReadVector4()
 - VectorBuffer ReadVectorBuffer(uint)
 - uint Seek(uint)
+- uint SeekRelative(int)
 - void SendEvent(const String&, VariantMap& = VariantMap ( ))
+- uint Tell() const
 - uint Write(uint8[]@)
 - bool WriteBool(bool)
 - bool WriteBoundingBox(const BoundingBox&)
@@ -7352,7 +7354,7 @@ Properties:
 
 Methods:
 
-- IntVector2 GetTotalGlyphOffset(int) const
+- IntVector2 GetTotalGlyphOffset(float) const
 - bool HasSubscribedToEvent(Object@, const String&)
 - bool HasSubscribedToEvent(const String&)
 - bool Load(File@)
@@ -7543,6 +7545,8 @@ Methods:
 - Vector4 ReadVector4()
 - VectorBuffer ReadVectorBuffer(uint)
 - uint Seek(uint)
+- uint SeekRelative(int)
+- uint Tell() const
 
 Properties:
 
@@ -7671,7 +7675,6 @@ Properties:
 - bool enabled
 - bool enabledEffective // readonly
 - uint id // readonly
-- bool inheritParentRotation
 - Node@ node // readonly
 - uint numAttributes // readonly
 - ObjectAnimation@ objectAnimation
@@ -7695,7 +7698,13 @@ Properties:
 
 Methods:
 
+- void ApplyActivePoseToScene()
 - void ApplyAttributes()
+- void ApplyOriginalPoseToActivePose()
+- void ApplyOriginalPoseToScene()
+- void ApplySceneToActivePose()
+- void ApplySceneToInitialPose()
+- void CalculateJointRotations()
 - void DrawDebugGeometry(DebugRenderer@, bool)
 - void DrawDebugGeometry(bool)
 - Variant GetAttribute(const String&) const
@@ -7704,6 +7713,7 @@ Methods:
 - float GetAttributeAnimationTime(const String&) const
 - WrapMode GetAttributeAnimationWrapMode(const String&) const
 - Variant GetAttributeDefault(const String&) const
+- bool GetFeature(IKFeature) const
 - bool GetInterceptNetworkUpdate(const String&) const
 - bool HasSubscribedToEvent(Object@, const String&)
 - bool HasSubscribedToEvent(const String&)
@@ -7712,12 +7722,13 @@ Methods:
 - bool LoadJSON(const JSONValue&, bool = false)
 - bool LoadXML(const XMLElement&, bool = false)
 - void MarkNetworkUpdate() const
+- void RebuildData()
+- void RecalculateSegmentLengths()
 - void Remove()
 - void RemoveAttributeAnimation(const String&)
 - void RemoveInstanceDefault()
 - void RemoveObjectAnimation()
 - void ResetToDefault()
-- void ResetToInitialPose()
 - bool Save(File@) const
 - bool Save(VectorBuffer&) const
 - bool SaveJSON(JSONValue&) const
@@ -7729,9 +7740,9 @@ Methods:
 - void SetAttributeAnimationSpeed(const String&, float)
 - void SetAttributeAnimationTime(const String&, float)
 - void SetAttributeAnimationWrapMode(const String&, WrapMode)
+- void SetFeature(IKFeature, bool)
 - void SetInterceptNetworkUpdate(const String&, bool)
 - void Solve()
-- void UpdateInitialPose()
 
 Properties:
 
@@ -7740,10 +7751,7 @@ Properties:
 - Variant[] attributeDefaults // readonly
 - AttributeInfo[] attributeInfos // readonly
 - Variant[] attributes
-- bool autoSolve
-- bool boneRotations
 - String category // readonly
-- bool continuousSolving
 - bool enabled
 - bool enabledEffective // readonly
 - uint id // readonly
@@ -7752,12 +7760,10 @@ Properties:
 - uint numAttributes // readonly
 - ObjectAnimation@ objectAnimation
 - int refs // readonly
-- bool targetRotation
 - bool temporary
 - float tolerance
 - StringHash type // readonly
 - String typeName // readonly
-- bool updatePose
 - int weakRefs // readonly
 
 <a name="Class_Image"></a>
@@ -7793,6 +7799,7 @@ Methods:
 - bool SaveJPG(const String&, int) const
 - bool SavePNG(const String&) const
 - bool SaveTGA(const String&) const
+- bool SaveWEBP(const String&, float = 0.0f) const
 - void SendEvent(const String&, VariantMap& = VariantMap ( ))
 - void SetPixel(int, int, const Color&)
 - void SetPixel(int, int, int, const Color&)
@@ -9074,6 +9081,7 @@ Properties:
 
 Methods:
 
+- void AddMetadata(const String&, const Variant&)
 - Model@ Clone(const String& = String ( )) const
 - Geometry@ GetGeometry(uint, uint) const
 - bool HasSubscribedToEvent(Object@, const String&)
@@ -9081,6 +9089,8 @@ Methods:
 - bool Load(File@)
 - bool Load(VectorBuffer&)
 - bool Load(const String&)
+- void RemoveAllMetadata()
+- void RemoveMetadata(const String&)
 - bool Save(File@) const
 - bool Save(VectorBuffer&) const
 - bool Save(const String&) const
@@ -9094,7 +9104,9 @@ Properties:
 - BoundingBox boundingBox
 - String category // readonly
 - Vector3[] geometryCenters
+- bool hasMetadata // readonly
 - uint memoryUse // readonly
+- Variant[] metadata
 - String name
 - uint numGeometries
 - uint[] numGeometryLodLevels
@@ -9151,7 +9163,9 @@ Methods:
 - Vector4 ReadVector4()
 - VectorBuffer ReadVectorBuffer(uint)
 - uint Seek(uint)
+- uint SeekRelative(int)
 - void SendEvent(const String&, VariantMap& = VariantMap ( ))
+- uint Tell() const
 - uint Write(uint8[]@)
 - bool WriteBool(bool)
 - bool WriteBoundingBox(const BoundingBox&)
@@ -9640,12 +9654,14 @@ Methods:
 
 Properties:
 
+- Node@[] allChildrenByName // readonly
 - bool animationEnabled
 - Variant[] attributeDefaults // readonly
 - AttributeInfo[] attributeInfos // readonly
 - Variant[] attributes
 - String category // readonly
 - Node@[] children // readonly
+- Node@[] childrenByName // readonly
 - Component@[] components // readonly
 - Vector3 direction
 - bool enabled
@@ -10219,6 +10235,7 @@ Properties:
 - String category // readonly
 - float drawDistance
 - ParticleEffect2D@ effect
+- bool emitting
 - bool enabled
 - bool enabledEffective // readonly
 - uint id // readonly
@@ -11449,6 +11466,7 @@ Methods:
 
 Properties:
 
+- Node@[] allChildrenByName // readonly
 - bool animationEnabled
 - LoadMode asyncLoadMode // readonly
 - bool asyncLoading // readonly
@@ -11460,6 +11478,7 @@ Properties:
 - String category // readonly
 - uint checksum // readonly
 - Node@[] children // readonly
+- Node@[] childrenByName // readonly
 - Component@[] components // readonly
 - DebugRenderer@ debugRenderer // readonly
 - Vector3 direction
@@ -12713,6 +12732,8 @@ Methods:
 - void Define(const Vector3&, float)
 - bool Defined() const
 - float Distance(const Vector3&) const
+- Vector3 GetLocalPoint(float, float) const
+- Vector3 GetPoint(float, float) const
 - Intersection IsInside(const BoundingBox&) const
 - Intersection IsInside(const Sphere&) const
 - Intersection IsInside(const Vector3&) const
@@ -13469,6 +13490,7 @@ Methods:
 - TerrainPatch@ GetPatch(int, int) const
 - bool HasSubscribedToEvent(Object@, const String&)
 - bool HasSubscribedToEvent(const String&)
+- Vector3 HeightMapToWorld(const IntVector2&) const
 - bool Load(File@, bool = false)
 - bool Load(VectorBuffer&, bool = false)
 - bool LoadJSON(const JSONValue&, bool = false)
@@ -13690,7 +13712,7 @@ Methods:
 - void SetFixedHeight(int)
 - void SetFixedSize(int, int)
 - void SetFixedWidth(int)
-- bool SetFont(Font@, int)
+- bool SetFont(Font@, float)
 - bool SetFont(const String&, int)
 - void SetInterceptNetworkUpdate(const String&, bool)
 - void SetLayout(LayoutMode, int = 0, const IntRect& = IntRect ( 0 , 0 , 0 , 0 ))
@@ -13719,8 +13741,8 @@ Properties:
 - bool bringToBack
 - bool bringToFront
 - String category // readonly
-- IntVector2[] charPositions // readonly
-- IntVector2[] charSizes // readonly
+- Vector2[] charPositions // readonly
+- Vector2[] charSizes // readonly
 - IntVector2 childOffset // readonly
 - UIElement@[] children // readonly
 - IntRect clipBorder
@@ -13749,7 +13771,7 @@ Properties:
 - bool focus
 - FocusMode focusMode
 - Font@ font // readonly
-- int fontSize
+- float fontSize
 - int height
 - HorizontalAlignment horizontalAlignment
 - Color hoverColor
@@ -13786,9 +13808,9 @@ Properties:
 - int priority
 - int refs // readonly
 - UIElement@ root // readonly
-- int rowHeight // readonly
+- float rowHeight // readonly
 - float rowSpacing
-- int[] rowWidths // readonly
+- float[] rowWidths // readonly
 - IntVector2 screenPosition // readonly
 - bool selected
 - Color selectionColor
@@ -13854,8 +13876,8 @@ Methods:
 - void SetAttributeAnimationSpeed(const String&, float)
 - void SetAttributeAnimationTime(const String&, float)
 - void SetAttributeAnimationWrapMode(const String&, WrapMode)
-- bool SetFont(Font@, int)
-- bool SetFont(const String&, int)
+- bool SetFont(Font@, float)
+- bool SetFont(const String&, float)
 - void SetInterceptNetworkUpdate(const String&, bool)
 
 Properties:
@@ -13867,8 +13889,8 @@ Properties:
 - BoundingBox boundingBox // readonly
 - bool castShadows
 - String category // readonly
-- IntVector2[] charPositions // readonly
-- IntVector2[] charSizes // readonly
+- Vector2[] charPositions // readonly
+- Vector2[] charSizes // readonly
 - Color color // writeonly
 - Color[] colors
 - float drawDistance
@@ -13882,7 +13904,7 @@ Properties:
 - FaceCameraMode faceCameraMode
 - bool fixedScreenSize
 - Font@ font // readonly
-- int fontSize
+- float fontSize
 - int height // readonly
 - HorizontalAlignment horizontalAlignment
 - uint id // readonly
@@ -13900,9 +13922,9 @@ Properties:
 - bool occluder
 - float opacity
 - int refs // readonly
-- int rowHeight // readonly
+- float rowHeight // readonly
 - float rowSpacing
-- int[] rowWidths // readonly
+- float[] rowWidths // readonly
 - float shadowDistance
 - uint shadowMask
 - bool temporary
@@ -14249,6 +14271,7 @@ Methods:
 - Variant GetAttributeDefault(const String&) const
 - bool GetInterceptNetworkUpdate(const String&) const
 - TileMapLayer2D@ GetLayer(uint) const
+- TileMapObject2D@[]@ GetTileCollisionShapes(int) const
 - bool HasSubscribedToEvent(Object@, const String&)
 - bool HasSubscribedToEvent(const String&)
 - bool Load(File@, bool = false)
@@ -14698,6 +14721,9 @@ Properties:
 - int dragBeginDistance
 - float dragBeginInterval
 - UIElement@ focusElement
+- FontHintLevel fontHintLevel
+- int fontOversampling
+- float fontSubpixelThreshold
 - bool forceAutoHint
 - UIElement@ frontElement // readonly
 - int maxFontTextureSize
@@ -15037,6 +15063,7 @@ Methods:
 - Vector3 Lerp(const Vector3&, float) const
 - void Normalize()
 - Vector3 Normalized() const
+- Vector3 Orthogonalize(const Vector3&) const
 - float ProjectOntoAxis(const Vector3&) const
 - String ToString() const
 
@@ -15126,7 +15153,9 @@ Methods:
 - VectorBuffer ReadVectorBuffer(uint)
 - void Resize(uint)
 - uint Seek(uint)
+- uint SeekRelative(int)
 - void SetData(Deserializer@, uint)
+- uint Tell() const
 - uint Write(uint8[]@)
 - bool WriteBool(bool)
 - bool WriteBoundingBox(const BoundingBox&)
@@ -16106,6 +16135,13 @@ Properties:
 - FM_FOCUSABLE_DEFOCUSABLE
 
 
+### FontHintLevel
+
+- FONT_HINT_LEVEL_NONE
+- FONT_HINT_LEVEL_LIGHT
+- FONT_HINT_LEVEL_NORMAL
+
+
 ### FontType
 
 - FONT_NONE
@@ -16138,7 +16174,20 @@ Properties:
 
 ### IKAlgorithm
 
+- ONE_BONE
+- TWO_BONE
 - FABRIK
+
+
+### IKFeature
+
+- JOINT_ROTATIONS
+- TARGET_ROTATIONS
+- UPDATE_ORIGINAL_POSE
+- UPDATE_ACTIVE_POSE
+- USE_ORIGINAL_POSE
+- CONSTRAINTS
+- AUTO_SOLVE
 
 
 ### InterpMethod
@@ -16518,6 +16567,7 @@ Properties:
 - VectorBuffer CompressVectorBuffer(VectorBuffer&)
 - float Cos(float)
 - uint CountSetBits(uint)
+- Object@ CreateObject(const String&)
 - VectorBuffer DecompressVectorBuffer(VectorBuffer&)
 - void DelayedExecute(float, bool, const String&, const Variant[]@ = null)
 - bool Equals(float, float)
