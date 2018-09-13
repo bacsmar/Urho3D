@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2017 the Urho3D project.
+// Copyright (c) 2008-2018 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,8 @@
 #include "../UI/ToolTip.h"
 #include "../UI/UI.h"
 #include "../UI/View3D.h"
+#include "../UI/UIComponent.h"
+#include "../Graphics/Texture2D.h"
 
 #include "../DebugNew.h"
 
@@ -123,15 +125,21 @@ static void RegisterUIElement(asIScriptEngine* engine)
     engine->RegisterEnumValue("TraversalMode", "TM_BREADTH_FIRST", TM_BREADTH_FIRST);
     engine->RegisterEnumValue("TraversalMode", "TM_DEPTH_FIRST", TM_DEPTH_FIRST);
 
-    engine->RegisterGlobalProperty("const uint DD_DISABLED", (void*)&DD_DISABLED);
-    engine->RegisterGlobalProperty("const uint DD_SOURCE", (void*)&DD_SOURCE);
-    engine->RegisterGlobalProperty("const uint DD_TARGET", (void*)&DD_TARGET);
-    engine->RegisterGlobalProperty("const uint DD_SOURCE_AND_TARGET", (void*)&DD_SOURCE_AND_TARGET);
+    engine->RegisterEnum("DragAndDropMode");
+    engine->RegisterEnumValue("DragAndDropMode", "DD_DISABLED", DD_DISABLED);
+    engine->RegisterEnumValue("DragAndDropMode", "DD_SOURCE", DD_SOURCE);
+    engine->RegisterEnumValue("DragAndDropMode", "DD_TARGET", DD_TARGET);
+    engine->RegisterEnumValue("DragAndDropMode", "DD_SOURCE_AND_TARGET", DD_SOURCE_AND_TARGET);
 
     RegisterUIElement<UIElement>(engine, "UIElement");
 
     // Register TouchState touchedElement property now
     engine->RegisterObjectMethod("TouchState", "UIElement@+ get_touchedElement()", asMETHOD(TouchState, GetTouchedElement), asCALL_THISCALL);
+}
+
+static void RegisterUISelectable(asIScriptEngine* engine)
+{
+    RegisterUISelectable<UISelectable>(engine, "UISelectable");
 }
 
 static void RegisterBorderImage(asIScriptEngine* engine)
@@ -260,6 +268,10 @@ static void RegisterScrollView(asIScriptEngine* engine)
     engine->RegisterObjectMethod("ScrollView", "BorderImage@+ get_scrollPanel() const", asMETHOD(ScrollView, GetScrollPanel), asCALL_THISCALL);
     engine->RegisterObjectMethod("ScrollView", "void set_scrollBarsAutoVisible(bool)", asMETHOD(ScrollView, SetScrollBarsAutoVisible), asCALL_THISCALL);
     engine->RegisterObjectMethod("ScrollView", "bool get_scrollBarsAutoVisible() const", asMETHOD(ScrollView, GetScrollBarsAutoVisible), asCALL_THISCALL);
+    engine->RegisterObjectMethod("ScrollView", "void set_horizontalScrollBarVisible(bool)", asMETHOD(ScrollView, SetHorizontalScrollBarVisible), asCALL_THISCALL);
+    engine->RegisterObjectMethod("ScrollView", "bool get_horizontalScrollBarVisible() const", asMETHOD(ScrollView, GetHorizontalScrollBarVisible), asCALL_THISCALL);
+    engine->RegisterObjectMethod("ScrollView", "void set_verticalScrollBarVisible(bool)", asMETHOD(ScrollView, SetVerticalScrollBarVisible), asCALL_THISCALL);
+    engine->RegisterObjectMethod("ScrollView", "bool get_verticalScrollBarVisible() const", asMETHOD(ScrollView, GetVerticalScrollBarVisible), asCALL_THISCALL);
     engine->RegisterObjectMethod("ScrollView", "void set_scrollDeceleration(float)", asMETHOD(ScrollView, SetScrollDeceleration), asCALL_THISCALL);
     engine->RegisterObjectMethod("ScrollView", "float get_scrollDeceleration() const", asMETHOD(ScrollView, GetScrollDeceleration), asCALL_THISCALL);
     engine->RegisterObjectMethod("ScrollView", "void set_scrollSnapEpsilon(float)", asMETHOD(ScrollView, SetScrollSnapEpsilon), asCALL_THISCALL);
@@ -307,6 +319,9 @@ static void RegisterListView(asIScriptEngine* engine)
     engine->RegisterEnumValue("HighlightMode", "HM_ALWAYS", HM_ALWAYS);
 
     RegisterUIElement<ListView>(engine, "ListView");
+    engine->RegisterObjectMethod("ListView", "void UpdateInternalLayout()", asMETHOD(ListView, UpdateInternalLayout), asCALL_THISCALL);
+    engine->RegisterObjectMethod("ListView", "void DisableInternalLayoutUpdate()", asMETHOD(ListView, DisableInternalLayoutUpdate), asCALL_THISCALL);
+    engine->RegisterObjectMethod("ListView", "void EnableInternalLayoutUpdate()", asMETHOD(ListView, EnableInternalLayoutUpdate), asCALL_THISCALL);
     engine->RegisterObjectMethod("ListView", "void SetViewPosition(int, int)", asMETHODPR(ListView, SetViewPosition, (int, int), void), asCALL_THISCALL);
     engine->RegisterObjectMethod("ListView", "void SetScrollBarsVisible(bool, bool)", asMETHOD(ListView, SetScrollBarsVisible), asCALL_THISCALL);
     engine->RegisterObjectMethod("ListView", "void AddItem(UIElement@+)", asMETHOD(ListView, AddItem), asCALL_THISCALL);
@@ -375,8 +390,8 @@ static void RegisterText(asIScriptEngine* engine)
     engine->RegisterEnumValue("TextEffect", "TE_SHADOW", TE_SHADOW);
     engine->RegisterEnumValue("TextEffect", "TE_STROKE", TE_STROKE);
 
-    RegisterUIElement<Text>(engine, "Text");
-    engine->RegisterObjectMethod("Text", "bool SetFont(const String&in, int)", asMETHODPR(Text, SetFont, (const String&, int), bool), asCALL_THISCALL);
+    RegisterUISelectable<Text>(engine, "Text");
+    engine->RegisterObjectMethod("Text", "bool SetFont(const String&in, float)", asMETHODPR(Text, SetFont, (const String&, float), bool), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "bool SetFont(Font@+, float)", asMETHODPR(Text, SetFont, (Font*, float), bool), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "void SetSelection(uint, uint arg1 = M_MAX_UNSIGNED)", asMETHOD(Text, SetSelection), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "void ClearSelection()", asMETHOD(Text, ClearSelection), asCALL_THISCALL);
@@ -395,10 +410,6 @@ static void RegisterText(asIScriptEngine* engine)
     engine->RegisterObjectMethod("Text", "bool get_autoLocalizable() const", asMETHOD(Text, GetAutoLocalizable), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "uint get_selectionStart() const", asMETHOD(Text, GetSelectionStart), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "uint get_selectionLength() const", asMETHOD(Text, GetSelectionLength), asCALL_THISCALL);
-    engine->RegisterObjectMethod("Text", "void set_selectionColor(const Color&in)", asMETHOD(Text, SetSelectionColor), asCALL_THISCALL);
-    engine->RegisterObjectMethod("Text", "const Color& get_selectionColor() const", asMETHOD(Text, GetSelectionColor), asCALL_THISCALL);
-    engine->RegisterObjectMethod("Text", "void set_hoverColor(const Color&in)", asMETHOD(Text, SetHoverColor), asCALL_THISCALL);
-    engine->RegisterObjectMethod("Text", "const Color& get_hoverColor() const", asMETHOD(Text, GetHoverColor), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "void set_textEffect(TextEffect)", asMETHOD(Text, SetTextEffect), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "TextEffect get_textEffect() const", asMETHOD(Text, GetTextEffect), asCALL_THISCALL);
     engine->RegisterObjectMethod("Text", "void set_effectShadowOffset(const IntVector2&in)", asMETHOD(Text, SetEffectShadowOffset), asCALL_THISCALL);
@@ -662,7 +673,7 @@ static UIElement* UILoadLayoutFromFile(File* file, UI* ptr)
         return root.Get();
     }
     else
-        return 0;
+        return nullptr;
 }
 
 static UIElement* UILoadLayoutFromVectorBuffer(VectorBuffer& buffer, UI* ptr)
@@ -683,7 +694,7 @@ static UIElement* UILoadLayoutFromFileWithStyle(File* file, XMLFile* styleFile, 
         return root.Get();
     }
     else
-        return 0;
+        return nullptr;
 }
 
 static UIElement* UILoadLayoutFromVectorBufferWithStyle(VectorBuffer& buffer, XMLFile* styleFile, UI* ptr)
@@ -769,6 +780,8 @@ static void RegisterUI(asIScriptEngine* engine)
     engine->RegisterObjectMethod("UI", "const String& get_clipBoardText() const", asMETHOD(UI, GetClipboardText), asCALL_THISCALL);
     engine->RegisterObjectMethod("UI", "void set_doubleClickInterval(float)", asMETHOD(UI, SetDoubleClickInterval), asCALL_THISCALL);
     engine->RegisterObjectMethod("UI", "float get_doubleClickInterval() const", asMETHOD(UI, GetDoubleClickInterval), asCALL_THISCALL);
+    engine->RegisterObjectMethod("UI", "void set_maxDoubleClickDistance(float)", asMETHOD(UI, SetMaxDoubleClickDistance), asCALL_THISCALL);
+    engine->RegisterObjectMethod("UI", "float get_maxDoubleClickDistance() const", asMETHOD(UI, GetMaxDoubleClickDistance), asCALL_THISCALL);
     engine->RegisterObjectMethod("UI", "void set_dragBeginInterval(float)", asMETHOD(UI, SetDragBeginInterval), asCALL_THISCALL);
     engine->RegisterObjectMethod("UI", "float get_dragBeginInterval() const", asMETHOD(UI, GetDragBeginInterval), asCALL_THISCALL);
     engine->RegisterObjectMethod("UI", "void set_dragBeginDistance(int)", asMETHOD(UI, SetDragBeginDistance), asCALL_THISCALL);
@@ -800,10 +813,19 @@ static void RegisterUI(asIScriptEngine* engine)
     engine->RegisterGlobalFunction("UI@+ get_ui()", asFUNCTION(GetUI), asCALL_CDECL);
 }
 
+static void RegisterUIComponent(asIScriptEngine* engine)
+{
+    RegisterComponent<UIComponent>(engine, "UIComponent", true, false);
+    engine->RegisterObjectMethod("UIComponent", "UIElement@+ get_root()", asMETHOD(UIComponent, GetRoot), asCALL_THISCALL);
+    engine->RegisterObjectMethod("UIComponent", "Material@+ get_material()", asMETHOD(UIComponent, GetMaterial), asCALL_THISCALL);
+    engine->RegisterObjectMethod("UIComponent", "Texture2D@+ get_texture()", asMETHOD(UIComponent, GetTexture), asCALL_THISCALL);
+}
+
 void RegisterUIAPI(asIScriptEngine* engine)
 {
     RegisterFont(engine);
     RegisterUIElement(engine);
+    RegisterUISelectable(engine);
     RegisterBorderImage(engine);
     RegisterSprite(engine);
     RegisterButton(engine);
@@ -825,6 +847,7 @@ void RegisterUIAPI(asIScriptEngine* engine)
     RegisterFileSelector(engine);
     RegisterToolTip(engine);
     RegisterUI(engine);
+    RegisterUIComponent(engine);
 }
 
 }

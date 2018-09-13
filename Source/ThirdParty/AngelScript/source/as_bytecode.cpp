@@ -1,6 +1,6 @@
 /*
    AngelCode Scripting Library
-   Copyright (c) 2003-2016 Andreas Jonsson
+   Copyright (c) 2003-2018 Andreas Jonsson
 
    This software is provided 'as-is', without any express or implied
    warranty. In no event will the authors be held liable for any
@@ -1164,6 +1164,12 @@ void asCByteCode::Optimize()
 					DeleteInstruction(instr);
 					instr = GoBack(DeleteInstruction(curr));
 				}
+				// LINE, VarDecl, LINE -> VarDecl, LINE
+				else if (instrOp == asBC_VarDecl && instr->next && instr->next->op == asBC_LINE )
+				{
+					// Delete the first instruction
+					instr = GoBack(DeleteInstruction(curr));
+				}
 				// LINE, LINE -> LINE
 				else if( instrOp == asBC_LINE )
 				{
@@ -1390,6 +1396,7 @@ bool asCByteCode::IsTempRegUsed(asCByteInstruction *curr)
 			curr->op == asBC_PopRPtr   ||
 			curr->op == asBC_CALLSYS   ||
 			curr->op == asBC_CALLBND   ||
+			curr->op == asBC_Thiscall1 ||
 			curr->op == asBC_SUSPEND   ||
 			curr->op == asBC_ALLOC     ||
 			curr->op == asBC_CpyVtoR4  ||
@@ -1444,7 +1451,8 @@ bool asCByteCode::IsSimpleExpression()
 			instr->op == asBC_FREE ||
 			instr->op == asBC_CallPtr ||
 			instr->op == asBC_CALLINTF ||
-			instr->op == asBC_CALLBND )
+			instr->op == asBC_CALLBND || 
+			instr->op == asBC_Thiscall1 )
 			return false;
 
 		instr = instr->next;
@@ -2108,7 +2116,7 @@ void asCByteCode::DebugOutput(const char *name, asCScriptFunction *func)
 	{
 		int idx = func->scriptData->objVariablePos.IndexOf(func->scriptData->variables[n]->stackOffset);
 		bool isOnHeap = asUINT(idx) < func->scriptData->objVariablesOnHeap ? true : false;
-		fprintf(file, " %.3d: %s%s %s\n", func->scriptData->variables[n]->stackOffset, isOnHeap ? "(heap) " : "", func->scriptData->variables[n]->type.Format(func->nameSpace).AddressOf(), func->scriptData->variables[n]->name.AddressOf());
+		fprintf(file, " %.3d: %s%s %s\n", func->scriptData->variables[n]->stackOffset, isOnHeap ? "(heap) " : "", func->scriptData->variables[n]->type.Format(func->nameSpace, true).AddressOf(), func->scriptData->variables[n]->name.AddressOf());
 	}
 	asUINT offset = 0;
 	if( func->objectType )
@@ -2131,7 +2139,7 @@ void asCByteCode::DebugOutput(const char *name, asCScriptFunction *func)
 		{
 			int idx = func->scriptData->objVariablePos.IndexOf(offset);
 			bool isOnHeap = asUINT(idx) < func->scriptData->objVariablesOnHeap ? true : false;
-			fprintf(file, " %.3d: %s%s {noname param}\n", offset, isOnHeap ? "(heap) " : "", func->parameterTypes[n].Format(func->nameSpace).AddressOf());
+			fprintf(file, " %.3d: %s%s {noname param}\n", offset, isOnHeap ? "(heap) " : "", func->parameterTypes[n].Format(func->nameSpace, true).AddressOf());
 		}
 
 		offset -= func->parameterTypes[n].GetSizeOnStackDWords();
@@ -2191,14 +2199,7 @@ void asCByteCode::DebugOutput(const char *name, asCScriptFunction *func)
 		switch( asBCInfo[instr->op].type )
 		{
 		case asBCTYPE_W_ARG:
-			if( instr->op == asBC_STR )
-			{
-				int id = asWORD(instr->wArg[0]);
-				const asCString &str = engine->GetConstantString(id);
-				fprintf(file, "   %-8s %d         (l:%ld s:\"%.10s\")\n", asBCInfo[instr->op].name, asWORD(instr->wArg[0]), (long int)str.GetLength(), str.AddressOf());
-			}
-			else
-				fprintf(file, "   %-8s %d\n", asBCInfo[instr->op].name, instr->wArg[0]);
+			fprintf(file, "   %-8s %d\n", asBCInfo[instr->op].name, instr->wArg[0]);
 			break;
 
 		case asBCTYPE_wW_ARG:
@@ -2305,6 +2306,32 @@ void asCByteCode::DebugOutput(const char *name, asCScriptFunction *func)
 				{
 					asCScriptFunction *f = *(asCScriptFunction**)ARG_QW(instr->arg);
 					fprintf(file, "   %-8s 0x%x          (func:%s)\n", asBCInfo[instr->op].name, (asUINT)*ARG_QW(instr->arg), f->GetDeclaration());
+				}
+				break;
+
+			case asBC_PGA:
+				{
+					void *ptr = *(void**)ARG_QW(instr->arg);
+					asSMapNode<void*, asCGlobalProperty*> *cursor = 0;
+					if( engine->varAddressMap.MoveTo(&cursor, ptr) )
+					{
+						fprintf(file, "   %-8s 0x%x          (var:%s)\n", asBCInfo[instr->op].name, (asUINT)*ARG_QW(instr->arg), cursor->value->name.AddressOf());
+					}
+					else
+					{
+						asUINT length;
+						engine->stringFactory->GetRawStringData(ptr, 0, &length);
+						asCString str;
+						str.SetLength(length);
+						engine->stringFactory->GetRawStringData(ptr, str.AddressOf(), &length);
+						if (str.GetLength() > 20)
+						{
+							// TODO: Replace non-visible characters with space or something like it
+							str.SetLength(20);
+							str += "...";
+						}
+						fprintf(file, "   %-8s 0x%x          (str:%s)\n", asBCInfo[instr->op].name, (asUINT)*ARG_QW(instr->arg), str.AddressOf());
+					}
 				}
 				break;
 	

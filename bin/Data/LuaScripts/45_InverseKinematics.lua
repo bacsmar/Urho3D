@@ -1,5 +1,5 @@
 -- Ribbon trail demo.
--- This sample demonstrates how to use both trail types of RibbonTrail component.
+-- This sample demonstrates how to adjust the position of animated feet so they match the ground's angle using IK.
 
 require "LuaScripts/Utilities/Sample"
 
@@ -101,12 +101,12 @@ function CreateScene()
     solver_.algorithm = IKSolver.TWO_BONE
 
     -- Disable auto-solving, which means we can call Solve() manually.
-    solver_:SetFeature(IKSolver.AUTO_SOLVE, false)
+    solver_.AUTO_SOLVE = false
 
     -- Only enable this so the debug draw shows us the pose before solving.
     -- This should NOT be enabled for any other reason (it does nothing and is
     -- a waste of performance).
-    solver_:SetFeature(IKSolver.UPDATE_ORIGINAL_POSE, true)
+    solver_.UPDATE_ORIGINAL_POSE = true
 
     -- Create the camera.
     cameraRotateNode_ = scene_:CreateChild("CameraRotate")
