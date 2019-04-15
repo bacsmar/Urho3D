@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2019 the Urho3D project.
+// Copyright (c) 2008-2018 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@
 #include "../Container/List.h"
 #include "../Input/InputEvents.h"
 #include "../UI/Cursor.h"
+#include "../AUI/AButton.h"
 
 namespace Urho3D
 {
@@ -48,6 +49,10 @@ class Graphics;
 class Serializer;
 class UIElement;
 class XMLFile;
+// ATOMIC BEGIN
+class AWidget;
+class AButton;
+// ATOMIC END
 
 const IntVector2 MOUSE_POSITION_OFFSCREEN = IntVector2(M_MIN_INT, M_MIN_INT);
 
@@ -56,6 +61,10 @@ struct TouchState
 {
     /// Return last touched UI element, used by scripting integration.
     UIElement* GetTouchedElement();
+// ATOMIC BEGIN
+     /// Return last touched AUI/TB Widget, used by scripting integration.
+   AWidget* GetTouchedWidget();
+// ATOMIC END
 
     /// Touch (finger) ID.
     int touchID_;
@@ -69,6 +78,10 @@ struct TouchState
     float pressure_;
     /// Last touched UI element from screen joystick.
     WeakPtr<UIElement> touchedElement_;
+// ATOMIC BEGIN
+    /// Last touched UI widget
+    WeakPtr<AWidget> touchedWidget_;
+// ATOMIC END
 };
 
 /// %Input state for a joystick.
@@ -298,6 +311,25 @@ public:
     /// Return whether application window is minimized.
     bool IsMinimized() const;
 
+// ATOMIC BEGIN
+    /// Binds UIButton element to the given button
+    void BindButton(AButton* touchButton, int button);
+
+    void SimulateButtonDown(int button);
+    void SimulateButtonUp(int button);
+    
+    void JoystickSimulateMouseMove(int xpos, int ypos); /// moves the on screen cursor
+    void JoystickSimulateMouseButton(MouseButton button); /// simulated mouse press down & up
+
+    int GetTouchID(unsigned index) { if (index >= touches_.Size()) return 0; return touches_[index].touchID_; }
+    const IntVector2& GetTouchPosition(unsigned index) { if (index >= touches_.Size()) return IntVector2::ZERO; return touches_[index].position_; }
+    const IntVector2& GetTouchLastPosition(unsigned index) { if (index >= touches_.Size()) return IntVector2::ZERO; return touches_[index].lastPosition_; }
+    const IntVector2& GetTouchDelta(unsigned index) { if (index >= touches_.Size()) return IntVector2::ZERO; return touches_[index].delta_; }
+    const float GetTouchPressure(unsigned index) { if (index >= touches_.Size()) return 0.0f; return touches_[index].pressure_; }
+    AWidget* GetTouchWidget(unsigned index) { if (index >= touches_.Size()) return 0; return touches_[index].touchedWidget_; }    
+
+// ATOMIC END
+
 private:
     /// Initialize when screen mode initially set.
     void Initialize();
@@ -376,8 +408,10 @@ private:
     HashMap<int, int> touchIDMap_;
     /// String for text input.
     String textInput_;
+
     /// Opened joysticks.
     HashMap<SDL_JoystickID, JoystickState> joysticks_;
+
     /// Mouse buttons' down state.
     MouseButtonFlags mouseButtonDown_;
     /// Mouse buttons' pressed state.

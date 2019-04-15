@@ -135,6 +135,9 @@ if (NOT ANDROID AND NOT ARM AND NOT WEB)
     endif ()
 endif ()
 
+# TurboBadger for AUI
+add_subdirectory (ThirdParty/TurboBadger)
+
 # Urho3D game engine library
 add_subdirectory (Urho3D)
 

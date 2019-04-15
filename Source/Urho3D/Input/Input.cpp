@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2019 the Urho3D project.
+// Copyright (c) 2008-2018 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,10 @@
 #include "../Engine/Engine.h"
 #endif
 
+// ATOMIC BEGIN
+#include "../AUI/AUI.h"
+#include "../AUI/AWidget.h"
+// ATOMIC END
 
 #include <SDL/SDL.h>
 
@@ -82,6 +86,13 @@ UIElement* TouchState::GetTouchedElement()
 {
     return touchedElement_.Get();
 }
+
+// ATOMIC BEGIN
+AWidget* TouchState::GetTouchedWidget()
+{
+    return touchedWidget_.Get();
+}
+// ATOMIC END
 
 #ifdef __EMSCRIPTEN__
 #define EM_TRUE 1
@@ -358,8 +369,13 @@ Input::Input(Context* context) :
     inputScale_(Vector2::ONE),
     windowID_(0),
     toggleFullscreen_(true),
+// ATOMIC BEGIN
+    // default mouse to visible -- maybe not, make the app do it...
+    // mouseVisible_(true),
+    // lastMouseVisible_(true),
     mouseVisible_(false),
     lastMouseVisible_(false),
+// ATOMIC END
     mouseGrabbed_(false),
     lastMouseGrabbed_(false),
     mouseMode_(MM_ABSOLUTE),
@@ -1517,6 +1533,13 @@ void Input::Initialize()
 
     graphics_ = graphics;
 
+// ATOMIC BEGIN
+    //  get user gamecontroller configs for SDL
+    FileSystem* fs = GetSubsystem<FileSystem>();
+    const String configName = fs->GetUserDocumentsDir() + "/gamecontrollerdb.txt"; 
+    SDL_GameControllerAddMappingsFromFile(configName.CString());
+// ATOMIC END
+
     // In external window mode only visible mouse is supported
     if (graphics_->GetExternalWindow())
         mouseVisible_ = true;
@@ -1731,6 +1754,20 @@ void Input::PushTouchIndex(int touchID)
     if (!inserted)
         availableTouchIDs_.Push(index);
 }
+
+// ATOMIC BEGIN
+void Input::JoystickSimulateMouseMove(int xpos, int ypos) /// moves the on screen cursor
+{
+    IntVector2 position(xpos,ypos);
+    SetMousePosition(position);
+}
+
+void Input::JoystickSimulateMouseButton(MouseButton button) /// simulated mouse press down & up
+{
+    SetMouseButton( button, true );
+    SetMouseButton( button, false );
+}
+// ATOMIC END
 
 void Input::SendInputFocusEvent()
 {
@@ -2042,6 +2079,7 @@ void Input::HandleSDLEvent(void* sdlEvent)
         break;
 
     case SDL_FINGERDOWN:
+
         if (evt.tfinger.touchId != SDL_TOUCH_MOUSEID)
         {
             int touchID = GetTouchIndexFromID(evt.tfinger.fingerId & 0x7ffffffu);
@@ -2103,6 +2141,10 @@ void Input::HandleSDLEvent(void* sdlEvent)
                 (int)(evt.tfinger.y * graphics_->GetHeight()));
             state.delta_ = state.position_ - state.lastPosition_;
             state.pressure_ = evt.tfinger.pressure;
+
+            // ATOMIC BEGIN
+            state.touchedWidget_ = GetSubsystem<AUI>()->GetWidgetAt(state.position_.x_, state.position_.y_, true);
+            // ATOMIC END
 
             using namespace TouchMove;
 
@@ -2465,6 +2507,7 @@ void Input::HandleScreenJoystickTouch(StringHash eventType, VariantMap& eventDat
     if (eventType == E_TOUCHEND)
         state.touchedElement_.Reset();
     else
+
         state.touchedElement_ = element;
 
     // Prepare a fake SDL event
@@ -2587,5 +2630,30 @@ void Input::HandleScreenJoystickTouch(StringHash eventType, VariantMap& eventDat
     // Handle the fake SDL event to turn it into Urho3D genuine event
     HandleSDLEvent(&evt);
 }
+
+// ATOMIC BEGIN
+void Input::BindButton(AButton* touchButton, int button)
+{
+    touchButton->SetEmulationButton(button);
+}
+
+void Input::SimulateButtonDown(int button)
+{
+    SDL_Event evt;
+    evt.type = SDL_KEYDOWN;
+    evt.key.keysym.sym = button;
+    HandleSDLEvent(&evt);
+}
+
+void Input::SimulateButtonUp(int button)
+{
+    SDL_Event evt;
+    evt.type = SDL_KEYUP;
+    evt.key.keysym.sym = button;
+    HandleSDLEvent(&evt);
+}
+
+// ATOMIC END
+
 
 }
