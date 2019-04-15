@@ -1,0 +1,108 @@
+# (spread)sheet like layout file
+TBLayout: distribution: gravity, distribution-position: left
+	axis y
+	TBScrollContainer
+		gravity all
+		TBLayout: spacing: 1
+			position left top
+			axis y
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t0A, text: "", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t0B, text: "", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t0C, text: "", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t0D, text: "ASelectItem", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t1A, text: "AWidget", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t1B, text: "AWindow", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t1C, text: "", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t1D, text: "ASelectItemSource", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t2A, text: "AButton", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t2B, text: "AMessageWindow", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t2C, text: "AView", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t2D, text: "AMenuItem", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t3A, text: "AEditField", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t3B, text: "ATabContainer", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t3C, text: "ALayout", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t3D, text: "AMenuItemSource", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t4A, text: "ACheckBox", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t4B, text: "AListView", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t4C, text: "ATextField", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t4D, text: "ALayoutParams", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t5A, text: "ASelectList", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t5B, text: "AMenuWindow", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t5C, text: "ASkinImage", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t5D, text: "AFontDescription", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t6A, text: "AInlineSelect", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t6B, text: "AClickLabel", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t6C, text: "AImageWidget", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t6D, text: "APreferredSize", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t7A, text: "ASelectDropdown", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t7B, text: "ASection", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t7C, text: "ASeparator", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t7D, text: "AContainer", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t8A, text: "ASlider", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t8B, text: "ASceneView", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t8C, text: "ATextureWidget", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t8D, text: "AScrollContainer", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: t9A, text: "AColorWheel", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t9B, text: "APromptWindow", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t9C, text: "AColorWidget", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: t9D, text: "ADimmer", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+			TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 1
+				TBTextField: id: tAA, text: "APulldownMenu", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: tAB, text: "AFinderWindow", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: tAC, text: "ABargraph", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+				TBTextField: id: tAD, text: "ADragObject", squeezable: 1, text-align: left, skin: "sheet_cell"
+					lp: pref-width: 150dp
+

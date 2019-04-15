@@ -1,0 +1,69 @@
+# primary widgets layout file
+TBTabContainer
+	gravity all
+	id primarytabs
+	tabs
+		TBButton
+			text AButton
+		TBButton
+			text ATextField
+		TBButton
+			text AEditField
+		TBButton
+			text ACheckBox
+		TBButton
+			text ASelectList
+		TBButton
+			text AInlineSelect
+		TBButton
+			text ASlider
+		TBButton
+			text ARadioButton
+		TBButton
+			text ATabContainer
+	TBLayout
+		id pageuibutton
+		size available
+		distribution available
+		@file layout_abutton.ui.txt
+	TBLayout
+		id pageuitextfield
+		size available
+		distribution available
+		@file layout_atextfield.ui.txt
+	TBLayout
+		id pageuieditfield
+		size available
+		distribution available
+		@file layout_aeditfield.ui.txt
+	TBLayout
+		id pageuicheckbox
+		size available
+		distribution available
+		@file layout_acheckbox.ui.txt
+	TBLayout
+		id pageuiselectlist
+		size available
+		distribution available
+		@file layout_aselectlist.ui.txt
+	TBLayout
+		id pageuiinlineselect
+		size available
+		distribution available
+		@file layout_ainlineselect.ui.txt
+	TBLayout
+		id pageuislider
+		size available
+		distribution available
+		@file layout_aslider.ui.txt
+	TBLayout
+		id pageuiradiobutton
+		size available
+		distribution available
+		@file layout_aradiobutton.ui.txt
+	TBLayout
+		id pageuitabcontainer
+		size available
+		distribution available
+		@file layout_atabcontainer.ui.txt
+

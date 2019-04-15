@@ -1,0 +1,11 @@
+# Urho3D sample 6 layout file
+TBLayout: config: "YPCAC"
+	TBWidget
+	TBWidget
+	TBWidget
+	TBWidget
+	TBWidget
+	TBEditField: multiline: 1, styling: 1, readonly: 1, skin: "",  adapt-to-content: 1 
+		text: "Use WASD keys to move, RMB to rotate view\nLMB to set destination, SHIFT+LMB to teleport\nMMB or O key to add or remove obstacles\nTab to toggle navigation mesh streaming\nSpace to toggle debug geometry";
+	TBWidget
+

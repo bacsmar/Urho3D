@@ -1,0 +1,69 @@
+# main layout file
+TBTabContainer
+	gravity all
+	id atomictabs
+	tabs
+		TBButton
+			text AMultiItem
+		TBButton
+			text ASceneView
+		TBButton
+			text ATextureWidget
+		TBButton
+			text APulldownMenu
+		TBButton
+			text AColorWidget
+		TBButton
+			text ABargraph
+		TBButton
+			text AColorWheel
+		TBButton
+			text APromptWindow
+		TBButton
+			text AFinderWindow
+	TBLayout
+		id pageuimultiitem
+		size available
+		distribution available
+		@file layout_amultiitem.ui.txt
+	TBLayout
+		id pageuisceneview
+		size available
+		distribution available
+		@file layout_asceneview.ui.txt
+	TBLayout
+		id pageuitexturewidget
+		size available
+		distribution available
+		@file layout_atexturewidget.ui.txt
+	TBLayout
+		id pageuipulldownmenu
+		size available
+		distribution available
+		@file layout_apulldownmenu.ui.txt
+	TBLayout
+		id pageuicolorwidget
+		size available
+		distribution available
+		@file layout_acolorwidget.ui.txt
+	TBLayout
+		id pageuibargraph
+		size available
+		distribution available
+		@file layout_abargraph.ui.txt
+	TBLayout
+		id pageuicolorwheel
+		size available
+		distribution available
+		@file layout_acolorwheel.ui.txt
+	TBLayout
+		id pageuipromptwindow
+		size available
+		distribution available
+		@file layout_apromptwindow.ui.txt
+	TBLayout
+		id pageuifinderwindow
+		size available
+		distribution available
+		@file layout_afinderwindow.ui.txt
+

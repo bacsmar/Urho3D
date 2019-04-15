@@ -1,0 +1,31 @@
+# Urho3D sample 14 layout file
+TBLayout: config: "XGCAL"
+	TBWidget
+	TBLayout: config: "YGCAL", skin: TBWindow
+		TBLayout: config: "XPCAC"
+			TBButton: id: fistbutton, text: "Fist", squeezable: 1
+				lp: pref-width: 100dp
+			TBButton: id: explosionbutton, text: "Explosion", squeezable: 1
+				lp: pref-width: 100dp
+			TBButton: id: powerupbutton,   text: "Power-up", squeezable: 1
+				lp: pref-width: 100dp
+		TBLayout: config: "XPCAC"
+			TBButton: id: playbutton, text: "Play Music", squeezable: 1
+				lp: pref-width: 100dp
+			TBButton: id: stopbutton, text: "Stop Music", squeezable: 1
+				lp: pref-width: 100dp
+			TBWidget
+				lp: pref-width: 100dp
+		TBLayout: config: "YGCAL"
+			TBLayout: config: "XPCAC"
+				TBLayout: config: "YACAC"
+					TBTextField: text: "Sound Volume", text-align: left
+					TBSlider: id: soundvolume, min: 0, max: 1, value: 1
+				TBWidget
+			TBLayout: config: "XPCAC"
+				TBLayout: config: "YACAC"
+					TBTextField: text: "Music Volume", text-align: left
+					TBSlider: id: musicvolume, min: 0, max: 1, value: 1
+				TBWidget
+	TBWidget
+

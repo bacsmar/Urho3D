@@ -1,0 +1,18 @@
+# ASelectDropdown widget layout file
+TBLayout: axis: y
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "ASelectDropdown widget\nThis widget can display a list of options, and can select one to make it the current value.\nThe Statusbar will display the results."
+	TBTextField: id: spacer, text: "   "
+	TBSelectDropdown: id: selectdropdowndemo
+		lp: min-width: 128dp
+		items:
+			item: text: "SelectDropdown 1"
+			item: text: "SelectDropdown 2"
+			item: text: "SelectDropdown 3"
+			item: text: "SelectDropdown 4"
+	TBTextField: id: spacer, text: "   "
+	TBLayout
+		TBButton: state: disabled, text: "ASelectDropdown help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uiselectdropdown.html"
+		TBButton: text: "ASelectDropdown application code", id: uiselectdropdowncode
+		TBButton: text: "ASelectDropdown layout code", id: uiselectdropdownlayout
+

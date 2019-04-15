@@ -1,0 +1,17 @@
+# Urho3D sample 16 layout file
+TBLayout: config: "YGCAL", skin: TBWindow
+	TBLayout: config: "XPCAC"
+		TBButton: id: startServerButton, text: "Start Server", squeezable: 1
+			lp: pref-width: 100dp
+		TBButton: id: connectButton, text: "Connect", squeezable: 1
+			lp: pref-width: 100dp
+		TBButton: id: disconnectButton, text: "Disconnect", squeezable: 1
+			lp: pref-width: 100dp
+	TBLayout: config: "XPCAL"
+		TBEditField: id: LineEdit, text: "", squeezable: 1, gravity: all
+#			lp: pref-width: 100dp
+#		TBWidget
+		TBButton: id: sendButton, text: "Send", squeezable: 1, gravity: right
+	TBLayout: config: "YACAC"
+		TBEditField: id: chatHistoryText, multiline: 1, styling: 1, readonly: 1
+

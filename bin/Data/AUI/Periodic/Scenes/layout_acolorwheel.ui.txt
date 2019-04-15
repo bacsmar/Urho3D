@@ -1,0 +1,18 @@
+# AColorWheel widget layout file
+TBLayout: axis: y
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "AColorWheel widget\nThis widget can pick an HS(V) color.\nThe Statusbar will display the results."
+
+	TBContainer
+		TBColorWheel: id: colorwheeldemo, skin: HSVSkin
+			lp: width: 256, height: 256
+
+#	TBContainer: id: "MATRIXTEST", text: "AButtonMatrix Test"
+#		lp: min-width: 256, min-height: 256
+
+	TBTextField: id: spacer, text: "   "
+	TBLayout
+		TBButton: state: disabled, text: "AColorWheel help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uicolorwheel.html"
+		TBButton: text: "AColorWheel application code", id: uicolorwheelcode
+		TBButton: text: "AColorWheel layout code", id: uicolorwheellayout
+

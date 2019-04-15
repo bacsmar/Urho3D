@@ -1,0 +1,15 @@
+# AMessageWindow widget layout file
+TBLayout: axis: y
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "AMessageWindow widget\nThis widget is used to create custom message windows.\nThe Statusbar will display the results."
+	TBTextField: id: spacer, text: "   "
+	TBButton: id: "msgnone", text: "Bring up a MessageWindow..."
+	TBButton: id: "msgok", text: "Bring up an OK MessageWindow..."
+	TBButton: id: "msgkcancel", text: "Bring up an OK CANCEL MessageWindow..."
+	TBButton: id: "msgyesno", text: "Bring up a YES NO MessageWindow..."
+	TBTextField: id: spacer, text: "   "
+	TBLayout
+		TBButton: state: disabled, id: "uimessagewindowhelp", text: "AMessageWindow help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uimessagewindow.html"
+		TBButton: text: "AMessageWindow application code", id: uimessagewindowcode
+		TBButton: text: "AMessageWindow layout code", id: uimessagewindowlayout
+

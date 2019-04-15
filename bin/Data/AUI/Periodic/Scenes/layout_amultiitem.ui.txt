@@ -1,0 +1,18 @@
+# AMultiItem and AMultiItemSource object layout file
+TBLayout: axis: y, id: multiitemlayout
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "AMultiItem and AMultiItemSource objects\nThese objects are used to program the contents of ASelectList widgets."
+	TBTextField: id: spacer, text: "   "
+	TBTextField: id: multiitemlower, text: "   "
+	TBTextField: id: spacer, text: "   "
+	TBLayout
+		TBButton: text: "Add AMultiItem text", id: uimi1
+		TBButton: text: "Add AMultiItem text,id", id: uimi2
+		TBButton: text: "Add AMultiItem text,id,icon", id: uimi3
+		TBButton: text: "Add AMultiItem Atomic entry", id: uimi4
+		TBButton: text: "Clear AMultiItemSource", id: uimi5
+	TBLayout
+		TBButton: state: disabled, text: "AMultiItem help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uimultiitem.html"
+		TBButton: text: "AMultiItem application code", id: uimultiitemcode
+		TBButton: text: "AMultiItem layout code", id: uimultiitemlayout
+

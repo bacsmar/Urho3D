@@ -1,0 +1,14 @@
+# desktop skin definitions
+elements
+	background_solid
+		background-color #3b3b3b
+		padding 10
+	uiwidget_solid
+		background-color #666666
+		padding 10
+	sheet_cell
+		text-color #111111
+		background-color #f4f2d3
+		padding 10
+
+

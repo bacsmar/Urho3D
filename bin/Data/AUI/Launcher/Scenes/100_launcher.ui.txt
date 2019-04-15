@@ -1,0 +1,13 @@
+# AScrollContainer widget layout file
+TBLayout: config: "YAGAG", skin: TBWindow
+	TBImageWidget: id: uiimage, filename: "Textures/LogoLarge.png", gravity: left right
+		lp: height: 64, pref-width: 640
+	TBLayout: config: "XPLPL"
+		TBButton: text: "Exit", id: uiexit
+		TBButton: text: "Launch Arguments...", id: uilaunchargs
+	TBScrollContainer
+#		scroll-mode off
+		gravity all
+		TBLayout: id: uisamples, config: "YPCAC"
+#	TBTextField: id: spacer, text: "   "
+

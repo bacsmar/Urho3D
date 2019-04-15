@@ -1,0 +1,18 @@
+# ASelectItem and ASelectItemSource object layout file
+TBLayout: axis: y, id: selectitemlayout
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "ASelectItem and ASelectItemSource objects\nThese objects are used to program the contents of ASelectList widgets."
+	TBTextField: id: spacer, text: "   "
+	TBTextField: id: selectitemlower, text: "   "
+	TBTextField: id: spacer, text: "   "
+	TBLayout
+		TBButton: text: "Add ASelectItem text", id: uisi1
+		TBButton: text: "Add ASelectItem text,id", id: uisi2
+		TBButton: text: "Add ASelectItem text,id,icon", id: uisi3
+		TBButton: text: "Add ASelectItem Atomic entry", id: uisi4
+		TBButton: text: "Clear ASelectItemSource", id: uisi5
+	TBLayout
+		TBButton: state: disabled, text: "ASelectItem help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uiselectitem.html"
+		TBButton: text: "ASelectItem application code", id: uiselectitemcode
+		TBButton: text: "ASelectItem layout code", id: uiselectitemlayout
+

@@ -1,0 +1,12 @@
+# ATextureWidget layout file
+TBLayout: axis: y, id: uitwcontainer
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "ATextureWidget\nThis widget is used to display an Atomic Resource image."
+	TBTextField: id: spacer, text: "   "
+# there is NO TBTextureWidget, its entirely an Atomic Widget, well add it with code
+	TBTextField: id: "uitexturewidgetlower", text: "   "
+	TBLayout 
+		state: disabled, TBButton: text: "ATextureWidget help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uitexturewidget.html"
+		TBButton: text: "ATextureWidget application code", id: uitexturewidgetcode
+		TBButton: text: "ATextureWidget layout code", id: uitexturewidgetlayout
+

@@ -1,0 +1,10 @@
+# Urho3D sample 37 layout file
+TBLayout: config: "YPCAC"
+	TBWidget
+	TBWidget
+	TBWidget
+	TBWidget
+	TBEditField: multiline: 1, styling: 1, readonly: 1, skin: "",  adapt-to-content: 1 
+		text: "Use WASD keys to transform, Tab key to cycle through\nScale, Rotate, and Translate transform modes. In Rotate\nmode, combine A/D keys with Ctrl key to rotate about\nthe Z axis"
+	TBWidget
+

@@ -1,0 +1,17 @@
+# launcher sample entry
+TBLayout: config: "YACPC", skin: uiwidget_solid
+	TBTextField: id: titlew, skin: sheet_cell, gravity: left right, text-align: left
+		text: "Sample xxx"
+	TBLayout: config: "XPCPC"
+		TBImageWidget: id: imagew, filename: "Textures/01_pix.jpg"
+			lp: height: 280, width: 560
+		TBLayout: config: "YALAC"
+			lp: width: 200
+			TBButton: id: 00cpp, text: "C++"
+			TBButton: id: 00as, text: "Angelscript" 
+			TBButton: id: 00lua, text: "Lua"
+			TBButton: id: 00aui, text: "AUI AS"
+		TBLayout: config: "YALAC"
+			lp: pref-width: 100
+			TBWidget
+

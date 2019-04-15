@@ -1,0 +1,14 @@
+# AWindow widget layout file
+TBLayout: axis: y
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "AWindow widget\nThis widget is used to create custom windows.\nThe Statusbar will display the results."
+	TBTextField: id: spacer, text: "   "
+	TBButton: id: windowdemo, text: "Bring up a custom login AWindow..."
+	TBButton: id: windowdemo1, text: "Bring up a custom table AWindow..."
+	TBButton: id: windowdemo2, text: "Bring up a rotated AWindow..."
+	TBTextField: id: spacer, text: "   "
+	TBLayout
+		TBButton: state: disabled, id: "uiwindowhelp", text: "AWindow help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uiwindow.html"
+		TBButton: text: "AWindow application code", id: uiwindowcode
+		TBButton: text: "AWindow layout code", id: uiwindowlayout
+
