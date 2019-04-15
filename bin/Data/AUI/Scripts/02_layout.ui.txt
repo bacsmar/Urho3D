@@ -1,0 +1,9 @@
+# Urho3D sample 2 layout file
+TBLayout: config: "YACAC"
+	lp: min-width: 256
+	TBTextField: id:reportText, text: ""
+	TBClickLabel:
+		TBCheckBox: id: aCheck
+	TBButton: id:aButton, text: "Button"
+	TBEditField: id: aEditfield
+

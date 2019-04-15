@@ -1,0 +1,44 @@
+# Urho3D sample 47 layout file
+TBLayout: config: "YPLAC", skin: TBWindow
+	TBLayout: config: "YACAC"
+		TBClickLabel: text: "White Background", text-align: left
+			TBCheckBox: id: check1
+		TBClickLabel: text: "Graphics::SetSRGB", text-align: left
+			TBCheckBox: id: check2
+		TBClickLabel: text: "UI::SetForceAutoHint", text-align: left
+			TBCheckBox: id: check3
+	TBLayout: config: "XPCAC"
+		TBTextField: text: "UI::SetFontHintLevel"
+		TBSelectDropdown: id: choice1
+#			lp: min-width: 128dp
+			items:
+				item: text: "FONT_HINT_LEVEL_NONE", id: "i1"
+				item: text: "FONT_HINT_LEVEL_LIGHT", id: "i2"
+				item: text: "FONT_HINT_LEVEL_NORMAL", id: "i3"
+	TBLayout: config: "XPCAC"
+		TBTextField: text: "UI::SetFontSubpixelThreshold"
+		TBSelectDropdown: id: choice2
+#			lp: min-width: 128dp
+			items:
+				item: text: "0"
+				item: text: "3"
+				item: text: "6"
+				item: text: "9"
+				item: text: "12"
+				item: text: "15"
+				item: text: "18"
+				item: text: "21"
+	TBLayout: config: "XPCAC"
+		TBTextField: text: "UI::SetFontOversampling"
+		TBSelectDropdown: id: choice3
+#			lp: min-width: 128dp
+			items:
+				item: text: "1"
+				item: text: "2"
+				item: text: "3"
+				item: text: "4"
+				item: text: "5"
+				item: text: "6"
+				item: text: "7"
+				item: text: "8"
+

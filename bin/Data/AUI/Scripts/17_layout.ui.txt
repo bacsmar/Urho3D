@@ -1,0 +1,8 @@
+# Urho3D sample 16 layout file
+TBLayout: config: "YGLPL", skin: TBWindow
+	TBLayout: config: "XPCAC"
+		TBEditField: id: LineEdit, text: "", squeezable: 1, gravity: all
+		TBButton: id: startServerButton, text: "Start Server", squeezable: 1
+		TBButton: id: connectButton, text: "Connect", squeezable: 1
+		TBButton: id: disconnectButton, text: "Disconnect", squeezable: 1
+

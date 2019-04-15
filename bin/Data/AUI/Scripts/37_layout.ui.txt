@@ -1,0 +1,10 @@
+# Urho3D sample 37 layout file
+TBLayout: config: "YPCAC"
+	TBWidget
+	TBWidget
+	TBWidget
+	TBWidget
+	TBEditField: multiline: 1, styling: 1, readonly: 1, skin: "",  adapt-to-content: 1 
+		text: "Drag on the buttons to move them around.\nTouch input allows also multi-drag.\nPress SPACE to show/hide tagged UI elements."
+	TBWidget
+

@@ -1,0 +1,22 @@
+# Urho3D sample 42 layout file
+TBLayout: config: "YPLAC"
+	TBLayout: config: "YGCAL", skin: TBWindow
+		TBLayout: config: "XPCAC"
+			TBSlider: id: slider1, min: 0, max: 1, value: 1
+				lp: pref-width: 200dp
+			TBTextField: id: text1,  text: "", text-align: left
+		TBLayout: config: "XPCAC"
+			TBSlider: id: slider2, min: 0, max: 1, value: 1
+				lp: pref-width: 200dp
+			TBTextField: id: text2,  text: "", text-align: left
+		TBLayout: config: "XPCAC"
+			TBSlider: id: slider3, min: 0, max: 1, value: 1
+				lp: pref-width: 200dp
+			TBTextField: id: text3,  text: "", text-align: left
+	TBWidget
+	TBWidget
+	TBWidget
+	TBWidget
+	TBEditField: multiline: 1, styling: 1, readonly: 1, skin: "",  adapt-to-content: 1 
+		text: "Use sliders to change Roughness and Metallic\nHold RMB and use WASD keys and mouse to move"
+

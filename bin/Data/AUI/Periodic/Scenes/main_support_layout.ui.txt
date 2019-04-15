@@ -1,0 +1,69 @@
+# support objects layout file
+TBTabContainer
+	gravity all
+	id supporttabs
+	tabs
+		TBButton
+			text AWidget
+		TBButton
+			text AScrollContainer
+		TBButton
+			text AContainer
+		TBButton
+			text ASkinImage
+		TBButton
+			text AWindow
+		TBButton
+			text ASelectItem
+		TBButton
+			text AMenuItem
+		TBButton
+			text AFontDescription
+		TBButton
+			text ALayoutParams
+	TBLayout
+		id pageuiwidget
+		size available
+		distribution available
+		@file layout_awidget.ui.txt
+	TBLayout
+		id pageuiscrollcontainer
+		size available
+		distribution available
+		@file layout_ascrollcontainer.ui.txt
+	TBLayout
+		id pageuicontainer
+		size available
+		distribution available
+		@file layout_acontainer.ui.txt
+	TBLayout
+		id pageuiskinimage
+		size available
+		distribution available
+		@file layout_askinimage.ui.txt
+	TBLayout
+		id pageuiwindow
+		size available
+		distribution available
+		@file layout_awindow.ui.txt
+	TBLayout
+		id pageuiselectitem
+		size available
+		distribution available
+		@file layout_aselectitem.ui.txt
+	TBLayout
+		id pageuimenuitem
+		size available
+		distribution available
+		@file layout_amenuitem.ui.txt
+	TBLayout
+		id pageuifontdescription
+		size available
+		distribution available
+		@file layout_afontdescription.ui.txt
+	TBLayout
+		id pageuilayoutparams
+		size available
+		distribution available
+		@file layout_alayoutparams.ui.txt
+

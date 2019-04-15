@@ -1,0 +1,271 @@
+# launcher configuration
+TBLayout: distribution: gravity, distribution-position: left
+	lp: pref-height: 480, pref-width: 640
+	axis y
+	TBScrollContainer: gravity all
+		TBLayout: spacing: 5, axis: Y
+# ------arg1
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal1, text: "-x"
+					TBCheckBox: id: pac1, tooltip: "-x <res>  Horizontal resolution"
+					lp: pref-width: 80
+				TBEditField: id: pae1, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Horizontal resolution"
+# ------arg2
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal2, text: "-y"
+					TBCheckBox: id: pac2, tooltip: "-y <res>  Vertical resolution"
+					lp: pref-width: 80
+				TBEditField: id: pae2, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Vertical resolution"
+# ------arg3
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal3, text: "-m"
+					TBCheckBox: id: pac3, tooltip: "-m <level>  Enable hardware multisampling"
+					lp: pref-width: 80
+				TBEditField: id: pae3, text: "" 
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Enable hardware multisampling"
+# ------arg4
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal4, text: "-v"
+					TBCheckBox: id: pac4, tooltip: "-v  Enable vertical sync"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Enable vertical sync"
+# ------arg5
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal5, text: "-t"
+					TBCheckBox: id: pac5, tooltip: "-t  Enable triple buffering"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Enable triple buffering"
+# ------arg6
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal6, text: "-w"
+					TBCheckBox: id: pac6, tooltip: "-w  Start in windowed mode"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Start in windowed mode"
+# ------arg7
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal7, text: "-s"
+					TBCheckBox: id: pac7, tooltip: "-s  Enable resizing when in windowed mode"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Enable resizing when in windowed mode"
+# ------arg8
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal8, text: "-q"
+					TBCheckBox: id: pac8, tooltip: "-q  Enable quiet mode which does not log to standard output stream"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Enable quiet mode which does not log to standard output stream"
+# ------arg9
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal9, text: "-b"
+					TBCheckBox: id: pac9, tooltip: "-b <length>  Sound buffer length in milliseconds"
+					lp: pref-width: 80
+				TBEditField: id: pae9, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Sound buffer length in milliseconds"
+# ------arg10
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal10, text: "-r"
+					TBCheckBox: id: pac10, tooltip: "-r <freq>  Sound mixing frequency in Hz"
+					lp: pref-width: 80
+				TBEditField: id: pae10, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Sound mixing frequency in Hz"
+# ------arg11
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal11, text: "-pp"
+					TBCheckBox: id: pac11, tooltip: "-pp <paths>  Resource prefix path(s), separated by semicolons, default to executable path"
+					lp: pref-width: 80
+				TBEditField: id: pae11, text: ""
+					lp: pref-width: 256
+				TBTextField:  gravity: all, text-align: left,  text: " Resource prefix path(s), separated by semicolons, default to executable path"
+# ------arg12
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal12, text: "-p"
+					TBCheckBox: id: pac12, tooltip: "-p <paths>  Resource path(s) to use, separated by semicolons, default to `Data;CoreData`"
+					lp: pref-width: 80
+				TBEditField: id: pae12, text: ""
+					lp: pref-width: 256
+				TBTextField:  gravity: all, text-align: left,  text: " Resource path(s) to use, separated by semicolons, default to `Data;CoreData`"
+# ------arg13
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal13, text: "-pf"
+					TBCheckBox: id: pac13, tooltip: "-pf <files>  Resource package file to use, separated by semicolons, default to none"
+					lp: pref-width: 80
+				TBEditField: id: pae13, text: ""
+					lp: pref-width: 256
+				TBTextField:  gravity: all, text-align: left,  text: " Resource package file to use, separated by semicolons, default to none"
+# ------arg14
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal14, text: "-ap"
+					TBCheckBox: id: pac14, tooltip: "-ap <paths>  Resource autoload path(s), separated by semicolons, default to `AutoLoad`"
+					lp: pref-width: 80
+				TBEditField: id: pae14, text: ""
+					lp: pref-width: 256
+				TBTextField:  gravity: all, text-align: left,  text: " Resource autoload path(s), separated by semicolons, default to `AutoLoad`"
+# ------arg15
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal15, text: "-log"
+					TBCheckBox: id: pac15, tooltip: "-log <level>  Change the log level, valid `level` values: `debug`, `info`, `warning`, `error`"
+					lp: pref-width: 80
+				TBEditField: id: pae15, text: "" 
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Change the log level, valid `level` values: `debug`, `info`, `warning`, `error`"
+# ------arg16
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal16, text: "-ds"
+					TBCheckBox: id: pac16, tooltip: "-ds <file>   Dump used shader variations to a file for precaching"
+					lp: pref-width: 80
+				TBEditField: id: pae16, text: "" 
+				TBTextField:  gravity: all, text-align: left,  text: " Dump used shader variations to a file for precaching"
+					lp: pref-width: 256
+# ------arg17
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal17, text: "-mq"
+					TBCheckBox: id: pac17, tooltip: "-mq <level>  Material quality level, default 2 (high)"
+					lp: pref-width: 80
+				TBEditField: id: pae17, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Material quality level, default 2 (high)"
+# ------arg18
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal18, text: "-tq"
+					TBCheckBox: id: pac18, tooltip: "-tq <level>  Texture quality level, default 2 (high)"
+					lp: pref-width: 80
+				TBEditField: id: pae18, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Texture quality level, default 2 (high)"
+# ------arg19
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal19, text: "-tf"
+					TBCheckBox: id: pac19, tooltip: "-tf <level>  Texture filter mode, default 2 (trilinear)"
+					lp: pref-width: 80
+				TBEditField: id: pae19, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Texture filter mode, default 2 (trilinear)"
+# ------arg20
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal20, text: "-af"
+					TBCheckBox: id: pac20, tooltip: "-af <level>  Texture anisotropy level, default 4. Also sets anisotropic filter mode"
+					lp: pref-width: 80
+				TBEditField: id: pae20, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Texture anisotropy level, default 4. Also sets anisotropic filter mode"
+# ------arg21
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal21, text: "-gl2"
+					TBCheckBox: id: pac21, tooltip: "-gl2  Force OpenGL 2 use even if OpenGL 3 is available"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Force OpenGL 2 use even if OpenGL 3 is available"
+# ------arg22
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal22, text: "-flushgpu"
+					TBCheckBox: id: pac22, tooltip: "-flushgpu  Flush GPU command queue each frame. Effective only on Direct3D"
+				TBTextField:  gravity: all, text-align: left,  text: " Flush GPU command queue each frame. Effective only on Direct3D" 
+# ------arg23
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal23, text: "-borderless"
+					TBCheckBox: id: pac23, tooltip: "-borderless  Borderless window mode"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Borderless window mode"
+# ------arg24
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal24, text: "-lowdpi"
+					TBCheckBox: id: pac24, tooltip: "-lowdpi  Force low DPI mode on Retina display"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Force low DPI mode on Retina display"
+# ------arg25
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal25, text: "-headless"
+					TBCheckBox: id: pac25, tooltip: "-headless  Headless mode. No application window will be created"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Headless mode. No application window will be created"
+# ------arg26
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal26, text: "-landscape"
+					TBCheckBox: id: pac26, tooltip: "-landscape  Use landscape orientations (iOS only, default)"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Use landscape orientations (iOS only, default)"
+# ------arg27
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal27, text: "-portrait"
+					TBCheckBox: id: pac27, tooltip: "-portrait  Use portrait orientations (iOS only)"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Use portrait orientations (iOS only)"
+# ------arg28
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal28, text: "-monitor"
+					TBCheckBox: id: pac28, tooltip: "-monitor <num> Monitor number to use"
+					lp: pref-width: 80
+				TBEditField: id: pae28, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Monitor number to use"
+# ------arg29
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal29, text: "-hz"
+					TBCheckBox: id: pac29, tooltip: "-hz <freq>  Monitor refresh rate to use"
+					lp: pref-width: 80
+				TBEditField: id: pae29, text: ""
+					lp: pref-width: 128
+				TBTextField:  gravity: all, text-align: left,  text: " Monitor refresh rate to use"
+# ------arg30
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal30, text: "-prepass"
+					TBCheckBox: id: pac30, tooltip: "-prepass  Use light pre-pass rendering"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Use light pre-pass rendering"
+# ------arg31
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal31, text: "-renderpath"
+					TBCheckBox: id: pac31, tooltip: "-renderpath <name>  Use the named renderpath (must enter full resource name)"
+					lp: pref-width: 80
+				TBEditField: id: pae31, text: ""
+					lp: pref-width: 256
+				TBTextField:  gravity: all, text-align: left,  text: " Use the named renderpath (must enter full resource name)"
+# ------arg32
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal32, text: "-lqshadows"
+					TBCheckBox: id: pac32, tooltip: "-lqshadows  Use low-quality (1-sample) shadow filtering"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Use low-quality (1-sample) shadow filtering"
+# ------arg33
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal33, text: "-noshadows"
+					TBCheckBox: id: pac33, tooltip: "-noshadows  Disable shadow rendering"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Disable shadow rendering"
+# ------arg34
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal34, text: "-nolimit"
+					TBCheckBox: id: pac34, tooltip: "-nolimit  Disable frame limiter"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Disable frame limiter"
+# ------arg35
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal35, text: "-nothreads"
+					TBCheckBox: id: pac35, tooltip: "-nothreads  Disable worker threads"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Disable worker threads"
+# ------arg36
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal36, text: "-nosound"
+					TBCheckBox: id: pac36, tooltip: "-nosound  Disable sound output"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Disable sound output"
+# ------arg37
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal37, text: "-noip"
+					TBCheckBox: id: pac37, tooltip: "-noip  Disable sound mixing interpolation"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Disable sound mixing interpolation"
+# ------arg38
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal38, text: "-touch"
+					TBCheckBox: id: pac38, tooltip: "-touch  Touch emulation on desktop platform"
+					lp: pref-width: 80
+				TBTextField:  gravity: all, text-align: left,  text: " Touch emulation on desktop platform"
+
+

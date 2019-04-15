@@ -1,0 +1,28 @@
+# Urho3D sample 52 layout file
+TBLayout: config: "YACAC", skin: TBWindow
+	TBTextField: text: "1. Run NAT server somewhere, enter NAT server info and press `Save NAT settings`", text-align: left
+	TBLayout: config: "XPCGL"
+		TBTextField: text: "Addr:"
+		TBEditField: id: addrEdit, text: ""
+			lp: pref-width: 256
+		TBTextField: text: "Port:"
+		TBEditField: id: portEdit, text: ""
+		TBButton: id: saveButton, text: "Save NAT settings"
+		TBWidget: gravity: all
+	TBTextField: text: "2. Create server and give others your server GUID", text-align: left
+	TBLayout: config: "XPCGL"
+		TBTextField: text: "Your server GUID:"
+		TBEditField: id: sguidEdit, text: ""
+			lp: pref-width: 128
+		TBButton: id: startButton, text: "Start Server"
+		TBWidget: gravity: all
+	TBTextField: text: "3. Input local or remote server GUID", text-align: left
+	TBLayout: config: "XPCGL"
+		TBTextField: text: "Remote server GUID:"
+		TBEditField: id: rguidEdit, text: ""
+			lp: pref-width: 128
+		TBButton: id: connectButton, text: "Connect"
+		TBWidget: gravity: all
+	TBEditField: id: historyText, multiline: 1, styling: 1, readonly: 1
+
+

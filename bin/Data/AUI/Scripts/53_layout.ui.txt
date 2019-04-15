@@ -1,0 +1,14 @@
+# Urho3D sample 53 layout file
+TBLayout: config: "YACAC", skin: TBWindow
+	TBTextField: text: "1. Start server", text-align: left
+	TBLayout: config: "XPCGL"
+		TBButton: id: startButton, text: "Start Server"
+		TBButton: id: stopButton, text: "Stop Server"
+		TBWidget: gravity: all
+	TBTextField: text: "2. Discover LAN servers", text-align: left
+	TBLayout: config: "XPCGL"
+		TBButton: id: searchButton, text: "Search..."
+		TBWidget: gravity: all
+	TBTextField: text: "Local Servers", text-align: left
+	TBEditField: id: serverList, multiline: 1, styling: 1, readonly: 1
+

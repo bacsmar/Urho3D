@@ -1,0 +1,9 @@
+# Urho3D sample 4 layout file
+TBLayout: config: "YACAC"
+	TBWidget
+	TBWidget
+	TBWidget
+	TBWidget
+	TBTextField: text: "Use WASD keys and mouse to move"
+	TBWidget
+

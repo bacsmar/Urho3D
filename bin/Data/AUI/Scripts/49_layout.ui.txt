@@ -1,0 +1,27 @@
+# Urho3D sample 49,50 layout file
+TBLayout: config: "XACAC", id: "FullUI"
+	TBLayout: config: "YACAC", skin: TBWindow
+		TBImageWidget: filename: "Textures/HeightMap.png"
+			lp: min-height: 15, pref-height: 20
+			TBTextField: id: gametitle, gravity: left right, text-align: center
+				text: "Haz-Game"
+				font: size: 40p
+		TBWidget
+		TBImageWidget: id: gameimp, filename: "Urho2D/imp/imp_all.png"
+		TBWidget
+		TBLayout: config: "XACAC"
+			TBWidget
+			TBButton: text: "Exit", id: gameexit
+				font: size: 28p
+			TBWidget
+			TBButton: text: "Play", id: gameplay
+				font: size: 28p
+			TBWidget
+		TBWidget
+		TBWidget
+		TBWidget
+		TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "", text-align: center
+			text: "Use WASD keys or Arrows to move\nPageUp/PageDown/MouseWheel to zoom\nF5/F7 to save/reload scene\n'Z' to toggle debug geometry\nSpace to fight"
+		TBWidget
+	TBWidget
+
