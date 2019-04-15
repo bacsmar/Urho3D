@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2019 the Urho3D project.
+// Copyright (c) 2008-2018 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -59,6 +59,7 @@
 #include "../Scene/Scene.h"
 #include "../Scene/SceneEvents.h"
 #include "../UI/UI.h"
+#include "../AUI/AUI.h"   /// ATOMIC UI
 #ifdef URHO3D_URHO2D
 #include "../Urho2D/Urho2D.h"
 #endif
@@ -139,6 +140,7 @@ Engine::Engine(Context* context) :
     context_->RegisterSubsystem(new Input(context_));
     context_->RegisterSubsystem(new Audio(context_));
     context_->RegisterSubsystem(new UI(context_));
+    context_->RegisterSubsystem(new AUI(context_));  /// ATOMIC UI
 
     // Register object factories for libraries which are not automatically registered along with subsystem creation
     RegisterSceneLibrary(context_);
@@ -716,6 +718,7 @@ void Engine::Render()
 
     GetSubsystem<Renderer>()->Render();
     GetSubsystem<UI>()->Render();
+    GetSubsystem<AUI>()->Render();   /// ATOMIC UI
     graphics->EndFrame();
 }
 

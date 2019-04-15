@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2019 the Urho3D project.
+// Copyright (c) 2008-2018 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,10 @@
 #include "../Scene/Scene.h"
 
 #include "../DebugNew.h"
+
+// ATOMIC BEGIN
+#include "AUIBindings/Bindings.hpp"
+// ATOMIC END
 
 namespace Urho3D
 {
@@ -140,6 +144,10 @@ Script::Script(Context* context) :
 #endif
     RegisterScriptAPI(scriptEngine_);
     RegisterEngineAPI(scriptEngine_);
+
+// ATOMIC BEGIN
+   Bindings::RegisterAnything(scriptEngine_);
+// ATOMIC END
 
     // Subscribe to console commands
     SetExecuteConsoleCommands(true);
