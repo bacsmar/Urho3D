@@ -59,7 +59,9 @@
 #include "../Scene/Scene.h"
 #include "../Scene/SceneEvents.h"
 #include "../UI/UI.h"
+#ifdef URHO3D_AUI
 #include "../AUI/AUI.h"   /// ATOMIC UI
+#endif
 #ifdef URHO3D_URHO2D
 #include "../Urho2D/Urho2D.h"
 #endif
@@ -140,8 +142,9 @@ Engine::Engine(Context* context) :
     context_->RegisterSubsystem(new Input(context_));
     context_->RegisterSubsystem(new Audio(context_));
     context_->RegisterSubsystem(new UI(context_));
+#ifdef URHO3D_AUI
     context_->RegisterSubsystem(new AUI(context_));  /// ATOMIC UI
-
+#endif
     // Register object factories for libraries which are not automatically registered along with subsystem creation
     RegisterSceneLibrary(context_);
 
@@ -718,7 +721,9 @@ void Engine::Render()
 
     GetSubsystem<Renderer>()->Render();
     GetSubsystem<UI>()->Render();
+#ifdef URHO3D_AUI
     GetSubsystem<AUI>()->Render();   /// ATOMIC UI
+#endif
     graphics->EndFrame();
 }
 

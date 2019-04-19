@@ -36,9 +36,9 @@
 
 #include "../DebugNew.h"
 
-// ATOMIC BEGIN
+#ifdef URHO3D_AUI   // ATOMIC BEGIN
 #include "AUIBindings/Bindings.hpp"
-// ATOMIC END
+#endif               // ATOMIC END
 
 namespace Urho3D
 {
@@ -145,9 +145,9 @@ Script::Script(Context* context) :
     RegisterScriptAPI(scriptEngine_);
     RegisterEngineAPI(scriptEngine_);
 
-// ATOMIC BEGIN
+#ifdef URHO3D_AUI    // ATOMIC BEGIN
    Bindings::RegisterAnything(scriptEngine_);
-// ATOMIC END
+#endif               // ATOMIC END
 
     // Subscribe to console commands
     SetExecuteConsoleCommands(true);
@@ -253,6 +253,7 @@ void Script::MessageCallback(const asSMessageInfo* msg)
 
     case asMSGTYPE_WARNING:
         URHO3D_LOGWARNING(message);
+
         break;
 
     default:

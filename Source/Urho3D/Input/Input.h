@@ -29,7 +29,10 @@
 #include "../Container/List.h"
 #include "../Input/InputEvents.h"
 #include "../UI/Cursor.h"
+
+#ifdef URHO3D_AUI   // ATOMIC BEGIN
 #include "../AUI/AButton.h"
+#endif               // ATOMIC END
 
 namespace Urho3D
 {
@@ -49,10 +52,11 @@ class Graphics;
 class Serializer;
 class UIElement;
 class XMLFile;
-// ATOMIC BEGIN
+
+#ifdef URHO3D_AUI   // ATOMIC BEGIN
 class AWidget;
 class AButton;
-// ATOMIC END
+#endif               // ATOMIC END
 
 const IntVector2 MOUSE_POSITION_OFFSCREEN = IntVector2(M_MIN_INT, M_MIN_INT);
 
@@ -61,10 +65,10 @@ struct TouchState
 {
     /// Return last touched UI element, used by scripting integration.
     UIElement* GetTouchedElement();
-// ATOMIC BEGIN
+#ifdef URHO3D_AUI   // ATOMIC BEGIN
      /// Return last touched AUI/TB Widget, used by scripting integration.
    AWidget* GetTouchedWidget();
-// ATOMIC END
+#endif               // ATOMIC END
 
     /// Touch (finger) ID.
     int touchID_;
@@ -78,10 +82,10 @@ struct TouchState
     float pressure_;
     /// Last touched UI element from screen joystick.
     WeakPtr<UIElement> touchedElement_;
-// ATOMIC BEGIN
-    /// Last touched UI widget
+#ifdef URHO3D_AUI   // ATOMIC BEGIN
+    /// Last touched AUI widget
     WeakPtr<AWidget> touchedWidget_;
-// ATOMIC END
+#endif              // ATOMIC END
 };
 
 /// %Input state for a joystick.
@@ -311,7 +315,7 @@ public:
     /// Return whether application window is minimized.
     bool IsMinimized() const;
 
-// ATOMIC BEGIN
+#ifdef URHO3D_AUI   // ATOMIC BEGIN
     /// Binds UIButton element to the given button
     void BindButton(AButton* touchButton, int button);
 
@@ -328,7 +332,7 @@ public:
     const float GetTouchPressure(unsigned index) { if (index >= touches_.Size()) return 0.0f; return touches_[index].pressure_; }
     AWidget* GetTouchWidget(unsigned index) { if (index >= touches_.Size()) return 0; return touches_[index].touchedWidget_; }    
 
-// ATOMIC END
+#endif  // ATOMIC END
 
 private:
     /// Initialize when screen mode initially set.

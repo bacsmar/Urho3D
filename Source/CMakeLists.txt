@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008-2019 the Urho3D project.
+# Copyright (c) 2008-2018 the Urho3D project.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -135,8 +135,10 @@ if (NOT ANDROID AND NOT ARM AND NOT WEB)
     endif ()
 endif ()
 
-# TurboBadger for AUI
-add_subdirectory (ThirdParty/TurboBadger)
+# TurboBadger only needed for AUI
+if (URHO3D_AUI)
+	add_subdirectory (ThirdParty/TurboBadger)
+endif()
 
 # Urho3D game engine library
 add_subdirectory (Urho3D)
