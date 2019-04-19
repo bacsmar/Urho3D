@@ -1,3 +1,5 @@
+#ifdef URHO3D_AUI
+
 #pragma once
 #include <../AngelScript/Script.h>
 #include <../ThirdParty/AngelScript/angelscript.h>
@@ -14,3 +16,4 @@ void RegisterUrho3DSubsystems (asIScriptEngine *engine);
 void RegisterClasses (asIScriptEngine *engine);
 }
 
+#endif

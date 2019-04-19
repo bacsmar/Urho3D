@@ -20,6 +20,8 @@
 # THE SOFTWARE.
 #
 
+if(URHO3D_AUI)
+
 # Define target name
 set (TARGET_NAME 95_Periodic)
 
@@ -43,3 +45,5 @@ setup_main_executable ()
 
 # Setup test cases
 setup_test ()
+
+endif()
