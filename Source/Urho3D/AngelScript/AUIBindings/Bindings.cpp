@@ -1,4 +1,3 @@
-#ifdef URHO3D_AUI
 #include <../ThirdParty/AngelScript/angelscript.h>
 #include <../AngelScript/APITemplates.h>
 #include "Bindings.hpp"
@@ -187,4 +186,3 @@ void RegisterClasses (asIScriptEngine *engine)
 
 }
 
-#endif
