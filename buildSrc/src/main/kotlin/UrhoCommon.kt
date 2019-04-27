@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2018 the Urho3D project.
+// Copyright (c) 2008-2019 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,19 @@
 // THE SOFTWARE.
 //
 
+import org.gradle.kotlin.dsl.embeddedKotlinVersion
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 import java.io.File
 
-const val androidToolsVersion = "3.2.0-beta04"
-const val kotlinVersion = "1.2.61"
+val kotlinVersion = embeddedKotlinVersion
+
+const val androidToolsVersion = "3.5.0-alpha11"
+const val bintrayVersion = "1.8.4"
+const val cmakeVersion = "3.10.2"
 const val junitVersion = "4.12"
-const val testRunnerVersion = "1.0.2"
 const val testEspressoVersion = "3.0.2"
+const val testRunnerVersion = "1.0.2"
 
 /**
  * Apply Urho3D custom plugin for the given platform.

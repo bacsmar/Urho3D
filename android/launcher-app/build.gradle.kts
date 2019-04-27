@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2018 the Urho3D project.
+// Copyright (c) 2008-2019 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,6 +19,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+
+import java.time.Duration
 
 plugins {
     id("com.android.application")
@@ -54,7 +56,7 @@ android {
                     addAll(listOf(
                             "URHO3D_PLAYER",
                             "URHO3D_SAMPLES")
-                            .map { "-D$it=${if (project.hasProperty(it)) project.property(it) else "1"}" }
+                            .map { "-D$it=${project.findProperty(it) ?: "1"}" }
                     )
                 }
             }
@@ -63,7 +65,7 @@ android {
             abi {
                 isEnable = project.hasProperty("ANDROID_ABI")
                 reset()
-                include(*(if (isEnable) project.property("ANDROID_ABI") as String else "")
+                include(*(project.findProperty("ANDROID_ABI") as String? ?: "")
                         .split(',').toTypedArray())
             }
         }
@@ -76,6 +78,7 @@ android {
     }
     externalNativeBuild {
         cmake {
+            setVersion(cmakeVersion)
             setPath(project.file("CMakeLists.txt"))
         }
     }
@@ -95,7 +98,7 @@ evaluationDependsOn(":android:urho3d-lib")
 
 afterEvaluate {
     tasks {
-        getByName("clean") {
+        named<Task>("clean") {
             doLast {
                 android.externalNativeBuild.cmake.path?.touch()
             }
@@ -106,6 +109,12 @@ afterEvaluate {
         tasks {
             "externalNativeBuild$config" {
                 mustRunAfter(":android:urho3d-lib:externalNativeBuild$config")
+            }
+            if (System.getenv("CI") != null) {
+                named<Task>("externalNativeBuild$config") {
+                    @Suppress("UnstableApiUsage")
+                    timeout.set(Duration.ofMinutes(15))
+                }
             }
         }
     }
