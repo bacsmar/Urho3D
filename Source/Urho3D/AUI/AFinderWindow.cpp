@@ -23,19 +23,20 @@
 #include <TurboBadger/tb_widgets.h>
 #include <TurboBadger/tb_widgets_common.h>
 
-#include <../IO/FileSystem.h>
-#include <../IO/Log.h>
-#include <../IO/File.h>
+#include "../Precompiled.h"
+#include "../IO/FileSystem.h"
+#include "../IO/Log.h"
+#include "../IO/File.h"
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "AWindow.h"
-#include "AEditField.h"
-#include "ASelectList.h"
-#include "APromptWindow.h"
-#include "AFinderWindow.h"
-#include "ASelectItem.h"
-#include "AMenuWindow.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AWindow.h"
+#include "../AUI/AEditField.h"
+#include "../AUI/ASelectList.h"
+#include "../AUI/APromptWindow.h"
+#include "../AUI/AFinderWindow.h"
+#include "../AUI/ASelectItem.h"
+#include "../AUI/AMenuWindow.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

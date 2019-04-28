@@ -173,6 +173,7 @@ void TBInlineSelect::OnInflate(const INFLATE_INFO &info)
 
 // ATOMIC BEGIN
     double m_stepsize = (double)info.node->GetValueFloat("stepsize", (float)GetStepSize());
+	SetStepSize(m_stepsize);
 // ATOMIC END
 
     TBWidget::OnInflate(info);

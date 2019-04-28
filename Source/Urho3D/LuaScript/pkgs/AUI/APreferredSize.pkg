@@ -1,0 +1,15 @@
+$#include <AUI/APreferredSize.h>
+
+enum UI_SIZE_DEP {
+    UI_SIZE_DEP_NONE                    = 0,
+    UI_SIZE_DEP_WIDTH_DEPEND_ON_HEIGHT  = 1,
+    UI_SIZE_DEP_HEIGHT_DEPEND_ON_WIDTH  = 2,
+    UI_SIZE_DEP_BOTH                    = 3
+};
+
+class APreferredSize : public RefCounted
+{
+    APreferredSize(int w = 0, int h = 0);
+    virtual ~APreferredSize();
+};
+

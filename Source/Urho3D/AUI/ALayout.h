@@ -24,7 +24,7 @@
 
 #include <TurboBadger/tb_layout.h>
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -91,7 +91,7 @@ enum UI_LAYOUT_DISTRIBUTION_POSITION
 
 
 //@ASBindGen Class ObjectType=Ref
-class ALayoutParams : public Object
+class URHO3D_API ALayoutParams : public Object
 {
     URHO3D_OBJECT(ALayoutParams, Object)
 
@@ -130,7 +130,7 @@ private:
 };
 
 //@ASBindGen Class ObjectType=Ref
-class ALayout : public AWidget
+class URHO3D_API ALayout : public AWidget
 {
     URHO3D_OBJECT(ALayout, AWidget)
 
@@ -174,7 +174,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

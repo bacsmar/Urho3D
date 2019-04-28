@@ -23,7 +23,8 @@
 #include <TurboBadger/tb_menu_window.h>
 #include <TurboBadger/tb_select.h>
 
-#include "AMenubar.h"
+#include "../Precompiled.h"
+#include "../AUI/AMenubar.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

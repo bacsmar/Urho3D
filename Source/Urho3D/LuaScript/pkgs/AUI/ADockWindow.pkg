@@ -1,0 +1,31 @@
+$#include "AUI/ADockWindow.h"
+
+class ADockWindow : public AWindow
+{
+    ADockWindow(Context* context, bool createWidget = true, const String& title = String::EMPTY, AWidget *contentptr = NULL, int minwidth = 800, int minheight=400 );
+    virtual ~ADockWindow();
+    void SetDockOrigin( String dockid );
+    AWidget *GetDockContent();
+    bool HasDockContent();
+    void Dock( AWidget *target );
+    void Show( AWidget *host, int xpos = 50, int ypos = 50 );
+    void SetAxis(UI_AXIS axis);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ADockWindow_new00
+static int tolua_AUILuaAPI_ADockWindow_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ADockWindow>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ADockWindow_new00_local
+static int tolua_AUILuaAPI_ADockWindow_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ADockWindow>(tolua_S);
+}
+
+$}
+
+

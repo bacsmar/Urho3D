@@ -27,8 +27,8 @@
 #include "../Core/Object.h"
 #include "../Graphics/Graphics.h"
 
-#include "AEnums.h"
-#include "ABatch.h"
+#include "../AUI/AEnums.h"
+#include "../AUI/ABatch.h"
 
 namespace Urho3D
 {
@@ -47,7 +47,7 @@ class MessageBox;
 
 //used to be class URHO3D_API AUI : public Object, private tb::TBWidgetListener
 //@ASBindGen Class ObjectType=Ref
-class AUI : public Object, private tb::TBWidgetListener
+class URHO3D_API AUI : public Object, private tb::TBWidgetListener
 {
     friend class AView;
 
@@ -149,11 +149,11 @@ private:
     void HandleExitRequested(StringHash eventType, VariantMap& eventData);
 
     // TBWidgetListener
-    void OnWidgetDelete(tb::TBWidget *widget);
-    bool OnWidgetDying(tb::TBWidget *widget);    
-    void OnWidgetFocusChanged(tb::TBWidget *widget, bool focused);
-    bool OnWidgetInvokeEvent(tb::TBWidget *widget, const tb::TBWidgetEvent &ev);
-    void OnWindowClose(tb::TBWindow *window);
+    void OnWidgetDelete(tb::TBWidget *widget) override;
+    bool OnWidgetDying(tb::TBWidget *widget) override;    
+    void OnWidgetFocusChanged(tb::TBWidget *widget, bool focused) override;
+    bool OnWidgetInvokeEvent(tb::TBWidget *widget, const tb::TBWidgetEvent &ev) override;
+    void OnWindowClose(tb::TBWindow *window) override;
 
     /// Add a AView to UI subsystem, happens immediately at AView creation
     void AddAView(AView* uiView);

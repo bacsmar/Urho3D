@@ -1,0 +1,30 @@
+$#include "AUI/AComponent.h"
+
+class AComponent : public Component
+{
+     AComponent(Context* context);
+     virtual ~AComponent();
+     void SetAView(AView* view);
+     AView* GetAView() const { return uiView_; }
+     Viewport* GetViewport() const;
+     void SetStaticModel(StaticModel* staticModel);
+     StaticModel* GetStaticModel() const;
+     bool CalcAViewPos(const IntVector2& screenPos, IntVector2& viewPos);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AComponent_new00
+static int tolua_AUILuaAPI_AComponent_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AComponent>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AComponent_new00_local
+static int tolua_AUILuaAPI_AComponent_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AComponent>(tolua_S);
+}
+
+$}
+

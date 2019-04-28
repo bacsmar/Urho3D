@@ -20,17 +20,18 @@
 // THE SOFTWARE.
 //
 
+#include "../Precompiled.h"
 #include "../Core/Context.h"
 #include "../IO/Log.h"
 #include "../Input/InputEvents.h"
 
-#include "AEvents.h"
-#include "AUI.h"
-#include "AWidget.h"
-#include "ALayout.h"
-#include "AFontDescription.h"
-#include "AView.h"
-#include "ASelectItem.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AWidget.h"
+#include "../AUI/ALayout.h"
+#include "../AUI/AFontDescription.h"
+#include "../AUI/AView.h"
+#include "../AUI/ASelectItem.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 extern const char* AUI_CATEGORY;  /// for angelscript binding

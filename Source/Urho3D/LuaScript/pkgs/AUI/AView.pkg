@@ -1,0 +1,23 @@
+$#include "AUI/AView.h"
+
+class AView : public AWidget
+{
+    AView(Context* context);
+    virtual ~AView();
+};
+
+
+${
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AView_new00
+static int tolua_AUILuaAPI_AView_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AView>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AView_new00_local
+static int tolua_AUILuaAPI_AView_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AView>(tolua_S);
+}
+$}
+

@@ -24,13 +24,14 @@
 
 using namespace tb;
 
+#include "../Precompiled.h"
 #include "../Core/Timer.h"
 #include "../Input/Input.h"
 #include "../Input/InputEvents.h"
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "AView.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AView.h"
 
 namespace Urho3D
 {
@@ -71,7 +72,7 @@ bool AView::FilterDefaultInput(bool keyEvent) const
     if (!keyEvent && !GetMouseEnabled())
         return true;
 
-    if (keyEvent && !GetKeyboardEnabled() || ui_->keyboardDisabled_)
+    if ((keyEvent && !GetKeyboardEnabled()) || ui_->keyboardDisabled_)
         return true;
 
     return false;

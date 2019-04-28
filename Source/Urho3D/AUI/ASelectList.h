@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "AWidget.h"
-#include "ASelectItem.h"
+#include "../AUI/AWidget.h"
+#include "../AUI/ASelectItem.h"
 
 namespace tb
 {
@@ -34,7 +34,7 @@ namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class ASelectList : public AWidget
+class URHO3D_API ASelectList : public AWidget
 {
     URHO3D_OBJECT(ASelectList, AWidget)
 
@@ -54,7 +54,7 @@ public:
 
     //@ASBindGen Function
     void SetValue(int value);
-    double GetValue();
+    double GetValue() override;
 
     //@ASBindGen Function
     String GetHoverItemID();
@@ -114,7 +114,7 @@ protected:
 
     void HandleUIUpdate(StringHash eventType, VariantMap& eventData);
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

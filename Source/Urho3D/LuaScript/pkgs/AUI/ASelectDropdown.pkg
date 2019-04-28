@@ -1,0 +1,25 @@
+$#include "AUI/ASelectDropdown.h"
+
+class ASelectDropdown : public AButton
+{
+    ASelectDropdown(Context* context, bool createWidget = true);
+    virtual ~ASelectDropdown();
+    void SetSource(ASelectItemSource* source);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectDropdown_new00
+static int tolua_AUILuaAPI_ASelectDropdown_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASelectDropdown>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectDropdown_new00_local
+static int tolua_AUILuaAPI_ASelectDropdown_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASelectDropdown>(tolua_S);
+}
+
+$}
+

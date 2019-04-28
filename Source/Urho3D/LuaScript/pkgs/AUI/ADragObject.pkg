@@ -1,0 +1,25 @@
+$#include "AUI/ADragObject.h"
+
+class ADragObject : public Object
+{
+    ADragObject(Context* context, Object* object = NULL, const String& text = String::EMPTY, const String& icon = String::EMPTY);
+    virtual ~ADragObject();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ADragObject_new00
+static int tolua_AUILuaAPI_ADragObject_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ADragObject>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ADragObject_new00_local
+static int tolua_AUILuaAPI_ADragObject_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ADragObject>(tolua_S);
+}
+
+$}
+
+

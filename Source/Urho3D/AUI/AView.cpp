@@ -22,15 +22,16 @@
 
 #include <TurboBadger/tb_widgets.h>
 
+#include "../Precompiled.h"
 #include "../IO/Log.h"
 #include "../Graphics/Graphics.h"
 #include "../Graphics/VertexBuffer.h"
 #include "../Graphics/Texture2D.h"
 #include "../Input/InputEvents.h"
 
-#include "AUI.h"
-#include "AView.h"
-#include "ARenderer.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AView.h"
+#include "../AUI/ARenderer.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

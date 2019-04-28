@@ -1,0 +1,9 @@
+$#include "AUI/ABatch.h"
+
+class ABatch
+{
+    ABatch();
+};
+
+
+

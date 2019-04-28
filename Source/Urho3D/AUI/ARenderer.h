@@ -25,7 +25,7 @@
 #include <TurboBadger/tb_types.h>
 #include <TurboBadger/renderers/tb_renderer_batcher.h>
 #include "../Core/Context.h"
-#include "ABatch.h"
+#include "../AUI/ABatch.h"
 
 namespace tb
 {
@@ -38,7 +38,7 @@ namespace Urho3D
 
 class AUI;
 
-class ARenderer : public tb::TBRendererBatcher
+class URHO3D_API ARenderer : public tb::TBRendererBatcher
 {
     friend class AView;
 

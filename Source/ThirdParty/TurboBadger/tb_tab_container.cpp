@@ -40,9 +40,9 @@ PreferredSize TBTabLayout::OnCalculatePreferredContentSize(const SizeConstraints
     // It is only the content that should do that. The tabs
     // will scroll anyway.
     if (GetAxis() == AXIS_X)
-        ps.min_w = MIN(ps.min_w, 1);
+        ps.min_w = TBMIN(ps.min_w, 1);
     else
-        ps.min_h = MIN(ps.min_h, 1);
+        ps.min_h = TBMIN(ps.min_h, 1);
     return ps;
 }
 
@@ -50,9 +50,9 @@ PreferredSize TBTabLayout::OnCalculatePreferredContentSize(const SizeConstraints
 
 TBTabContainer::TBTabContainer()
     : m_need_page_update(true)
+    , m_tab_layout(this)
     , m_current_page(-1)
     , m_align(TB_ALIGN_TOP)
-    , m_tab_layout(this)
 {
     AddChild(&m_root_layout);
     // Put the tab layout on top of the content in Z order so their skin can make

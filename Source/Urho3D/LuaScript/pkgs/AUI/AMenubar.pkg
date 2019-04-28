@@ -1,0 +1,42 @@
+$#include "AUI/AMenubar.h"
+
+class AMenuItem : public ASelectItem
+{
+    AMenuItem(Context* context, const String& str = String::EMPTY, const String& id = String::EMPTY, const String& shortcut = String::EMPTY, const String& skinBg = String::EMPTY);
+    virtual ~AMenuItem();
+};
+
+class AMenuItemSource : public ASelectItemSource
+{
+    AMenuItemSource(Context* context);
+    virtual ~AMenuItemSource();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMenuItem_new00
+static int tolua_AUILuaAPI_AMenuItem_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AMenuItem>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMenuItem_new00_local
+static int tolua_AUILuaAPI_AMenuItem_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AMenuItem>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMenuItemSource_new00
+static int tolua_AUILuaAPI_AMenuItemSource_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AMenuItemSource>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMenuItemSource_new00_local
+static int tolua_AUILuaAPI_AMenuItemSource_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AMenuItemSource>(tolua_S);
+}
+
+$}
+

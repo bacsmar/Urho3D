@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "AWidget.h"
-#include "ASelectList.h"
+#include "../AUI/AWidget.h"
+#include "../AUI/ASelectList.h"
 
 namespace Urho3D
 {
@@ -32,7 +32,7 @@ class ListViewItemSource;
 class ListViewItem;
 
 //@ASBindGen Class ObjectType=Ref
-class AListView : public AWidget
+class URHO3D_API AListView : public AWidget
 {
     URHO3D_OBJECT(AListView, AWidget);
 
@@ -101,7 +101,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

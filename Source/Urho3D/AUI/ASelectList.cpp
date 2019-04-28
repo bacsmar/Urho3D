@@ -22,13 +22,17 @@
 
 #include <TurboBadger/tb_select.h>
 
+#include "../Precompiled.h"
 #include "../IO/Log.h"
 #include "../Input/Input.h"
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "ADragDrop.h"
-#include "ASelectList.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/ASelectList.h"
+
+#if 0   // HELP ATOMIC -- removed ADragDrop for now
+#include "../AUI/ADragDrop.h"
+#endif
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"
@@ -268,6 +272,8 @@ void ASelectList::HandleUIUpdate(StringHash eventType, VariantMap& eventData)
     if (!widget_)
         return;
 
+#if 0   // HELP ATOMIC -- removed ADragDrop for now
+
     // if we have a drag and drop item, auto scroll if top/bottom
 
     ADragDrop* dragDrop = GetSubsystem<ADragDrop>();
@@ -306,6 +312,7 @@ void ASelectList::HandleUIUpdate(StringHash eventType, VariantMap& eventData)
         }
 
     }
+#endif
 
 }
 
@@ -315,6 +322,7 @@ bool ASelectList::OnEvent(const tb::TBWidgetEvent &ev)
     {
         GetTBSelectList()->SetFocus(WIDGET_FOCUS_REASON_POINTER);
     }
+#if 0   // HELP ATOMIC -- removed ADragDrop for now
     if (ev.type == EVENT_TYPE_POINTER_MOVE)
     {
         ADragDrop* dragDrop = GetSubsystem<ADragDrop>();
@@ -322,6 +330,7 @@ bool ASelectList::OnEvent(const tb::TBWidgetEvent &ev)
         if (dragDrop->GetDraggingObject())
             return true;
     }
+#endif
     return AWidget::OnEvent(ev);
 }
 

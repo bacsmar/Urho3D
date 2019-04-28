@@ -1,0 +1,28 @@
+$#include "AUI/AColorWheel.h"
+
+class AColorWheel : public AWidget
+{
+    AColorWheel(Context* context, bool createWidget = true);
+    virtual ~AColorWheel();
+
+    float GetHue();
+    float GetSaturation();
+    void SetHueSaturation ( float hue, float saturation );
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AColorWheel_new00
+static int tolua_AUILuaAPI_AColorWheel_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AColorWheel>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AColorWheel_new00_local
+static int tolua_AUILuaAPI_AColorWheel_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AColorWheel>(tolua_S);
+}
+
+$}
+

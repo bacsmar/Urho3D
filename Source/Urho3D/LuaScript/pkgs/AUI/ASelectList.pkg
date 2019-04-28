@@ -1,0 +1,46 @@
+$#include "AUI/ASelectList.h"
+
+class ASelectList : public AWidget
+{
+    ASelectList(Context* context, bool createWidget = true);
+    virtual ~ASelectList();
+    void SetFilter(const String& filter);
+    void SetSource(ASelectItemSource* source);
+    void InvalidateList();
+    void SetValue(int value);
+    double GetValue();
+    String GetHoverItemID();
+    String GetSelectedItemID();
+    void ScrollToSelectedItem();
+    String GetItemID(int index);
+    bool GetItemSelected(int index);
+    int GetNumItems() const;
+    void SelectItem(int index, bool selected = true);
+    void SelectNextItem();
+    void SelectPreviousItem();
+    void SetAListView(bool value);
+    String GetItemString(int index);
+    String GetSelectedItemString();
+    bool AddItem(int index, const String& str, const String& id = String::EMPTY );
+    void DeleteItem(int index);
+    void DeleteAllItems();
+    int FindId ( int idnum );
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectList_new00
+static int tolua_AUILuaAPI_ASelectList_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASelectList>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectList_new00_local
+static int tolua_AUILuaAPI_ASelectList_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASelectList>(tolua_S);
+}
+
+$}
+
+

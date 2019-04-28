@@ -1,0 +1,33 @@
+$#include "AUI/AMessageWindow.h"
+
+enum UI_MESSAGEWINDOW_SETTINGS
+{
+    UI_MESSAGEWINDOW_SETTINGS_NONE = 0,
+    UI_MESSAGEWINDOW_SETTINGS_OK = 1,
+    UI_MESSAGEWINDOW_SETTINGS_OK_CANCEL = 2,
+    UI_MESSAGEWINDOW_SETTINGS_YES_NO = 3
+};
+
+class AMessageWindow : public AWindow
+{
+    AMessageWindow(Context* context, AWidget* target = NULL, const String& id = String::EMPTY, bool createWidget = true);
+    virtual ~AMessageWindow();
+    void Show(const String& title, const String& message, UI_MESSAGEWINDOW_SETTINGS settings, bool dimmer, int width, int height);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMessageWindow_new00
+static int tolua_AUILuaAPI_AMessageWindow_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AMessageWindow>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMessageWindow_new00_local
+static int tolua_AUILuaAPI_AMessageWindow_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AMessageWindow>(tolua_S);
+}
+
+$}
+

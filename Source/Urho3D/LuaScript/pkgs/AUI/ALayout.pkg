@@ -1,0 +1,85 @@
+$#include "AUI/ALayout.h"
+
+enum UI_LAYOUT_SIZE
+{
+    UI_LAYOUT_SIZE_GRAVITY = 0,
+    UI_LAYOUT_SIZE_PREFERRED = 1,
+    UI_LAYOUT_SIZE_AVAILABLE = 2
+};
+
+enum UI_LAYOUT_DISTRIBUTION
+{
+    UI_LAYOUT_DISTRIBUTION_PREFERRED = 0,
+    UI_LAYOUT_DISTRIBUTION_AVAILABLE = 1,
+    UI_LAYOUT_DISTRIBUTION_GRAVITY = 2
+};
+
+enum UI_LAYOUT_POSITION
+{
+    UI_LAYOUT_POSITION_CENTER = 0,
+    UI_LAYOUT_POSITION_LEFT_TOP = 1,
+    UI_LAYOUT_POSITION_RIGHT_BOTTOM = 2,
+    UI_LAYOUT_POSITION_GRAVITY = 3 
+};
+
+enum UI_LAYOUT_DISTRIBUTION_POSITION
+{
+    UI_LAYOUT_DISTRIBUTION_POSITION_CENTER = 0,
+    UI_LAYOUT_DISTRIBUTION_POSITION_LEFT_TOP = 1,
+    UI_LAYOUT_DISTRIBUTION_POSITION_RIGHT_BOTTOM = 2
+};
+
+
+class ALayoutParams : public Object
+{
+    ALayoutParams(Context* context);
+    virtual ~ALayoutParams();
+    void SetWidth(int width) { params_.SetWidth(width); }
+    void SetHeight(int height) { params_.SetHeight(height); }
+    void SetMinWidth(int width) { params_.min_w = width; }
+    void SetMinHeight(int height) { params_.min_h = height; }
+    void SetMaxWidth(int width) { params_.max_w = width; }
+    void SetMaxHeight(int height) { params_.max_h = height; }
+};
+
+class ALayout : public AWidget
+{
+    ALayout(Context* context, UI_AXIS axis = UI_AXIS_X, bool createWidget = true);
+    virtual ~ALayout();
+    void SetLayoutSize(UI_LAYOUT_SIZE size);
+    void SetLayoutPosition(UI_LAYOUT_POSITION position);
+    void SetLayoutDistribution(UI_LAYOUT_DISTRIBUTION distribution);
+    void SetLayoutDistributionPosition(UI_LAYOUT_DISTRIBUTION_POSITION distribution_pos);
+    void SetLayoutConfig ( const String &settings );
+    String GetLayoutConfig ();  /// return the state of the Layout
+};
+
+${
+
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ALayoutParams_new00
+static int tolua_AUILuaAPI_ALayoutParams_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ALayoutParams>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ALayoutParams_new00_local
+static int tolua_AUILuaAPI_ALayoutParams_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ALayoutParams>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ALayout_new00
+static int tolua_AUILuaAPI_ALayout_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ALayout>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ALayout_new00_local
+static int tolua_AUILuaAPI_ALayout_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ALayout>(tolua_S);
+}
+$}
+
+

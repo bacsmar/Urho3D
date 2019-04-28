@@ -1,0 +1,39 @@
+$#include "AUI/ASceneView.h"
+
+class ASceneView : public AWidget
+{
+    ASceneView(Context* context, bool createWidget = true);
+    virtual ~ASceneView();
+    void OnResize(const IntVector2& newSize);
+    void SetView(Scene* scene, Camera* camera);
+    void SetFormat(unsigned format);
+    void SetAutoUpdate(bool enable);
+    void QueueUpdate();
+    unsigned GetFormat() const { return rttFormat_; }
+    bool GetAutoUpdate() const { return autoUpdate_; }
+    Scene* GetScene() const;
+    Node* GetCameraNode() const;
+    Texture2D* GetRenderTexture() const;
+    Texture2D* GetDepthTexture() const;
+    Viewport* GetViewport() const;
+    void SetResizeRequired() {resizeRequired_ = true;}
+    const IntVector2& GetSize() const { return size_; }
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASceneView_new00
+static int tolua_AUILuaAPI_ASceneView_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASceneView>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASceneView_new00_local
+static int tolua_AUILuaAPI_ASceneView_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASceneView>(tolua_S);
+}
+
+$}
+
+

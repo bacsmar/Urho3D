@@ -24,11 +24,13 @@
 #include <TurboBadger/tb_widgets_common.h>
 #include <TurboBadger/tb_editfield.h>
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "AEditField.h"
-
+#include "../Precompiled.h"
 #include "../Input/Input.h"
+
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AEditField.h"
+
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

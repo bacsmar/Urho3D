@@ -23,13 +23,13 @@
 
 #pragma once
 
-#include "AWidget.h"
-
-#include <../Graphics/Texture2D.h>
-#include <../Graphics/Viewport.h>
-#include <../Scene/Scene.h>
-
 #include <TurboBadger/tb_widgets.h>
+
+#include "../Graphics/Texture2D.h"
+#include "../Graphics/Viewport.h"
+#include "../Scene/Scene.h"
+
+#include "../AUI/AWidget.h"
 
 using namespace tb;
 
@@ -39,7 +39,7 @@ namespace Urho3D
 class ASceneView;
 class ARenderer;
 
-class SceneViewWidget : public tb::TBWidget
+class URHO3D_API SceneViewWidget : public tb::TBWidget
 {
     friend class ASceneView;
 
@@ -60,7 +60,7 @@ private:
 
 
 //@ASBindGen Class ObjectType=Ref
-class ASceneView : public AWidget
+class URHO3D_API ASceneView : public AWidget
 {
 
     friend class SceneViewWidget;
@@ -145,7 +145,7 @@ protected:
 
     IntVector2 size_;
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

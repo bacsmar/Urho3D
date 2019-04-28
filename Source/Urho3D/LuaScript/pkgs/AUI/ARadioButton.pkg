@@ -1,0 +1,25 @@
+$#include "AUI/ARadioButton.h"
+
+class ARadioButton : public AWidget
+{
+    ARadioButton(Context* context, bool createWidget = true);
+    virtual ~ARadioButton();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ARadioButton_new00
+static int tolua_AUILuaAPI_ARadioButton_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ARadioButton>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ARadioButton_new00_local
+static int tolua_AUILuaAPI_ARadioButton_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ARadioButton>(tolua_S);
+}
+
+$}
+
+

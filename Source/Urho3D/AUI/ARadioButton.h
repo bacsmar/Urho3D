@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class ARadioButton : public AWidget
+class URHO3D_API ARadioButton : public AWidget
 {
     URHO3D_OBJECT(ARadioButton, AWidget)
 
@@ -45,7 +45,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

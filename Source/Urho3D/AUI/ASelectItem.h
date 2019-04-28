@@ -34,7 +34,7 @@ namespace Urho3D
 class ASelectItemSource;
 
 //@ASBindGen Class ObjectType=Ref
-class ASelectItem : public Object
+class URHO3D_API ASelectItem : public Object
 {
     URHO3D_OBJECT(ASelectItem, Object)
 
@@ -77,7 +77,7 @@ protected:
 };
 
 //@ASBindGen Class ObjectType=Ref
-class ASelectItemSource : public Object
+class URHO3D_API ASelectItemSource : public Object
 {
     URHO3D_OBJECT(ASelectItemSource, Object)
 

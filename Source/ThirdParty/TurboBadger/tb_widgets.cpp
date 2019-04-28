@@ -96,10 +96,10 @@ TBWidget::TBWidget()
     , m_scroller(nullptr)
     , m_long_click_timer(nullptr)
     , m_delegate(nullptr)
-    , m_packed_init(0)
     , needCapturing_(true)
     , captured_(false)
     , shortened_(false)
+    , m_packed_init(0)
 {
 #ifdef TB_RUNTIME_DEBUG_INFO
     last_measure_time = 0;
@@ -285,7 +285,7 @@ void TBWidget::SetAutoFocusState(bool on)
 
 void TBWidget::SetOpacity(float opacity)
 {
-    opacity = Clamp(opacity, 0.f, 1.f);
+    opacity = TBClamp(opacity, 0.f, 1.f);
     if (m_opacity == opacity)
         return;
     if (opacity == 0) // Invalidate after setting opacity 0 will do nothing.
@@ -296,7 +296,7 @@ void TBWidget::SetOpacity(float opacity)
 
 void TBWidget::SetDisabledOpacity(float opacity)
 {
-    opacity = Clamp(opacity, -1.f, 1.f);
+    opacity = TBClamp(opacity, -1.f, 1.f);
     if (m_disabledOpacity == opacity)
         return;
     if (opacity == 0) // Invalidate after setting opacity 0 will do nothing.
@@ -1120,14 +1120,14 @@ PreferredSize TBWidget::OnCalculatePreferredContentSize(const SizeConstraints &c
                 ps.max_h = 0;
         }
         PreferredSize child_ps = child->GetPreferredSize(inner_sc);
-        ps.pref_w = MAX(ps.pref_w, child_ps.pref_w);
-        ps.pref_h = MAX(ps.pref_h, child_ps.pref_h);
-        ps.min_w = MAX(ps.min_w, child_ps.min_w);
-        ps.min_h = MAX(ps.min_h, child_ps.min_h);
+        ps.pref_w = TBMAX(ps.pref_w, child_ps.pref_w);
+        ps.pref_h = TBMAX(ps.pref_h, child_ps.pref_h);
+        ps.min_w = TBMAX(ps.min_w, child_ps.min_w);
+        ps.min_h = TBMAX(ps.min_h, child_ps.min_h);
         if (apply_max_w)
-            ps.max_w = MAX(ps.max_w, child_ps.max_w);
+            ps.max_w = TBMAX(ps.max_w, child_ps.max_w);
         if (apply_max_h)
-            ps.max_h = MAX(ps.max_h, child_ps.max_h);
+            ps.max_h = TBMAX(ps.max_h, child_ps.max_h);
         ps.size_dependency |= child_ps.size_dependency;
     }
 
@@ -1172,12 +1172,12 @@ PreferredSize TBWidget::OnCalculatePreferredSize(const SizeConstraints &constrai
         if (e->GetMinWidth() != SKIN_VALUE_NOT_SPECIFIED)
             ps.min_w = e->GetMinWidth();
         else
-            ps.min_w = MAX(ps.min_w, e->GetIntrinsicMinWidth());
+            ps.min_w = TBMAX(ps.min_w, e->GetIntrinsicMinWidth());
 
         if (e->GetMinHeight() != SKIN_VALUE_NOT_SPECIFIED)
             ps.min_h = e->GetMinHeight();
         else
-            ps.min_h = MAX(ps.min_h, e->GetIntrinsicMinHeight());
+            ps.min_h = TBMAX(ps.min_h, e->GetIntrinsicMinHeight());
 
         if (e->GetMaxWidth() != SKIN_VALUE_NOT_SPECIFIED)
             ps.max_w = e->GetMaxWidth();
@@ -1190,8 +1190,8 @@ PreferredSize TBWidget::OnCalculatePreferredSize(const SizeConstraints &constrai
             ps.max_h += e->padding_top + e->padding_bottom;
 
         // Sanitize result
-        ps.pref_w = MAX(ps.pref_w, ps.min_w);
-        ps.pref_h = MAX(ps.pref_h, ps.min_h);
+        ps.pref_w = TBMAX(ps.pref_w, ps.min_w);
+        ps.pref_h = TBMAX(ps.pref_h, ps.min_h);
     }
     return ps;
 }
@@ -1239,10 +1239,10 @@ PreferredSize TBWidget::GetPreferredSize(const SizeConstraints &in_constraints)
         LP_OVERRIDE(pref_h);
 
         // Sanitize results
-        m_cached_ps.max_w = MAX(m_cached_ps.max_w, m_cached_ps.min_w);
-        m_cached_ps.max_h = MAX(m_cached_ps.max_h, m_cached_ps.min_h);
-        m_cached_ps.pref_w = MAX(m_cached_ps.pref_w, m_cached_ps.min_w);
-        m_cached_ps.pref_h = MAX(m_cached_ps.pref_h, m_cached_ps.min_h);
+        m_cached_ps.max_w = TBMAX(m_cached_ps.max_w, m_cached_ps.min_w);
+        m_cached_ps.max_h = TBMAX(m_cached_ps.max_h, m_cached_ps.min_h);
+        m_cached_ps.pref_w = TBMAX(m_cached_ps.pref_w, m_cached_ps.min_w);
+        m_cached_ps.pref_h = TBMAX(m_cached_ps.pref_h, m_cached_ps.min_h);
     }
     return m_cached_ps;
 }
@@ -1326,10 +1326,12 @@ float TBWidget::CalculateOpacityInternal(WIDGET_STATE state, TBSkinElement *skin
     if (skin_element)
         opacity *= skin_element->opacity;
     if (state & WIDGET_STATE_DISABLED)
+    {
         if (m_disabledOpacity < 0.0f)
             opacity *= g_tb_skin->GetDefaultDisabledOpacity();
         else
             opacity *= m_disabledOpacity;
+    }
     return opacity;
 }
 
@@ -1704,8 +1706,8 @@ void TBWidget::HandlePanningOnMove(int x, int y)
     const int dx = pointer_down_widget_x - x;
     const int dy = pointer_down_widget_y - y;
     const int threshold = TBSystem::GetPanThreshold();
-    const bool maybe_start_panning_x = ABS(dx) >= threshold;
-    const bool maybe_start_panning_y = ABS(dy) >= threshold;
+    const bool maybe_start_panning_x = TBABS(dx) >= threshold;
+    const bool maybe_start_panning_y = TBABS(dy) >= threshold;
 
     // Do panning, or attempt starting panning (we don't know if any widget is scrollable yet)
     if (captured_widget->m_packed.is_panning || maybe_start_panning_x || maybe_start_panning_y)

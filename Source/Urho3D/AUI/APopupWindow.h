@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class APopupWindow: public AWidget
+class URHO3D_API APopupWindow: public AWidget
 {
     URHO3D_OBJECT(APopupWindow, AWidget)
 
@@ -51,7 +51,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

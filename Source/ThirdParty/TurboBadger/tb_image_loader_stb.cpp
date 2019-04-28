@@ -84,7 +84,7 @@ TBImageLoader *TBImageLoader::CreateFromFile(const char *filename)
                     stbi_image_free(img_data);
             }
 
-            delete data;
+            delete [] data;
         }
         delete file;
     }

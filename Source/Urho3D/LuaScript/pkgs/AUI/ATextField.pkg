@@ -1,0 +1,23 @@
+$#include "AUI/ATextField.h"
+
+class ATextField : public AWidget
+{
+    ATextField(Context* context, bool createWidget = true);
+    virtual ~ATextField();
+    void SetTextAlign(UI_TEXT_ALIGN align);
+};
+
+${
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ATextField_new00
+static int tolua_AUILuaAPI_ATextField_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ATextField>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ATextField_new00_local
+static int tolua_AUILuaAPI_ATextField_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ATextField>(tolua_S);
+}
+$}
+

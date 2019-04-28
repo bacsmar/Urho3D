@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class AImageWidget : public AWidget
+class URHO3D_API AImageWidget : public AWidget
 {
     URHO3D_OBJECT(AImageWidget, AWidget)
 
@@ -53,7 +53,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

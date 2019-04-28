@@ -23,7 +23,7 @@
 #pragma once
 
 #include <TurboBadger/tb_widgets.h>
-#include <../Container/RefCounted.h>
+#include "../Container/RefCounted.h"
 
 namespace tb
 {
@@ -46,7 +46,7 @@ enum UI_SIZE_DEP {
     UI_SIZE_DEP_BOTH                    = 3 //  tb::SIZE_DEP_BOTH
 };
 
-class APreferredSize : public RefCounted
+class URHO3D_API APreferredSize : public RefCounted
 {
     friend class AWidget;
 

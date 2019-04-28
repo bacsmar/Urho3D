@@ -23,12 +23,13 @@
 #include <TurboBadger/tb_widgets.h>
 #include <TurboBadger/tb_widgets_common.h>
 
-#include <../IO/Log.h>
+#include "../Precompiled.h"
+#include "../IO/Log.h"
 
-#include "AEvents.h"
-#include "AUI.h"
-#include "ALayout.h"
-#include "ASlider.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AUI.h"
+#include "../AUI/ALayout.h"
+#include "../AUI/ASlider.h"
 
 using namespace tb;
 

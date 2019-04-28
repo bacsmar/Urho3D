@@ -24,7 +24,7 @@
 
 #include <TurboBadger/tb_message_window.h>
 
-#include "AWindow.h"
+#include "../AUI/AWindow.h"
 
 namespace Urho3D
 {
@@ -40,7 +40,7 @@ enum UI_MESSAGEWINDOW_SETTINGS
 
 
 //@ASBindGen Class ObjectType=Ref
-class AMessageWindow : public AWindow
+class URHO3D_API AMessageWindow : public AWindow
 {
     URHO3D_OBJECT(AMessageWindow, AWindow)
 
@@ -60,7 +60,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

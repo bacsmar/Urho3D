@@ -1,0 +1,25 @@
+$#include "AUI/ASeparator.h"
+
+class ASeparator : public AWidget
+{
+    ASeparator(Context* context, bool createWidget = true);
+    virtual ~ASeparator();
+};
+
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASeparator_new00
+static int tolua_AUILuaAPI_ASeparator_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASeparator>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASeparator_new00_local
+static int tolua_AUILuaAPI_ASeparator_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASeparator>(tolua_S);
+}
+
+$}
+

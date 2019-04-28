@@ -76,7 +76,7 @@ void TBInlineSelect::SetLimits(double min, double max)
 
 void TBInlineSelect::SetValueInternal(double value, bool update_text)
 {
-    value = CLAMP(value, m_min, m_max);
+    value = TBCLAMP(value, m_min, m_max);
     if (value == m_value)
         return;
     m_value = value;

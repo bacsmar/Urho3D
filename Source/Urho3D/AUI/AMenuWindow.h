@@ -24,7 +24,7 @@
 
 #include <TurboBadger/tb_select_item.h>
 #include <TurboBadger/tb_menu_window.h>
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -32,7 +32,7 @@ namespace Urho3D
 class ASelectItemSource;
 
 //@ASBindGen Class ObjectType=Ref
-class AMenuWindow : public AWidget
+class URHO3D_API AMenuWindow : public AWidget
 {
     URHO3D_OBJECT(AMenuWindow, AWidget)
 
@@ -61,7 +61,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

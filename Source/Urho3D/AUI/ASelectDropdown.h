@@ -22,14 +22,14 @@
 
 #pragma once
 
-#include "ASelectItem.h"
-#include "AButton.h"
+#include "../AUI/ASelectItem.h"
+#include "../AUI/AButton.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class ASelectDropdown : public AButton
+class URHO3D_API ASelectDropdown : public AButton
 {
     URHO3D_OBJECT(ASelectDropdown, AButton)
 
@@ -49,7 +49,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

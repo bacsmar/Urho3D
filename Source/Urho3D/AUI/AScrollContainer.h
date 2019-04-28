@@ -24,7 +24,7 @@
 
 #include <TurboBadger/tb_scroll_container.h>
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -45,7 +45,7 @@ enum UI_SCROLL_MODE {
 
 
 //@ASBindGen Class ObjectType=Ref
-class AScrollContainer : public AWidget
+class URHO3D_API AScrollContainer : public AWidget
 {
     URHO3D_OBJECT(AScrollContainer, AWidget)
 
@@ -76,7 +76,7 @@ public:
     void ScrollTo(int x, int y);
 
     /// This is overriden to add children to the widget that is being scrolled rather than the container
-    virtual void AddChild(AWidget* child);
+    virtual void AddChild(AWidget* child) override;
 
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)
@@ -85,7 +85,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

@@ -24,11 +24,12 @@
 #include <TurboBadger/tb_widgets_common.h>
 #include <TurboBadger/tb_toggle_container.h>
 
-#include <../IO/Log.h>
+#include "../Precompiled.h"
+#include "../IO/Log.h"
 
-#include "AEvents.h"
-#include "AUI.h"
-#include "ASection.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AUI.h"
+#include "../AUI/ASection.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

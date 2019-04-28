@@ -1,0 +1,26 @@
+$#include "AUI/APopupWindow.h"
+
+class APopupWindow: public AWidget
+{
+    APopupWindow(Context* context, bool createWidget = true, AWidget* target = nullptr, const String& id = String::EMPTY);
+    virtual ~APopupWindow();
+    void Show(int x = -1, int y = -1);
+    void Close();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_APopupWindow_new00
+static int tolua_AUILuaAPI_APopupWindow_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<APopupWindow>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_APopupWindow_new00_local
+static int tolua_AUILuaAPI_APopupWindow_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<APopupWindow>(tolua_S);
+}
+
+$}
+

@@ -148,7 +148,7 @@ bool TBBFRenderer::Load(const char *filename, int size)
     {
         if (strcmp(n->GetName(), "size") == 0)
         {
-            if (!size_node || ABS(m_size - n->GetValue().GetInt()) < ABS(m_size - size_node->GetValue().GetInt()))
+            if (!size_node || TBABS(m_size - n->GetValue().GetInt()) < TBABS(m_size - size_node->GetValue().GetInt()))
                 size_node = n;
         }
     }

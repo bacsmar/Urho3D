@@ -1,0 +1,28 @@
+$#include "AUI/AFontDescription.h"
+
+class AFontDescription : public Object
+{
+    AFontDescription(Context* context);
+    virtual ~AFontDescription();
+    int GetSize();
+    void SetId(const String& id);
+    void SetSize(int size);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AFontDescription_new00
+static int tolua_AUILuaAPI_AFontDescription_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AFontDescription>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AFontDescription_new00_local
+static int tolua_AUILuaAPI_AFontDescription_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AFontDescription>(tolua_S);
+}
+
+$}
+
+

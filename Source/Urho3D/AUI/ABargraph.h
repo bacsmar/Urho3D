@@ -22,15 +22,15 @@
 
 #pragma once
 
-#include "AWidget.h"
-
 #include "../Input/Input.h"
+#include "../AUI/AWidget.h"
+
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class ABargraph : public AWidget
+class URHO3D_API ABargraph : public AWidget
 {
     URHO3D_OBJECT(ABargraph, AWidget)
 
@@ -50,7 +50,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

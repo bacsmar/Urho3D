@@ -33,13 +33,13 @@ TBTextFragmentContent *TBTextFragmentContentFactory::CreateFragmentContent(const
         return new TBTextFragmentContentHR(100, 2);
     else if (strncmp(text, "<u>", text_len) == 0)
         return new TBTextFragmentContentUnderline();
-    else if (strncmp(text, "<color ", MIN(text_len, 7)) == 0)
+    else if (strncmp(text, "<color ", TBMIN(text_len, 7)) == 0)
     {
         TBColor color;
         color.SetFromString(text + 7, text_len - 8);
         return new TBTextFragmentContentTextColor(color);
     }
-    else if (strncmp(text, "</", MIN(text_len, 2)) == 0)
+    else if (strncmp(text, "</", TBMIN(text_len, 2)) == 0)
         return new TBTextFragmentContentStylePop();
     return nullptr;
 }
@@ -64,7 +64,7 @@ void TBTextFragmentContentHR::Paint(TBTextFragment *fragment, int32 translate_x,
     listener->DrawRectFill(TBRect(x, y, w, height), props->data->text_color);
 }
 
-int32 TBTextFragmentContentHR::GetWidth(TBFontFace *font, TBTextFragment *fragment) { return MAX(fragment->block->styledit->layout_width, 0); }
+int32 TBTextFragmentContentHR::GetWidth(TBFontFace *font, TBTextFragment *fragment) { return TBMAX(fragment->block->styledit->layout_width, 0); }
 
 int32 TBTextFragmentContentHR::GetHeight(TBFontFace *font, TBTextFragment *fragment) { return height; }
 

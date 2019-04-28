@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class AScrollBar : public AWidget
+class URHO3D_API AScrollBar : public AWidget
 {
     URHO3D_OBJECT(AScrollBar, AWidget)
 
@@ -54,7 +54,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

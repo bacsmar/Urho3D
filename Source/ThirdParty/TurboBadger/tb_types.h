@@ -22,47 +22,51 @@ typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned int uint32;
 
-template <class T>
-T Max(const T& left, const T& right) { return left > right ? left : right; }
+// Note: defining templates for commonly used math functions just sux. 
+// way to screw your customers downstream. Max,Min,Abs,Clamp,ClampClipMax
+// Adding TB prefix --JM
 
 template <class T>
-T Min(const T& left, const T& right) { return left < right ? left : right; }
+T TBMax(const T& left, const T& right) { return left > right ? left : right; }
 
 template <class T>
-T Abs(const T& value) { return value < 0 ? -value : value; }
+T TBMin(const T& left, const T& right) { return left < right ? left : right; }
 
 template <class T>
-T Clamp(const T& value, const T& min, const T& max)
+T TBAbs(const T& value) { return value < 0 ? -value : value; }
+
+template <class T>
+T TBClamp(const T& value, const T& min, const T& max)
 { return (value > max) ? max : ((value < min) ? min : value); }
 
 /** Returns value clamped to min and max. If max is greater than min,
     max will be clipped to min. */
 template <class T>
-T ClampClipMax(const T& value, const T& min, const T& max)
+T TBClampClipMax(const T& value, const T& min, const T& max)
 {
     return (value > max)
             ? (max > min ? max : min)
             : ((value < min) ? min : value);
 }
 
-#ifndef MAX
+#ifndef TBMAX
 /** This is deprecated! Use Max(a, b)! */
-#define MAX(a, b) Max(a, b)
+#define TBMAX(a, b) TBMax(a, b)
 #endif
 
-#ifndef MIN
+#ifndef TBMIN
 /** This is deprecated! Use Min(a, b)! */
-#define MIN(a, b) Min(a, b)
+#define TBMIN(a, b) TBMin(a, b)
 #endif
 
-#ifndef ABS
+#ifndef TBABS
 /** This is deprecated! Use Abs(value)! */
-#define ABS(value) Abs(value)
+#define TBABS(value) TBAbs(value)
 #endif
 
-#ifndef CLAMP
+#ifndef TBCLAMP
 /** This is deprecated! Use Clamp(value, min, max)! */
-#define CLAMP(value, min, max) Clamp(value, min, max)
+#define TBCLAMP(value, min, max) TBClamp(value, min, max)
 #endif
 
 /** Makes it possible to use the given enum types as flag combinations.

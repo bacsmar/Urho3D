@@ -1,0 +1,53 @@
+$#include "AUI/ASelectItem.h"
+
+class ASelectItem : public Object
+{
+    ASelectItem(Context* context, const String& str = String::EMPTY, const String& id = String::EMPTY, const String& skinImage = String::EMPTY);
+    virtual ~ASelectItem();
+    void SetString(const String& str) { str_ = str; }
+    void SetID(const String& id);
+    const String& GetStr() { return str_; }
+    void SetSkinImage(const String& skinImage);
+    void SetSubSource(ASelectItemSource *subSource);
+};
+
+class ASelectItemSource : public Object
+{
+    ASelectItemSource(Context* context);
+    virtual ~ASelectItemSource();
+    void AddItem(ASelectItem* item) { items_.Push(SharedPtr<ASelectItem>(item)); }
+    void RemoveItemWithId(const String& id);
+    void RemoveItemWithStr(const String& str);
+    int GetItemCount() { return items_.Size(); }
+    void Clear() { items_.Clear(); }
+    const String& GetItemStr(int index);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new00
+static int tolua_AUILuaAPI_ASelectItem_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASelectItem>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new00_local
+static int tolua_AUILuaAPI_ASelectItem_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASelectItem>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItemSource_new00
+static int tolua_AUILuaAPI_ASelectItemSource_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASelectItemSource>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItemSource_new00_local
+static int tolua_AUILuaAPI_ASelectItemSource_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASelectItemSource>(tolua_S);
+}
+
+$}
+

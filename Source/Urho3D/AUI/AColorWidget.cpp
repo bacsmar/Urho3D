@@ -23,12 +23,13 @@
 #include <TurboBadger/tb_widgets.h>
 #include <TurboBadger/tb_atomic_widgets.h>
 
-#include <../IO/Log.h>
-#include <../Graphics/Texture.h>
+#include "../Precompiled.h"
+#include "../IO/Log.h"
+#include "../Graphics/Texture.h"
 
-#include "AEvents.h"
-#include "AUI.h"
-#include "AColorWidget.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AColorWidget.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"
