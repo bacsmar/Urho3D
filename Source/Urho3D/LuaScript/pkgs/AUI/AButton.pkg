@@ -1,0 +1,27 @@
+$#include "AUI/AButton.h"
+
+class AButton : public AWidget
+{
+    AButton(Context* context, bool createWidget = true);
+    virtual ~AButton();
+    void SetSqueezable(bool value);
+    void SetEmulationButton(int button);
+    void SetToggleMode(bool toggle);
+    bool GetToggleMode() const;
+};
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AButton_new00
+static int tolua_AUILuaAPI_AButton_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AButton>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AButton_new00_local
+static int tolua_AUILuaAPI_AButton_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AButton>(tolua_S);
+}
+
+$}
+

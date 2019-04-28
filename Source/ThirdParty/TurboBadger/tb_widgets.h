@@ -309,9 +309,9 @@ private:
             return lp_max != LayoutParams::UNSPECIFIED ? lp_max : NO_RESTRICTION;
         int ret = constraint;
         if (lp_min != LayoutParams::UNSPECIFIED)
-            ret = MAX(ret, lp_min);
+            ret = TBMAX(ret, lp_min);
         if (lp_max != LayoutParams::UNSPECIFIED)
-            ret = MIN(ret, lp_max);
+            ret = TBMIN(ret, lp_max);
         return ret;
     }
 };

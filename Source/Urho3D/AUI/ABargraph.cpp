@@ -24,9 +24,11 @@
 #include <TurboBadger/tb_widgets_common.h>
 #include <TurboBadger/tb_atomic_widgets.h>
 
-#include "AEvents.h"
-#include "AUI.h"
-#include "ABargraph.h"
+#include "../Precompiled.h"
+
+#include "../AUI/AEvents.h"
+#include "../AUI/AUI.h"
+#include "../AUI/ABargraph.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

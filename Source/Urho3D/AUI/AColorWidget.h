@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -30,7 +30,7 @@ namespace Urho3D
 /// A widget that can render a Texture2D, so the image data
 /// doesn't need to be loaded 2x (once for Texture2D and once for say a AImageWidget)
 //@ASBindGen Class ObjectType=Ref
-class AColorWidget : public AWidget
+class URHO3D_API AColorWidget : public AWidget
 {
     URHO3D_OBJECT(AColorWidget, AWidget)
 
@@ -61,7 +61,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

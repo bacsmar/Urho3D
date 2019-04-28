@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include "AWidget.h"
-
 #include <TurboBadger/tb_editfield.h>
+
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -41,7 +41,7 @@ enum UI_EDIT_TYPE {
 };
 
 //@ASBindGen Class ObjectType=Ref
-class AEditField : public AWidget
+class URHO3D_API AEditField : public AWidget
 {
     URHO3D_OBJECT(AEditField, AWidget)
 
@@ -90,9 +90,9 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
-    virtual void OnFocusChanged(bool focused);
+    virtual void OnFocusChanged(bool focused) override;
 
 private:
     // Used to keep track of if we have just been focused for the click select

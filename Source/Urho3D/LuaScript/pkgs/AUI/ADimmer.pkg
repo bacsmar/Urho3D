@@ -1,0 +1,24 @@
+$#include "AUI/ADimmer.h"
+
+class ADimmer : public AWidget
+{
+    ADimmer(Context* context, bool createWidget = true);
+    virtual ~ADimmer();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ADimmer_new00
+static int tolua_AUILuaAPI_ADimmer_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ADimmer>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ADimmer_new00_local
+static int tolua_AUILuaAPI_ADimmer_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ADimmer>(tolua_S);
+}
+
+$}
+

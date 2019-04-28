@@ -23,8 +23,9 @@
 #pragma once
 
 #include <TurboBadger/tb_atomic_widgets.h>
-#include "AWidget.h"
-#include "AWindow.h"
+
+#include "../AUI/AWidget.h"
+#include "../AUI/AWindow.h"
 
 namespace Urho3D
 {
@@ -32,7 +33,7 @@ namespace Urho3D
 class APromptWindow;
 
 //@ASBindGen Class ObjectType=Ref
-class AFinderWindow : public AWindow
+class URHO3D_API AFinderWindow : public AWindow
 {
     URHO3D_OBJECT(AFinderWindow, AWindow)
 
@@ -56,7 +57,7 @@ protected:
 
     void HandleCreateBookmark(StringHash eventType, VariantMap& eventData); /// event handler for bookmark creation
     void HandleCreateFolder(StringHash eventType, VariantMap& eventData); /// event handler for folder creation
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev); /// general event handler
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override; /// general event handler
     AWidget* GetWindowWidget(); /// get internal widgets
     AWidget* GetPathWidget();
     AWidget* GetResultWidget();

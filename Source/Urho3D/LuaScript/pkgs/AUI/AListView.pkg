@@ -1,0 +1,43 @@
+$#include "AUI/AListView.h"
+
+class AListView : public AWidget
+{
+    AListView(Context* context, bool createWidget = true);
+    virtual ~AListView();
+    unsigned AddRootItem(const String& text, const String& icon, const String& id);
+    unsigned AddChildItem(unsigned parentItemID, const String& text, const String& icon, const String& id);
+    void SetItemText(const String& id, const String& text);
+    void SetItemTextSkin(const String& id, const String& skin);
+    void SetItemIcon(const String& id, const String& icon);
+    void DeleteItemByID(const String& id);
+    void ScrollToSelectedItem();
+    void SetExpanded(unsigned itemID, bool value);
+    bool GetExpanded(unsigned itemID);
+    bool GetExpandable(unsigned itemID);
+    bool GetMultiSelect() const { return multiSelect_; }
+    void SetMultiSelect(bool value) { multiSelect_ = value; }
+    void DeleteAllItems();
+    void SelectItemByID(const String& id, bool selected = true);
+    String GetHoverItemID() { return rootList_.Null() ? "" : rootList_->GetHoverItemID(); }
+    String GetSelectedItemID() { return rootList_.Null() ? "" : rootList_->GetSelectedItemID(); }
+    ASelectList* GetRootList() { return rootList_; }
+    void UpdateItemVisibility();
+    void SelectAllItems(bool select = true);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AListView_new00
+static int tolua_AUILuaAPI_AListView_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AListView>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AListView_new00_local
+static int tolua_AUILuaAPI_AListView_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AListView>(tolua_S);
+}
+
+$}
+

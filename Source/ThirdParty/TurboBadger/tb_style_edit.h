@@ -70,12 +70,12 @@ public:
     virtual TBTextFragmentContent *CreateFragmentContent(const char *text, int text_len);
 };
 
-#define TB_MAX_TEXT_THEME_COLORS 256
+#define TB_TBMAX_TEXT_THEME_COLORS 256
 
 class TBTextTheme
 {
 public:
-    TBColor themeColors[TB_MAX_TEXT_THEME_COLORS];
+    TBColor themeColors[TB_TBMAX_TEXT_THEME_COLORS];
 };
 
 
@@ -413,8 +413,8 @@ public:
     int32 GetContentWidth();
     int32 GetContentHeight() const;
 
-    int32 GetOverflowX() const { return MAX(content_width - layout_width, 0); }
-    int32 GetOverflowY() const { return MAX(content_height - layout_height, 0); }
+    int32 GetOverflowX() const { return TBMAX(content_width - layout_width, 0); }
+    int32 GetOverflowY() const { return TBMAX(content_height - layout_height, 0); }
 
     void SetTextTheme(TBTextTheme* theme) { text_theme = theme; }
 

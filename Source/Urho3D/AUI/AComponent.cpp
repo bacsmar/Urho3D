@@ -20,6 +20,7 @@
 // THE SOFTWARE.
 //
 
+#include "../Precompiled.h"
 #include "../Core/Context.h"
 #include "../IO/Log.h"
 #include "../Resource/ResourceCache.h"
@@ -36,14 +37,13 @@
 #include "../Scene/Node.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneEvents.h"
+#include "../Input/Input.h"
+#include "../Input/InputEvents.h"
 
-#include "AView.h"
-#include "AComponent.h"
-
-#include <../Input/Input.h>
-#include <../Input/InputEvents.h>
-#include "AUI.h"
-#include "AEvents.h"
+#include "../AUI/AView.h"
+#include "../AUI/AComponent.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 extern const char* AUI_CATEGORY;  /// for angelscript binding

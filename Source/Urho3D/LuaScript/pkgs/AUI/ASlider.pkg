@@ -1,0 +1,27 @@
+$#include "AUI/ASlider.h"
+
+class ASlider : public AWidget
+{
+    ASlider(Context* context, bool createWidget = true);
+    virtual ~ASlider();
+    void SetLimits(double minimum, double maximum);
+    double GetMinValue() const;
+    double GetMaxValue() const;
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASlider_new00
+static int tolua_AUILuaAPI_ASlider_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASlider>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASlider_new00_local
+static int tolua_AUILuaAPI_ASlider_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASlider>(tolua_S);
+}
+
+$}
+

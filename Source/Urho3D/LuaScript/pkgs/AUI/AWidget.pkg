@@ -1,0 +1,191 @@
+$#include "AUI/AWidget.h"
+
+enum UI_WIDGET_VISIBILITY
+{
+    UI_WIDGET_VISIBILITY_VISIBLE = 0,
+    UI_WIDGET_VISIBILITY_INVISIBLE = 1, 
+    UI_WIDGET_VISIBILITY_GONE = 2 
+};
+
+enum UI_GRAVITY {
+    UI_GRAVITY_NONE = 0,
+    UI_GRAVITY_LEFT = 1,
+    UI_GRAVITY_RIGHT = 2,
+    UI_GRAVITY_TOP = 4,
+    UI_GRAVITY_BOTTOM = 8,
+    UI_GRAVITY_LEFT_RIGHT    = 3 ,
+    UI_GRAVITY_TOP_BOTTOM    = 12,
+    UI_GRAVITY_ALL           = 15, 
+    UI_GRAVITY_DEFAULT       = 5
+};
+
+enum UI_EVENT_TYPE {
+    UI_EVENT_TYPE_CLICK = 0,
+    UI_EVENT_TYPE_LONG_CLICK = 1,
+    UI_EVENT_TYPE_POINTER_DOWN = 2,
+    UI_EVENT_TYPE_POINTER_UP = 3,
+    UI_EVENT_TYPE_POINTER_MOVE = 4,
+    UI_EVENT_TYPE_RIGHT_POINTER_DOWN = 5,
+    UI_EVENT_TYPE_RIGHT_POINTER_UP = 6,
+    UI_EVENT_TYPE_WHEEL = 7,
+    UI_EVENT_TYPE_CHANGED = 8,
+    UI_EVENT_TYPE_KEY_DOWN = 9,
+    UI_EVENT_TYPE_KEY_UP = 10,
+    UI_EVENT_TYPE_SHORTCUT = 11,
+    UI_EVENT_TYPE_CONTEXT_MENU = 12,
+    UI_EVENT_TYPE_FILE_DROP = 13,
+    UI_EVENT_TYPE_TAB_CHANGED = 14,
+    UI_EVENT_TYPE_CUSTOM = 15,
+    UI_EVENT_TYPE_TOUCH_DOWN,
+    UI_EVENT_TYPE_TOUCH_UP,
+    UI_EVENT_TYPE_TOUCH_MOVE,
+    UI_EVENT_TYPE_TOUCH_CANCEL
+};
+
+enum UI_WIDGET_Z_REL {
+    UI_WIDGET_Z_REL_BEFORE = 0,
+    UI_WIDGET_Z_REL_AFTER = 1
+};
+
+enum UI_TEXT_ALIGN
+{
+    UI_TEXT_ALIGN_LEFT = 0,
+    UI_TEXT_ALIGN_RIGHT = 1,
+    UI_TEXT_ALIGN_CENTER = 2
+};
+
+enum UI_WIDGET_STATE {
+    UI_WIDGET_STATE_NONE = 0,
+    UI_WIDGET_STATE_DISABLED = 1,
+    UI_WIDGET_STATE_FOCUSED = 2,
+    UI_WIDGET_STATE_PRESSED = 4,
+    UI_WIDGET_STATE_SELECTED = 8,
+    UI_WIDGET_STATE_HOVERED = 16,
+    UI_WIDGET_STATE_ALL = 31
+
+};
+
+enum UI_AXIS {
+    UI_AXIS_X = 0,
+    UI_AXIS_Y = 1
+};
+
+
+class AWidget : public Object
+{
+    AWidget(Context* context, bool createWidget = true);
+    virtual ~AWidget();
+    bool Load(const String& filename);
+    const String& GetId();
+    const String GetClassName();  // for binding
+    AWidget* GetParent();
+    AWidget* GetContentRoot();
+    IntRect GetRect();
+    String GetText();
+    void SetRect(IntRect r);
+    virtual bool SetSize(int width, int height);
+    void SetPosition(int x, int y);
+    void SetText(const String& text);
+    void SetSkinBg(const String& id);
+    void SetLayoutParams(ALayoutParams* params);
+    void SetFontDescription(AFontDescription* fd);
+    virtual void Remove();
+    void RemoveChild(AWidget* child, bool cleanup = true);
+    void DeleteAllChildren();
+    virtual AWidget *FindWidget ( const String& searchid );
+    virtual void PrintPrettyTree();
+    PODVector<AWidget*> SearchAWidgetClass (const String& className );
+    PODVector<AWidget*> SearchAWidgetId ( const String& searchid );
+    PODVector<AWidget*> SearchAWidgetText ( const String& searchText);
+    virtual void SetId(const String& id);
+    void Center();
+    void SetGravity(UI_GRAVITY gravity);
+    void SetAxis(UI_AXIS axis);
+    void SetValue(double value);
+    virtual double GetValue();
+    virtual void SetFocus();
+    virtual bool GetFocus() const;
+    void SetFocusRecursive();
+    void OnFocusChanged(bool focused);
+    void SetState(UI_WIDGET_STATE state, bool on);
+    bool GetState(UI_WIDGET_STATE state);
+    void SetVisibility(UI_WIDGET_VISIBILITY visibility);
+    UI_WIDGET_VISIBILITY GetVisibility();
+    void SetStateRaw(UI_WIDGET_STATE state);
+    UI_WIDGET_STATE GetStateRaw();
+    void Invalidate();
+    AWidget* GetFirstChild();
+    AWidget* GetNext();
+    bool IsAncestorOf(AWidget* widget);
+    void SetIsFocusable(bool value);
+    AWidget* GetWidget(const String& id);
+    AView* GetView();
+    virtual void AddChild(AWidget* child);
+    void AddChildAfter(AWidget* child, AWidget* otherChild);
+    void AddChildBefore(AWidget* child, AWidget* otherChild);
+    void AddChildRelative(AWidget* child, UI_WIDGET_Z_REL z, AWidget* reference);
+    void InvalidateLayout();
+    void SetDelegate(AWidget* widget) { widget_->SetDelegate(widget); }
+    void SetMultiTouch(bool multiTouch) { multiTouch_ = multiTouch; }
+    bool IsMultiTouch() { return multiTouch_; }
+    bool GetCaptured();
+    void SetCapturing(bool capturing);
+    bool GetCapturing();
+    void InvokeShortcut(const String& shortcut);
+    bool GetShortened();
+    void SetShortened(bool shortened);
+    String GetTooltip();
+    void SetTooltip(const String& text);
+    void Enable();
+    void Disable();
+    void SetFontId(const String& fontId);
+    String GetFontId();
+    void SetFontSize(int size);
+    int GetFontSize();
+    void SetX(int x) { IntRect r(GetRect()); r.right_ = x + r.Width(); r.left_ = x; SetRect(r); }
+    int GetX() { return GetRect().left_; }
+    void SetY(int y) { IntRect r(GetRect()); r.bottom_ = y + r.Height(); r.top_ = y; SetRect(r); }
+    int GetY() { return GetRect().top_; }
+    void SetWidth(int width) { IntRect r(GetRect()); r.right_ = r.left_ + width; SetRect(r); }
+    int GetWidth() { return GetRect().Width(); }
+    void SetHeight(int height) { IntRect r(GetRect()); r.bottom_ = r.top_ + height; SetRect(r); }
+    int GetHeight() { return GetRect().Height(); }
+    void SetLayoutWidth(int width);
+    int GetLayoutWidth();
+    void SetLayoutHeight(int height);
+    int GetLayoutHeight();
+    void SetLayoutPrefWidth(int width);
+    int GetLayoutPrefWidth();
+    void SetLayoutPrefHeight(int height);
+    int GetLayoutPrefHeight();
+    void SetLayoutMinWidth(int width);
+    int GetLayoutMinWidth();
+    void SetLayoutMinHeight(int height);
+    int GetLayoutMinHeight();
+    void SetLayoutMaxWidth(int width);
+    int GetLayoutMaxWidth();
+    void SetLayoutMaxHeight(int height);
+    int GetLayoutMaxHeight();
+    IntVector2 ConvertToRoot(const IntVector2 position ) const;
+    IntVector2 ConvertFromRoot(const IntVector2 position) const;
+    void SetOpacity(float opacity);
+    float GetOpacity();
+    void SetAutoOpacity(float autoOpacity);
+    float GetAutoOpacity();
+};
+
+
+${
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AWidget_new00
+static int tolua_AUILuaAPI_AWidget_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AWidget>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AWidget_new00_local
+static int tolua_AUILuaAPI_AWidget_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AWidget>(tolua_S);
+}
+$}
+

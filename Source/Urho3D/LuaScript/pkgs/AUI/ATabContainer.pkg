@@ -1,0 +1,34 @@
+$#include "AUI/ATabContainer.h"
+
+class ATabContainer : public AWidget
+{
+    ATabContainer(Context* context, bool createWidget = true);
+    virtual ~ATabContainer();
+    int GetNumPages();
+    void SetCurrentPage(int page);
+    AWidget* GetCurrentPageWidget();
+    int GetCurrentPage();
+    bool DeletePage( int page );
+    void AddTabPageFile ( const String &tabname, const String &layoutFile, bool selecttab = true );
+    void AddTabPageWidget ( const String &tabname, AWidget *widget, bool selecttab = true );
+    void UndockPage ( int page );
+    bool DockWindow ( String windowTitle );
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ATabContainer_new00
+static int tolua_AUILuaAPI_ATabContainer_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ATabContainer>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ATabContainer_new00_local
+static int tolua_AUILuaAPI_ATabContainer_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ATabContainer>(tolua_S);
+}
+
+$}
+
+

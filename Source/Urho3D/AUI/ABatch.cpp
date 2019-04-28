@@ -22,15 +22,14 @@
 //
 
 
-#include "Precompiled.h"
+#include "../Precompiled.h"
 #include "../Graphics/Graphics.h"
 #include "../Math/Matrix3x4.h"
 #include "../Graphics/ShaderVariation.h"
 #include "../Graphics/Texture.h"
-
 #include "../DebugNew.h"
 
-#include "ABatch.h"
+#include "../AUI/ABatch.h"
 
 namespace Urho3D
 {

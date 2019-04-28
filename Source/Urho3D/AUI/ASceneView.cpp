@@ -21,19 +21,20 @@
 // THE SOFTWARE.
 //
 
-#include <../IO/Log.h>
-#include <../Engine/Engine.h>
-#include <../Graphics/Graphics.h>
-#include <../Graphics/Camera.h>
-#include <../Graphics/RenderPath.h>
-#include <../Graphics/Renderer.h>
-#include <../Core/CoreEvents.h>
+#include "../Precompiled.h"
+#include "../IO/Log.h"
+#include "../Engine/Engine.h"
+#include "../Graphics/Graphics.h"
+#include "../Graphics/Camera.h"
+#include "../Graphics/RenderPath.h"
+#include "../Graphics/Renderer.h"
+#include "../Core/CoreEvents.h"
 
-#include "ARenderer.h"
-#include "ASceneView.h"
-#include "AUI.h"
-#include "ABatch.h"
-#include "AView.h"
+#include "../AUI/ARenderer.h"
+#include "../AUI/ASceneView.h"
+#include "../AUI/AUI.h"
+#include "../AUI/ABatch.h"
+#include "../AUI/AView.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 extern const char* AUI_CATEGORY;  /// for angelscript binding

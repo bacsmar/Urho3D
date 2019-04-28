@@ -19,8 +19,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+#include "../Precompiled.h"
 
-#include "APreferredSize.h"
+#include "../AUI/APreferredSize.h"
 
 namespace Urho3D
 {

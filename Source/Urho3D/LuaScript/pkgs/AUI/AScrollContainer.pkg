@@ -1,0 +1,39 @@
+$#include "AUI/AScrollContainer.h"
+
+enum UI_SCROLL_MODE {
+    UI_SCROLL_MODE_X_Y =            0,
+    UI_SCROLL_MODE_Y =              1,
+    UI_SCROLL_MODE_Y_AUTO =         2,
+    UI_SCROLL_MODE_X_AUTO_Y_AUTO =  3,
+    UI_SCROLL_MODE_OFF =            4 
+};
+
+class AScrollContainer : public AWidget
+{
+    AScrollContainer(Context* context, bool createWidget = true);
+    virtual ~AScrollContainer();
+    void SetScrollMode(UI_SCROLL_MODE mode);
+    UI_SCROLL_MODE GetScrollMode();
+    void SetAdaptToContentSize(bool adapt);
+    bool GetAdaptToContentSize();
+    void SetAdaptContentSize(bool adapt);
+    bool GetAdaptContentSize();
+    void ScrollTo(int x, int y);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AScrollContainer_new00
+static int tolua_AUILuaAPI_AScrollContainer_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AScrollContainer>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AScrollContainer_new00_local
+static int tolua_AUILuaAPI_AScrollContainer_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AScrollContainer>(tolua_S);
+}
+
+$}
+

@@ -24,11 +24,12 @@
 #include <TurboBadger/tb_widgets_common.h>
 #include <TurboBadger/tb_layout.h>
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "AWidget.h"
-#include "ALayout.h"
-#include "AButtonGrid.h"
+#include "../Precompiled.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AWidget.h"
+#include "../AUI/ALayout.h"
+#include "../AUI/AButtonGrid.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 extern const char* AUI_CATEGORY;  /// for angelscript binding

@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "ABatch.h"
-#include "AWidget.h"
+#include "../AUI/ABatch.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -41,7 +41,7 @@ static int const UIVIEW_MAX_TEXTURE_SIZE = 4096;
 
 /// Top level AView management
 //@ASBindGen Class ObjectType=Ref
-class AView : public AWidget
+class URHO3D_API AView : public AWidget
 {
     friend class AUI;
 
@@ -54,15 +54,15 @@ public:
     virtual ~AView();
 
     /// Set the view size
-    bool SetSize(int width, int height);
+    bool SetSize(int width, int height) override;
 
     /// Remove the AView from the UI subsystem, readding removed views is not advised
-    void Remove();
+    void Remove() override;
 
     /// Focuses the AView for input events
-    virtual void SetFocus();
+    virtual void SetFocus() override;
     /// Gets whether this AView is focused
-    virtual bool GetFocus() const;
+    virtual bool GetFocus() const override;
     /// Resigned this views focus, the bottom AView with autofocus on will become focused
     void ResignFocus();
 

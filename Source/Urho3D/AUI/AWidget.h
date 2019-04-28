@@ -28,8 +28,8 @@
 
 #include "../Core/Object.h"
 
-#include "APreferredSize.h"
-#include "ADragObject.h"
+#include "../AUI/APreferredSize.h"
+#include "../AUI/ADragObject.h"
 
 namespace Urho3D
 {
@@ -169,7 +169,7 @@ class ASelectItemSource;
 
 /// Wraps a TurboBadger widget in our Object model
 //@ASBindGen Class ObjectType=Ref
-class AWidget : public Object, public tb::TBWidgetDelegate
+class URHO3D_API AWidget : public Object, public tb::TBWidgetDelegate
 {
     friend class AUI;
 
@@ -269,7 +269,7 @@ class AWidget : public Object, public tb::TBWidgetDelegate
     /// Set focus to first widget which accepts it
     //@ASBindGen Function
     void SetFocusRecursive();
-    void OnFocusChanged(bool focused); //note this method is in a protected area in subclasses!
+    void OnFocusChanged(bool focused) override; //note this method is in a protected area in subclasses!
 
     //@ASBindGen Function
     void SetState(UI_WIDGET_STATE state, bool on);
@@ -458,9 +458,9 @@ protected:
 
     void SetWidget(tb::TBWidget* widget);
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
-    virtual void OnDelete();
-    virtual void OnResized(int old_w, int old_h);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
+    virtual void OnDelete() override;
+    virtual void OnResized(int old_w, int old_h) override;
 
     String id_;
     tb::TBWidget* widget_;

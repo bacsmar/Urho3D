@@ -24,13 +24,13 @@
 
 #include <TurboBadger/tb_layout.h>
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
  
 /// A grid of buttons that keep their shape and size, with minimal programming.
-class AButtonGrid : public AWidget
+class URHO3D_API AButtonGrid : public AWidget
 {
     URHO3D_OBJECT(AButtonGrid, AWidget)
 
@@ -70,8 +70,8 @@ public:
 
 protected:
 
-   virtual bool OnEvent(const tb::TBWidgetEvent &ev);
-   virtual void OnResized(int old_w, int old_h);
+   virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
+   virtual void OnResized(int old_w, int old_h) override;
 
 private:
     /// internal method to create the widgets in the assembly

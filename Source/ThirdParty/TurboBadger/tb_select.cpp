@@ -27,8 +27,8 @@ TBSelectList::TBSelectList()
     , m_list_is_invalid(false)
     , m_scroll_to_current(false)
     , m_header_lng_string_id(TBIDC("TBList.header"))
-    , m_sort_callback(select_list_sort_cb)
     , m_ui_list_view(false)
+    , m_sort_callback(select_list_sort_cb)
 {
     SetSource(&m_default_source);
     SetIsFocusable(true);

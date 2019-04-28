@@ -36,7 +36,7 @@ class Material;
 
 // UI Component which can be attached to a scene node with a StaticModel
 //@ASBindGen Class ObjectType=Ref
-class AComponent : public Component
+class URHO3D_API AComponent : public Component
 {
     URHO3D_OBJECT(AComponent, Component)
 
@@ -49,7 +49,7 @@ public:
     virtual ~AComponent();
 
     /// Handle enabled/disabled state change.
-    virtual void OnSetEnabled();
+    virtual void OnSetEnabled() override;
 
     /// Set the AView for this UIComponent, note this is optional as one will be autocreated
     //@ASBindGen Function
@@ -81,10 +81,10 @@ public:
 protected:
 
     /// Handle scene node being assigned at creation.
-    virtual void OnNodeSet(Node* node);
+    virtual void OnNodeSet(Node* node) override;
 
     /// Handle scene being assigned. This may happen several times during the component's lifetime. Scene-wide subsystems and events are subscribed to here.
-    virtual void OnSceneSet(Scene* scene);
+    virtual void OnSceneSet(Scene* scene) override;
 
 private:
 

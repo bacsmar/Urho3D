@@ -1,0 +1,47 @@
+$#include "AUI/AMultiItem.h"
+
+class AMultiItem : public  ASelectItem
+{
+    AMultiItem(Context* context, const String& colid = String::EMPTY, const String& widgettype = String::EMPTY, const String& str = String::EMPTY, int colwidth = 80, int colheight=24 );
+    virtual ~AMultiItem();
+    void AddColumn ( const String& widgettype, const String& str, int colwidth );
+    const String& GetColumnStr( int col );
+    const String& GetColumnWidget( int col );
+    int GetColumnWidth( int col );
+    int GetNumColumns();
+};
+
+class AMultiItemSource : public ASelectItemSource
+{
+    AMultiItemSource(Context* context);
+    virtual ~AMultiItemSource();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMultiItem_new00
+static int tolua_AUILuaAPI_AMultiItem_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AMultiItem>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMultiItem_new00_local
+static int tolua_AUILuaAPI_AMultiItem_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AMultiItem>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMultiItemSource_new00
+static int tolua_AUILuaAPI_AMultiItemSource_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AMultiItemSource>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMultiItemSource_new00_local
+static int tolua_AUILuaAPI_AMultiItemSource_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AMultiItemSource>(tolua_S);
+}
+
+$}
+

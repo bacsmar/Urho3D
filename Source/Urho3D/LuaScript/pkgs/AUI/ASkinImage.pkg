@@ -1,0 +1,24 @@
+$#include "AUI/ASkinImage.h"
+
+class ASkinImage : public AWidget
+{
+    ASkinImage(Context* context, const String& bitmapID = String::EMPTY, bool createWidget = true);
+    virtual ~ASkinImage();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASkinImage_new00
+static int tolua_AUILuaAPI_ASkinImage_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ASkinImage>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASkinImage_new00_local
+static int tolua_AUILuaAPI_ASkinImage_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ASkinImage>(tolua_S);
+}
+
+$}
+

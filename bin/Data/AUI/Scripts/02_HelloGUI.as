@@ -84,10 +84,12 @@ void InitControls()
 
     AWidget @abutton = win1.GetWidget("aButton");
     SubscribeToEvent( abutton, "WidgetEvent", "HandleButtonEvent" );
-  
+
     AWidget @aedit = win1.GetWidget("aEditfield");
     SubscribeToEvent( aedit, "WidgetEvent", "HandleEditEvent" );
-   
+
+    SubscribeToEvent( win1, "AWindowClosed", "HandleClosePressed" ); // window close = exit
+
 }
 
 void InitWindow()

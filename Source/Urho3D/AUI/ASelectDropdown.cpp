@@ -24,9 +24,11 @@
 #include <TurboBadger/tb_widgets_common.h>
 #include <TurboBadger/tb_select.h>
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "ASelectDropdown.h"
+#include "../Precompiled.h"
+
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/ASelectDropdown.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

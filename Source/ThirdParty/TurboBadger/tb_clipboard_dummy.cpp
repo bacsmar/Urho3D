@@ -10,16 +10,23 @@
 #include <sys/time.h>
 #include <stdio.h>
 
+
+#if 0
 #include <SDL/SDL.h>
+#endif
 
 namespace tb {
 
 // == TBClipboard =====================================
 
+TBStr tbclipboard; ///< Obviosly not a full implementation since it ignores the OS :)
+
 void TBClipboard::Empty()
 {
 #if 0
     SDL_SetClipboardText("");
+#else
+	tbclipboard.Clear();
 #endif
 }
 
@@ -28,7 +35,7 @@ bool TBClipboard::HasText()
 #if 0
     return SDL_HasClipboardText();
 #else
-	return false;
+	return !tbclipboard.IsEmpty();
 #endif
 }
 
@@ -38,7 +45,7 @@ bool TBClipboard::SetText(const char *text)
     SDL_SetClipboardText(text);
     return true;
 #else
-	return false;
+	return tbclipboard.Set(text);
 #endif
 }
 
@@ -48,7 +55,7 @@ bool TBClipboard::GetText(TBStr &text)
     const char* _text = SDL_GetClipboardText();
     return text.Set(_text ? _text : "");
 #else
-	return false;
+	return text.Set(tbclipboard);
 #endif
 }
 

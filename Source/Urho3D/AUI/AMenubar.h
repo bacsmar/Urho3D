@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ASelectItem.h"
+#include "../AUI/ASelectItem.h"
 
 namespace Urho3D
 {
@@ -30,7 +30,7 @@ namespace Urho3D
 class AMenuItemSource;
 
 //@ASBindGen Class ObjectType=Ref
-class AMenuItem : public ASelectItem
+class URHO3D_API AMenuItem : public ASelectItem
 {
     URHO3D_OBJECT(AMenuItem, ASelectItem)
 
@@ -40,7 +40,7 @@ public:
     AMenuItem(Context* context, const String& str = String::EMPTY, const String& id = String::EMPTY, const String& shortcut = String::EMPTY, const String& skinBg = String::EMPTY);
     virtual ~AMenuItem();
 
-    tb::TBGenericStringItem* GetTBItem();
+    tb::TBGenericStringItem* GetTBItem() override;
 
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)
@@ -55,7 +55,7 @@ private:
 };
 
 //@ASBindGen Class ObjectType=Ref
-class AMenuItemSource : public ASelectItemSource
+class URHO3D_API AMenuItemSource : public ASelectItemSource
 {
     URHO3D_OBJECT(AMenuItemSource, ASelectItemSource)
 
@@ -66,7 +66,7 @@ public:
     virtual ~AMenuItemSource();
 
     // caller's responsibility to clean up
-   tb::TBSelectItemSource *GetTBItemSource();
+   tb::TBSelectItemSource *GetTBItemSource() override;
 
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)

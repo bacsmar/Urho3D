@@ -26,9 +26,10 @@
 #include <TurboBadger/tb_node_tree.h>
 #include <TurboBadger/tb_widgets_reader.h>
 
+#include "../Precompiled.h"
 #include "../Graphics/Graphics.h"
 #include "../Graphics/Texture2D.h"
-#include "ARenderer.h"
+#include "../AUI/ARenderer.h"
 
 namespace Urho3D
 {

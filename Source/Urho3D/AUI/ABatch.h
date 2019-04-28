@@ -40,7 +40,7 @@ class Texture;
 static const unsigned AUI_VERTEX_SIZE = 6;
 
 /// AUI rendering draw call.
-class ABatch
+class URHO3D_API ABatch
 {
 public:
     /// Construct with defaults.

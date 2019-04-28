@@ -1,0 +1,26 @@
+$#include "AUI/AMenuWindow.h"
+
+class AMenuWindow : public AWidget
+{
+    AMenuWindow(Context* context, AWidget* target = NULL, const String& id = String::EMPTY);
+    virtual ~AMenuWindow();
+    void ShowMenu(ASelectItemSource* source, int xx, int yy);
+    void Close();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMenuWindow_new00
+static int tolua_AUILuaAPI_AMenuWindow_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AMenuWindow>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AMenuWindow_new00_local
+static int tolua_AUILuaAPI_AMenuWindow_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AMenuWindow>(tolua_S);
+}
+
+$}
+

@@ -20,7 +20,8 @@
 // THE SOFTWARE.
 //
 
-#include "AMultiItem.h"
+#include "../Precompiled.h"
+#include "../AUI/AMultiItem.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

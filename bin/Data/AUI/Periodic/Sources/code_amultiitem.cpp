@@ -106,7 +106,6 @@ void PeriodicApp::HandleAmultiitemEvent(StringHash eventType, VariantMap& eventD
 			mi3->AddColumn ( "TEXT", "Col6", 44 );
 			mi3->AddColumn ( "TEXT", "Col7", 44 );
 			gsis->AddItem(mi3);
-//gsis->AddItem( new AMultiItem(context_,  "A Duck", "aduck", "DuckButton" ) );
             slist->SetSource(gsis);
         }
         if (widget->GetId() ==  "uimi4" )
@@ -118,7 +117,6 @@ void PeriodicApp::HandleAmultiitemEvent(StringHash eventType, VariantMap& eventD
 			mi4->AddColumn ( "TEXT", "Col8", 44 );
 			mi4->AddColumn ( "TEXT", "Col9", 44 );
 			gsis->AddItem(mi4);
-          //  gsis->AddItem( new AMultiItem(context_, "Atomic!", "atomic", "LogoAtomic" ) );
             slist->SetSource(gsis);
         }
         if (widget->GetId() ==  "uimi5" )

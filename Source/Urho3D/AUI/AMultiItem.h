@@ -30,7 +30,7 @@
 #include "../Container/List.h"
 #include "../IO/Log.h"
 
-#include "ASelectItem.h"
+#include "../AUI/ASelectItem.h"
 
 namespace Urho3D
 {
@@ -38,7 +38,7 @@ namespace Urho3D
 class AMultiItemSource;
 
 //@ASBindGen Class ObjectType=Ref
-class AMultiItem : public  ASelectItem
+class URHO3D_API AMultiItem : public  ASelectItem
 {
     URHO3D_OBJECT(AMultiItem, ASelectItem )
 
@@ -59,7 +59,7 @@ public:
     //@ASBindGen Function
     int GetNumColumns();
 
-    virtual tb::MultiItem * GetTBItem();
+    virtual tb::MultiItem * GetTBItem() override;
 
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)
@@ -75,7 +75,7 @@ protected:
 };
 
 //@ASBindGen Class ObjectType=Ref
-class AMultiItemSource : public ASelectItemSource
+class URHO3D_API AMultiItemSource : public ASelectItemSource
 {
     URHO3D_OBJECT(AMultiItemSource, ASelectItemSource )
 
@@ -96,7 +96,7 @@ public:
     const String& GetItemStr(int index);
 
     // caller's responsibility to clean up
-    virtual tb::MultiItemSource* GetTBItemSource();
+    virtual tb::MultiItemSource* GetTBItemSource() override;
 
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)

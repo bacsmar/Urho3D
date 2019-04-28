@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -30,7 +30,7 @@ namespace Urho3D
 class ALayout;
 
 //@ASBindGen Class ObjectType=Ref
-class ATabContainer : public AWidget
+class URHO3D_API ATabContainer : public AWidget
 {
     URHO3D_OBJECT(ATabContainer, AWidget)
 
@@ -71,7 +71,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

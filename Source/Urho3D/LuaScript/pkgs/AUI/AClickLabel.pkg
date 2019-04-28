@@ -1,0 +1,24 @@
+$#include "AUI/AClickLabel.h"
+
+class AClickLabel : public AWidget
+{
+    AClickLabel(Context* context, bool createWidget = true);
+    virtual ~AClickLabel();
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AClickLabel_new00
+static int tolua_AUILuaAPI_AClickLabel_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AClickLabel>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AClickLabel_new00_local
+static int tolua_AUILuaAPI_AClickLabel_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AClickLabel>(tolua_S);
+}
+
+$}
+

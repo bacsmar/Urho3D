@@ -45,7 +45,7 @@ void PeriodicApp::HandleAselectlistEvent(StringHash eventType, VariantMap& event
         {
             AppLog( "ASelectList action : " + widget->GetId() + " was pressed ");
             ASelectList* slist = static_cast<ASelectList*>(widget->FindWidget("ASelectListDemo"));
-            slist->AddItem(slist->GetNumItems(), "New Entry");
+            slist->AddItem(slist->GetNumItems(), "New Entry", "NewEntryX");
         }
         if (widget->GetId() ==  "selectlistdel" )
         {

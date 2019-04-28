@@ -1,0 +1,26 @@
+$#include "AUI/APulldownMenu.h"
+
+class APulldownMenu : public AButton
+{
+    APulldownMenu(Context* context, bool createWidget = true);
+    virtual ~APulldownMenu();
+    void SetSource(ASelectItemSource* source); /// for programming the pulled down menu
+    const String& GetSelectedId(); /// return id of entry selected in menu
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_APulldownMenu_new00
+static int tolua_AUILuaAPI_APulldownMenu_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<APulldownMenu>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_APulldownMenu_new00_local
+static int tolua_AUILuaAPI_APulldownMenu_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<APulldownMenu>(tolua_S);
+}
+
+$}
+

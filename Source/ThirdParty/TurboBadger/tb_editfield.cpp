@@ -441,7 +441,7 @@ PreferredSize TBEditField::OnCalculatePreferredContentSize(const SizeConstraints
 
             // A hacky fix is to do something we probably shouldn't: use the old layout width
             // as virtual width for the new.
-            //int layout_width = old_layout_width > 0 ? MAX(old_layout_width, m_virtual_width) : m_virtual_width;
+            //int layout_width = old_layout_width > 0 ? TBMAX(old_layout_width, m_virtual_width) : m_virtual_width;
             int layout_width = m_virtual_width;
             if (constraints.available_w != SizeConstraints::NO_RESTRICTION)
             {
@@ -457,7 +457,7 @@ PreferredSize TBEditField::OnCalculatePreferredContentSize(const SizeConstraints
         int height = m_style_edit.GetContentHeight();
         if (m_style_edit.packed.wrapping)
             m_style_edit.SetLayoutSize(old_layout_width, old_layout_height, true);
-        height = MAX(height, font_height);
+        height = TBMAX(height, font_height);
 
         ps.min_w = ps.pref_w /*= ps.max_w*/ = width; // should go with the hack above.
         //ps.min_w = ps.pref_w = ps.max_w = width;
@@ -678,7 +678,7 @@ TBTextFragmentContent *TBEditFieldContentFactory::CreateFragmentContent(const ch
     // https://github.com/AtomicGameEngine/AtomicGameEngine/issues/1297
     // ATOMIC END
 
-    if (strncmp(text, "<widget ", MIN(text_len, 8)) == 0)
+    if (strncmp(text, "<widget ", TBMIN(text_len, 8)) == 0)
     {
         // Create a wrapper for the generated widget.
         // Its size will adapt to the content.

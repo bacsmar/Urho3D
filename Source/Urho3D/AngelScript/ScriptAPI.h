@@ -47,6 +47,10 @@ void RegisterInputAPI(asIScriptEngine* engine);
 void RegisterAudioAPI(asIScriptEngine* engine);
 /// Register the UI library to script.
 void RegisterUIAPI(asIScriptEngine* engine);
+// ATOMIC BEGIN 
+/// Register the AUI library to script.
+void RegisterAUIAPI(asIScriptEngine* engine);
+// ATOMIC END
 #ifdef URHO3D_NETWORK
 /// Register the Network library to script.
 void RegisterNetworkAPI(asIScriptEngine* engine);

@@ -22,16 +22,16 @@
 
 #pragma once
 
-#include<TurboBadger/tb_atomic_widgets.h>
+#include <TurboBadger/tb_atomic_widgets.h>
 
-#include "AWidget.h"
-#include "AWindow.h"
+#include "../AUI/AWidget.h"
+#include "../AUI/AWindow.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class ADockWindow : public AWindow
+class URHO3D_API ADockWindow : public AWindow
 {
     URHO3D_OBJECT(ADockWindow, AWindow)
 
@@ -66,7 +66,7 @@ class ADockWindow : public AWindow
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

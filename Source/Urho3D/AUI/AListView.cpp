@@ -23,12 +23,13 @@
 #include <TurboBadger/tb_menu_window.h>
 #include <TurboBadger/tb_select.h>
 
-#include <../IO/Log.h>
-#include <../Core/Timer.h>
+#include "../Precompiled.h"
+#include "../IO/Log.h"
+#include "../Core/Timer.h"
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "AListView.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AListView.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

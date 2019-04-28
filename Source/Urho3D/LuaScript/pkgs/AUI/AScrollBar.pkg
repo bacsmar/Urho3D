@@ -1,0 +1,28 @@
+$#include "AUI/AScrollBar.h"
+
+class AScrollBar : public AWidget
+{
+    AScrollBar(Context* context, bool createWidget = true);
+    virtual ~AScrollBar();
+    void SetLimits(double minimum, double maximum, double visible);
+    double GetMinValue() const;
+    double GetMaxValue() const;
+    double GetVisible() const;
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AScrollBar_new00
+static int tolua_AUILuaAPI_AScrollBar_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AScrollBar>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AScrollBar_new00_local
+static int tolua_AUILuaAPI_AScrollBar_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AScrollBar>(tolua_S);
+}
+
+$}
+

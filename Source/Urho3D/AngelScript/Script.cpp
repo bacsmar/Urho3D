@@ -36,10 +36,6 @@
 
 #include "../DebugNew.h"
 
-// ATOMIC BEGIN
-#include "AUIBindings/Bindings.hpp"
-// ATOMIC END
-
 namespace Urho3D
 {
 
@@ -124,6 +120,9 @@ Script::Script(Context* context) :
     RegisterInputAPI(scriptEngine_);
     RegisterAudioAPI(scriptEngine_);
     RegisterUIAPI(scriptEngine_);
+//ATOMIC BEGIN
+    RegisterAUIAPI(scriptEngine_);
+//ATOMIC END
 #ifdef URHO3D_NETWORK
     RegisterNetworkAPI(scriptEngine_);
 #endif
@@ -144,10 +143,6 @@ Script::Script(Context* context) :
 #endif
     RegisterScriptAPI(scriptEngine_);
     RegisterEngineAPI(scriptEngine_);
-
-// ATOMIC BEGIN
-   Bindings::RegisterAnything(scriptEngine_);
-// ATOMIC END
 
     // Subscribe to console commands
     SetExecuteConsoleCommands(true);

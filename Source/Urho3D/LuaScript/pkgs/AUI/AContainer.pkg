@@ -1,0 +1,23 @@
+$#include "AUI/AContainer.h"
+
+class AContainer : public AWidget
+{
+    AContainer(Context* context, bool createWidget = true);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AContainer_new00
+static int tolua_AUILuaAPI_AContainer_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AContainer>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AContainer_new00_local
+static int tolua_AUILuaAPI_AContainer_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AContainer>(tolua_S);
+}
+
+$}
+

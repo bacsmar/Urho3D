@@ -23,10 +23,12 @@
 #include <TurboBadger/tb_widgets.h>
 #include <TurboBadger/tb_popup_window.h>
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "AWidget.h"
-#include "APopupWindow.h"
+#include "../Precompiled.h"
+
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AWidget.h"
+#include "../AUI/APopupWindow.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

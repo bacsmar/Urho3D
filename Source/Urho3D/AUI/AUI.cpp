@@ -47,6 +47,8 @@ void register_freetype_font_renderer();
 
 using namespace tb;
 
+#include "../Precompiled.h"
+
 #include "../Core/CoreEvents.h"
 #include "../IO/Log.h"
 #include "../IO/FileSystem.h"
@@ -58,51 +60,52 @@ using namespace tb;
 #include "../Graphics/Texture2D.h"
 #include "../Graphics/VertexBuffer.h"
 
-#include "AEvents.h"
+#include "../AUI/AEvents.h"
 
-#include "ARenderer.h"
-#include "AUI.h"
-#include "AView.h"
-#include "AButton.h"
-#include "ATextField.h"
-#include "AEditField.h"
-#include "ALayout.h"
-#include "AImageWidget.h"
-#include "AClickLabel.h"
-#include "ACheckBox.h"
-#include "ASelectList.h"
-#include "AMessageWindow.h"
-#include "ASkinImage.h"
-#include "ATabContainer.h"
-#include "ASceneView.h"
-#include "ADragDrop.h"
-#include "AContainer.h"
-#include "ASection.h"
-#include "AInlineSelect.h"
-#include "AScrollContainer.h"
-#include "ASeparator.h"
-#include "ADimmer.h"
-#include "ASelectDropdown.h"
-#include "AMenuWindow.h"
-#include "APopupWindow.h"
-#include "ASlider.h"
-#include "AColorWidget.h"
-#include "AColorWheel.h"
-#include "ABargraph.h"
-#include "APromptWindow.h"
-#include "AFinderWindow.h"
-#include "APulldownMenu.h"
-#include "AComponent.h"
-#include "ARadioButton.h"
-#include "AScrollBar.h"
-#include "ADockWindow.h"
-#include "AButtonGrid.h"
-#include "AFontDescription.h"
-#include "AListView.h"
-#include "AMultiItem.h"
-#include "AMenubar.h"
-#include "ATextureWidget.h"
-
+#include "../AUI/ARenderer.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AView.h"
+#include "../AUI/AButton.h"
+#include "../AUI/ATextField.h"
+#include "../AUI/AEditField.h"
+#include "../AUI/ALayout.h"
+#include "../AUI/AImageWidget.h"
+#include "../AUI/AClickLabel.h"
+#include "../AUI/ACheckBox.h"
+#include "../AUI/ASelectList.h"
+#include "../AUI/AMessageWindow.h"
+#include "../AUI/ASkinImage.h"
+#include "../AUI/ATabContainer.h"
+#include "../AUI/ASceneView.h"
+#include "../AUI/AContainer.h"
+#include "../AUI/ASection.h"
+#include "../AUI/AInlineSelect.h"
+#include "../AUI/AScrollContainer.h"
+#include "../AUI/ASeparator.h"
+#include "../AUI/ADimmer.h"
+#include "../AUI/ASelectDropdown.h"
+#include "../AUI/AMenuWindow.h"
+#include "../AUI/APopupWindow.h"
+#include "../AUI/ASlider.h"
+#include "../AUI/AColorWidget.h"
+#include "../AUI/AColorWheel.h"
+#include "../AUI/ABargraph.h"
+#include "../AUI/APromptWindow.h"
+#include "../AUI/AFinderWindow.h"
+#include "../AUI/APulldownMenu.h"
+#include "../AUI/AComponent.h"
+#include "../AUI/ARadioButton.h"
+#include "../AUI/AScrollBar.h"
+#include "../AUI/ADockWindow.h"
+#include "../AUI/AButtonGrid.h"
+#include "../AUI/AFontDescription.h"
+#include "../AUI/AListView.h"
+#include "../AUI/AMultiItem.h"
+#include "../AUI/AMenubar.h"
+#include "../AUI/ATextureWidget.h"
+#if 0   // HELP ATOMIC -- removed DragDrop for now
+#include "../AUI/ADragDrop.h"
+#endif
 
 #ifdef URHO3D_ANGELSCRIPT
 const char* AUI_CATEGORY = "AUI";  /// for Angelscript Binding
@@ -308,8 +311,10 @@ void AUI::Initialize(const String& languageFile)
     SubscribeToEvent(E_POSTUPDATE, URHO3D_HANDLER(AUI, HandlePostUpdate));
     SubscribeToEvent(E_RENDERUPDATE, URHO3D_HANDLER(AUI, HandleRenderUpdate));
 
+#if 0   // HELP ATOMIC -- removed DragDrop for now
     // register the ADragDrop subsystem (after we have subscribed to events, so it is processed after)
     context_->RegisterSubsystem(new ADragDrop(context_));
+#endif
 
     tb::TBWidgetListener::AddGlobalListener(this);
 

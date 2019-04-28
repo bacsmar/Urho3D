@@ -25,13 +25,13 @@
 
 #include <TurboBadger/tb_atomic_widgets.h>
 
-#include "AWindow.h"
+#include "../AUI/AWindow.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class APromptWindow : public AWindow
+class URHO3D_API APromptWindow : public AWindow
 {
     URHO3D_OBJECT(APromptWindow, AWindow)
 
@@ -53,7 +53,7 @@ protected:
 
     AWidget* GetEditWidget();
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

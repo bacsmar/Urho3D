@@ -23,13 +23,14 @@
 #pragma once
 
 #include "../Core/Object.h"
-#include "AWidget.h"
+
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
 
 //@ASBindGen Class ObjectType=Ref
-class AFontDescription : public Object
+class URHO3D_API AFontDescription : public Object
 {
     URHO3D_OBJECT(AFontDescription, Object)
 

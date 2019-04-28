@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
 
-class ADimmer : public AWidget
+class URHO3D_API ADimmer : public AWidget
 {
     URHO3D_OBJECT(ADimmer, AWidget)
 
@@ -38,7 +38,7 @@ public:
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

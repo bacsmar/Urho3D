@@ -24,7 +24,7 @@
 
 #include<TurboBadger/tb_window.h>
 
-#include "AWidget.h"
+#include "../AUI/AWidget.h"
 
 namespace Urho3D
 {
@@ -48,7 +48,7 @@ enum UI_WINDOW_SETTINGS {
 
 
 //@ASBindGen Class ObjectType=Ref
-class AWindow : public AWidget
+class URHO3D_API AWindow : public AWidget
 {
     URHO3D_OBJECT(AWindow, AWidget)
 
@@ -66,7 +66,7 @@ class AWindow : public AWidget
     //@ASBindGen Function
     void ResizeToFitContent();
 
-    void AddChild(AWidget *child);
+    void AddChild(AWidget *child) override;
 
     //@ASBindGen Function
     void Close();
@@ -80,7 +80,7 @@ class AWindow : public AWidget
 
 protected:
 
-    virtual bool OnEvent(const tb::TBWidgetEvent &ev);
+    virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;
 
 private:
 

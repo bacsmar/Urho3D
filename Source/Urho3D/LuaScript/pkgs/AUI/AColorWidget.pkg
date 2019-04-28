@@ -1,0 +1,28 @@
+$#include "AUI/AColorWidget.h"
+
+class AColorWidget : public AWidget
+{
+    AColorWidget(Context* context, bool createWidget = true);
+    virtual ~AColorWidget();
+    void SetColor(const Color& color);
+    void SetColorString(const String &name);
+    Color GetColor() const;
+    void SetAlpha ( float value );
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AColorWidget_new00
+static int tolua_AUILuaAPI_AColorWidget_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AColorWidget>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AColorWidget_new00_local
+static int tolua_AUILuaAPI_AColorWidget_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AColorWidget>(tolua_S);
+}
+
+$}
+

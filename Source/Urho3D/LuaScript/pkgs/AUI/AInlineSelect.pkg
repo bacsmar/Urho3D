@@ -1,0 +1,28 @@
+$#include "AUI/AInlineSelect.h"
+
+class AInlineSelect : public AWidget
+{
+    AInlineSelect(Context* context, bool createWidget = true);
+    virtual ~AInlineSelect();
+    void SetLimits(double minimum, double maximum);
+    void SetStepSize(double step);
+    double GetStepSize();
+    void SetEditFieldLayoutParams(ALayoutParams* params);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AInlineSelect_new00
+static int tolua_AUILuaAPI_AInlineSelect_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AInlineSelect>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AInlineSelect_new00_local
+static int tolua_AUILuaAPI_AInlineSelect_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AInlineSelect>(tolua_S);
+}
+
+$}
+

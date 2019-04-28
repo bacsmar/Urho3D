@@ -347,12 +347,8 @@ public:
 class MultiItemWidget : public TBLayout
 {
 public:
-    MultiItemWidget(MultiItem *item, MultiItemSource *source, TBSelectItemViewer *source_viewer, int index);
+    MultiItemWidget(MultiItem *item);
     virtual bool OnEvent(const TBWidgetEvent &ev);
-private:
-    MultiItemSource *m_source;
-    TBSelectItemViewer *m_source_viewer;
-    int m_index;
 };
 
 }; // namespace tb

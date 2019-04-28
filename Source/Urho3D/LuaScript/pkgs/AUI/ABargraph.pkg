@@ -1,0 +1,25 @@
+$#include "AUI/ABargraph.h"
+
+class ABargraph : public AWidget
+{
+    ABargraph(Context* context, bool createWidget = true);
+    virtual ~ABargraph();
+    void SetColor(Color col);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ABargraph_new00
+static int tolua_AUILuaAPI_ABargraph_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<ABargraph>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ABargraph_new00_local
+static int tolua_AUILuaAPI_ABargraph_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<ABargraph>(tolua_S);
+}
+
+$}
+

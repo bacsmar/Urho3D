@@ -1,0 +1,27 @@
+$#include "AUI/AImageWidget.h"
+
+class AImageWidget : public AWidget
+{
+    AImageWidget(Context* context, bool createWidget = true);
+    virtual ~AImageWidget();
+    void SetImage(const String& imagePath);
+    int GetImageWidth() const;
+    int GetImageHeight() const;
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AImageWidget_new00
+static int tolua_AUILuaAPI_AImageWidget_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AImageWidget>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AImageWidget_new00_local
+static int tolua_AUILuaAPI_AImageWidget_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AImageWidget>(tolua_S);
+}
+
+$}
+

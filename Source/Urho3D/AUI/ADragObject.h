@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include <../Core/Object.h>
+#include "../Core/Object.h"
 
 namespace Urho3D
 {
 
 
-class ADragObject : public Object
+class URHO3D_API ADragObject : public Object
 {
 
     URHO3D_OBJECT(ADragObject, Object);

@@ -1,3 +1,4 @@
+#include "../Precompiled.h"
 //
 // Copyright (c) 2014-2015, THUNDERBEAST GAMES LLC All rights reserved
 //
@@ -23,15 +24,16 @@
 #include <TurboBadger/tb_widgets.h>
 #include <TurboBadger/tb_widgets_common.h>
 
-#include <../IO/FileSystem.h>
-#include <../IO/Log.h>
+#include "../Precompiled.h"
+#include "../IO/FileSystem.h"
+#include "../IO/Log.h"
 
-#include "AUI.h"
-#include "AEvents.h"
-#include "AWindow.h"
-#include "AEditField.h"
-#include "ASelectList.h"
-#include "APromptWindow.h"
+#include "../AUI/AUI.h"
+#include "../AUI/AEvents.h"
+#include "../AUI/AWindow.h"
+#include "../AUI/AEditField.h"
+#include "../AUI/ASelectList.h"
+#include "../AUI/APromptWindow.h"
 
 #ifdef URHO3D_ANGELSCRIPT
 #include "../Core/Context.h"

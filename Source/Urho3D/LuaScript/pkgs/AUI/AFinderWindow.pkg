@@ -1,0 +1,26 @@
+$#include "AUI/AFinderWindow.h"
+
+class AFinderWindow : public AWindow
+{
+    AFinderWindow(Context* context, AWidget* target = NULL, const String& id = String::EMPTY, bool createWidget = true);
+    virtual ~AFinderWindow();
+    void FindFile(const String& title, const String& preset, int dimmer=0, int width=0, int height=0);
+    void FindPath(const String& title, const String& preset, int dimmer=0, int width=0, int height=0);
+};
+
+${
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AFinderWindow_new00
+static int tolua_AUILuaAPI_AFinderWindow_new00(lua_State* tolua_S)
+{
+    return ToluaNewObject<AFinderWindow>(tolua_S);
+}
+
+#define TOLUA_DISABLE_tolua_AUILuaAPI_AFinderWindow_new00_local
+static int tolua_AUILuaAPI_AFinderWindow_new00_local(lua_State* tolua_S)
+{
+    return ToluaNewObjectGC<AFinderWindow>(tolua_S);
+}
+
+$}
+

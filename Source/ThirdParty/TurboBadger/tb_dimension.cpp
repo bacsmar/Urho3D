@@ -43,12 +43,12 @@ int TBDimensionConverter::DpToPx(int dp) const
     if (dp > 0)
     {
         dp = dp * m_dst_dpi / m_src_dpi;
-        return MAX(dp, 1);
+        return TBMAX(dp, 1);
     }
     else
     {
         dp = dp * m_dst_dpi / m_src_dpi;
-        return MIN(dp, -1);
+        return TBMIN(dp, -1);
     }
 }
 

@@ -271,7 +271,7 @@ void TBBarGraph::OnInflate(const INFLATE_INFO &info)
 
 void TBBarGraph::SetValueDouble(double value)
 {
-    value = CLAMP(value, 0.0, 100.0);
+    value = TBCLAMP(value, 0.0, 100.0);
     if (value == m_value)
         return;
     m_value = value;
@@ -825,6 +825,7 @@ TBWidget *TBDockWindow::GetDockContent()
     TBLayout *lo1 = GetWidgetByIDAndType<TBLayout>(TBID("undocklayout"));
     if ( lo1 )
         return lo1->GetChildFromIndex(0);
+    return NULL;
 }
 
 bool TBDockWindow::HasDockContent()
@@ -850,9 +851,8 @@ void TBDockWindow::Dock ( TBWidget *target )
     {
         TBStr mystr;
         TBWidget *mypage = NULL;
-        TBLayout *lo1 = NULL;
-        TBTabContainer *tc1 = NULL;
-        if ( tc1 = TBSafeCast<TBTabContainer>( target ) ) // handle TBTabContainer
+        TBTabContainer *tc1 = TBSafeCast<TBTabContainer>( target );
+        if ( tc1 ) // handle TBTabContainer
         {
             mystr = GetText();
             mypage = GetDockContent();
@@ -984,12 +984,11 @@ bool MultiItemSource::Filter(int index, const char *filter)
 
 TBWidget *MultiItemSource::CreateItemWidget(int index, TBSelectItemViewer *viewer)
 {
-    if (TBLayout *layout = new MultiItemWidget( GetItem(index), this, viewer, index))
-        return layout;
-    return NULL;
+    TBLayout *layout = new MultiItemWidget( GetItem(index));
+    return layout;
 }
 
-MultiItemWidget::MultiItemWidget(MultiItem *item, MultiItemSource *source, TBSelectItemViewer *source_viewer, int index)
+MultiItemWidget::MultiItemWidget(MultiItem *item) : TBLayout()
 {
     SetSkinBg(TBIDC("TBSelectItem"));
     SetLayoutDistribution(LAYOUT_DISTRIBUTION_GRAVITY);
