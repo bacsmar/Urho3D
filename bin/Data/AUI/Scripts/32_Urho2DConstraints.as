@@ -340,7 +340,7 @@ void CreateInstructions()
 
     instructionText.SetPosition(0.0f, ui.root.height / 4);
         */ 
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/32_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/32_layout.ui.txt" );
 }
 
 

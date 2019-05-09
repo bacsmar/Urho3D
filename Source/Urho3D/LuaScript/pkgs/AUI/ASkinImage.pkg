@@ -2,23 +2,126 @@ $#include "AUI/ASkinImage.h"
 
 class ASkinImage : public AWidget
 {
-    ASkinImage(Context* context, const String& bitmapID = String::EMPTY, bool createWidget = true);
+    ASkinImage(const String& bitmapID = String::EMPTY, bool createWidget = true);
     virtual ~ASkinImage();
 };
 
 ${
 
+/* method: new of class  ASkinImage */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASkinImage_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASkinImage_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ASkinImage>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASkinImage",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ASkinImage* tolua_ret = (ASkinImage*)  Mtolua_new((ASkinImage)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASkinImage");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
+/* method: new_local of class  ASkinImage */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASkinImage_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASkinImage_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ASkinImage>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASkinImage",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ASkinImage* tolua_ret = (ASkinImage*)  Mtolua_new((ASkinImage)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASkinImage");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
+
+/* method: new of class  ASkinImage */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASkinImage_new01
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASkinImage_new01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASkinImage",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,3,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String bitmapID = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,3,true));
+ {
+  ASkinImage* tolua_ret = (ASkinImage*)  Mtolua_new((ASkinImage)(GetContext(tolua_S),bitmapID,createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASkinImage");
+ tolua_pushurho3dstring(tolua_S,(const char*)bitmapID);
+ }
+ }
+ return 2;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASkinImage_new00(tolua_S);
+}
+
+/* method: new_local of class  ASkinImage */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASkinImage_new01_local
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASkinImage_new01_local(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASkinImage",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,3,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String bitmapID = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,3,true));
+ {
+  ASkinImage* tolua_ret = (ASkinImage*)  Mtolua_new((ASkinImage)(GetContext(tolua_S),bitmapID,createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASkinImage");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ tolua_pushurho3dstring(tolua_S,(const char*)bitmapID);
+ }
+ }
+ return 2;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASkinImage_new00_local(tolua_S);
+}
+
 
 $}
 

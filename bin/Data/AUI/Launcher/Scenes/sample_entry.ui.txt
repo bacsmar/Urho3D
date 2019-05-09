@@ -10,7 +10,8 @@ TBLayout: config: "YACPC", skin: uiwidget_solid
 			TBButton: id: 00cpp, text: "C++"
 			TBButton: id: 00as, text: "Angelscript" 
 			TBButton: id: 00lua, text: "Lua"
-			TBButton: id: 00aui, text: "AUI AS"
+			TBButton: id: 00auias, text: "AUI AS"
+			TBButton: id: 00auilua, text: "AUI Lua"
 		TBLayout: config: "YALAC"
 			lp: pref-width: 100
 			TBWidget

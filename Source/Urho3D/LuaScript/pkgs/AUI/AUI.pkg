@@ -2,25 +2,23 @@ $#include "AUI/AUI.h"
 
 class AUI : public Object
 {
-    AUI(Context* context);
-    virtual ~AUI();
-    AWidget* GetRootAWidget() { return rootAWidget_; } // to help bindings
+    AWidget* GetRootAWidget();
     bool LoadResourceFile(AWidget* widget, const String& filename);
-    void SetKeyboardDisabled(bool disabled) {keyboardDisabled_ = disabled; }
-    void SetInputDisabled(bool disabled) { inputDisabled_ = disabled; }
+    void SetKeyboardDisabled(bool disabled);
+    void SetInputDisabled(bool disabled);
     void Initialize(const String& languageFile);
     void LoadSkin(const String& skin, const String& overrideSkin = String::EMPTY);
-    bool GetSkinLoaded() { return skinLoaded_; }
+    bool GetSkinLoaded();
     void LoadDefaultPlayerSkin();
     void AddFont(const String& fontFile, const String &name);
     void SetDefaultFont(const String& name, int size);
     void GetTBIDString(unsigned id, String& value);
     bool GetFocusedWidget();
     AWidget* GetWidgetAt(int x, int y, bool include_children);
-    bool GetBlockChangedEvents() const { return changedEventsBlocked_ > 0; }
+    bool GetBlockChangedEvents() const;
     void SetBlockChangedEvents(bool blocked = true);
     AWidget* GetHoveredWidget();
-    AView* GetFocusedView() const { return focusedView_; }
+    AView* GetFocusedView() const;
 };
 
 AUI* GetAUI();

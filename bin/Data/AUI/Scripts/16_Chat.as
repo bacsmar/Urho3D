@@ -47,7 +47,7 @@ void Start()
 
 void CreateUI()
 {
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/16_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/16_layout.ui.txt" );
 
     AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
     asendButton = uiview.FindWidget("sendButton");

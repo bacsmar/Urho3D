@@ -74,7 +74,7 @@ void InitControls()
     win1.SetSettings ( UI_WINDOW_SETTINGS_DEFAULT );
     win1.SetId ("myWindow");
     win1.SetText("");
-    win1.Load("Scripts/02_layout.ui.txt");
+    win1.Load("Scenes/02_layout.ui.txt");
     win1.ResizeToFitContent();
     uiview.AddChild(win1);
     win1.Center();

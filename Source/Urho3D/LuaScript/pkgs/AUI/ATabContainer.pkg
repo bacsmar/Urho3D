@@ -2,7 +2,7 @@ $#include "AUI/ATabContainer.h"
 
 class ATabContainer : public AWidget
 {
-    ATabContainer(Context* context, bool createWidget = true);
+    ATabContainer( bool createWidget = true);
     virtual ~ATabContainer();
     int GetNumPages();
     void SetCurrentPage(int page);
@@ -18,15 +18,62 @@ class ATabContainer : public AWidget
 ${
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ATabContainer_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ATabContainer_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ATabContainer>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ATabContainer",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ATabContainer* tolua_ret = (ATabContainer*)  Mtolua_new((ATabContainer)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ATabContainer");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ATabContainer_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ATabContainer_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ATabContainer>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ATabContainer",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ATabContainer* tolua_ret = (ATabContainer*)  Mtolua_new((ATabContainer)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ATabContainer");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 $}

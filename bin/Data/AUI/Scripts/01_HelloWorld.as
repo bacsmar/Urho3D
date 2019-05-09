@@ -24,7 +24,7 @@ void Start()
 void CreateText()
 {    
     
-    AUIInit ( "Fonts/Anonymous Pro.ttf", "APro", 30, "AUI/Scripts/01_layout.ui.txt" );
+    AUIInit ( "Fonts/Anonymous Pro.ttf", "APro", 30, "AUI/Scenes/01_layout.ui.txt" );
     
     ATextField@ mytext = aui.GetRootAWidget().FindWidget("helloText");  // get the textfield
     mytext.SetText ( "Hello World from Atomic Urho3D!" ); // and change the text

@@ -1,0 +1,9 @@
+# Urho3D sample 38 layout file
+TBLayout: config: "XGLGR"
+	TBLayout: config: "YPLGR", skin: TBWindow
+		TBClickLabel: text: "Light 1", text-align: left
+			TBCheckBox: id: check1, value:1
+		TBClickLabel: text: "Light 2", text-align: left
+			TBCheckBox: id: check2, value:1
+	TBWidget
+

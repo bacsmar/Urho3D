@@ -1,5 +1,7 @@
 // launcher example
-// using AUI
+// using AUI et al
+// JimMarlowe
+// MIT License
 
 #include "AUI/Scripts/Utilities/Sample.as"
 #include "configuration.as"
@@ -11,6 +13,7 @@ Array<String>cppSamples;
 Array<String>asSamples;
 Array<String>luaSamples;
 Array<String>auiSamples;
+Array<String>auiluaSamples;
 
 String execargs = " -p \"Data;CoreData;Data/AUI;Data/AUI/Periodic\" -w -s ";
 
@@ -46,6 +49,7 @@ void CreateProgramDatabase()
     String asdir = cppdir + "Data/Scripts/";  // where the Angelscript samples live
     String luadir = cppdir + "Data/LuaScripts/"; // where the Lua samples live
     String auidir = cppdir + "Data/AUI/Scripts/"; // where the AUI + Angelscript samples live
+    String auiluadir = cppdir + "Data/AUI/LuaScripts/"; // where the AUI + Lua samples live
 
     Array<String> rawFiles = fileSystem.ScanDir(cppdir, "*", SCAN_FILES, false);
     rawFiles.Sort();
@@ -76,6 +80,14 @@ void CreateProgramDatabase()
     {
         if ( rawFiles[nn][1] >= '0' && rawFiles[nn][1] <= '9' && rawFiles[nn].EndsWith(".as")) 
             auiSamples.Push ( rawFiles[nn] ); // its a sample
+    }
+    rawFiles.Clear();
+    rawFiles = fileSystem.ScanDir(auiluadir, "*", SCAN_FILES, false);
+    rawFiles.Sort();
+    for (uint nn=0; nn< rawFiles.length; nn++ )
+    {
+        if ( rawFiles[nn][1] >= '0' && rawFiles[nn][1] <= '9' && rawFiles[nn].EndsWith(".lua")) 
+            auiluaSamples.Push ( rawFiles[nn] ); // its a sample
     }
 
 }
@@ -121,7 +133,7 @@ void CreateSampleEntry ( int num, AWidget @container )
     
     if ( mynumstr.length < 2 ) mynumstr = "0" + String(num);  // single digits get a 0 infront...
     
-    int cppgot = -1, asgot = -1, luagot = -1, auigot = -1; //who
+    int cppgot = -1, asgot = -1, luagot = -1, auigot = -1, auiluagot = -1; //who
     
     for ( uint n1 = 0; n1<cppSamples.length; n1++) 
         if ( cppSamples[n1].StartsWith ( mynumstr ) ) cppgot = n1;
@@ -131,10 +143,16 @@ void CreateSampleEntry ( int num, AWidget @container )
         if ( luaSamples[n3].StartsWith ( mynumstr ) ) luagot = n3;
     for ( uint n4 = 0; n4<auiSamples.length; n4++) 
         if ( auiSamples[n4].StartsWith ( mynumstr ) ) auigot = n4;
+    for ( uint n5 = 0; n5<auiluaSamples.length; n5++) 
+        if ( auiluaSamples[n5].StartsWith ( mynumstr ) ) auiluagot = n5;
         
-    if (num == 95) asgot = 0; // this is a funny program... tag it
-    
-    if ( cppgot == -1 && asgot == -1 && luagot == -1 && auigot == -1 )
+    if (num == 95)  // this is a funny program... tag it
+    {   
+        asgot = 0;
+        luagot = 0;
+    }
+
+    if ( cppgot == -1 && asgot == -1 && luagot == -1 && auigot == -1 && auiluagot == -1 )
         return;
         
     ALayout @holder = ALayout();
@@ -184,12 +202,23 @@ void CreateSampleEntry ( int num, AWidget @container )
             mywidget.SetState(UI_WIDGET_STATE_DISABLED,true);
         SubscribeToEvent( mywidget, "WidgetEvent", "HandleSpawn" );
     }
-    mywidget = holder.GetWidget("00aui");
+    mywidget = holder.GetWidget("00auias");
     if ( mywidget !is null )
     {
         if ( auigot > -1 )
         {
-            mywidget.SetId ( mynumstr + "aui" );
+            mywidget.SetId ( mynumstr + "auias" );
+        }
+        else 
+            mywidget.SetState(UI_WIDGET_STATE_DISABLED,true);
+        SubscribeToEvent( mywidget, "WidgetEvent", "HandleSpawn" );
+    }
+    mywidget = holder.GetWidget("00auilua");
+    if ( mywidget !is null )
+    {
+        if ( auiluagot > -1 )
+        {
+            mywidget.SetId ( mynumstr + "auilua" );
         }
         else 
             mywidget.SetState(UI_WIDGET_STATE_DISABLED,true);
@@ -218,21 +247,31 @@ String FindProgramAs ( String numstr )
 
 String FindProgramLua ( String numstr )
 {
+    if ( numstr == "95" ) // exception -funny program, return fullish path
+      return "Data/AUI/Periodic/LuaScripts/periodic.lua";
+
     for ( uint n1 = 0; n1<luaSamples.length; n1++) 
         if ( luaSamples[n1].StartsWith ( numstr ) ) return "Data/LuaScripts/" + luaSamples[n1];
     return "";
 }
 
-String FindProgramAui ( String numstr )
+String FindProgramAuiAs ( String numstr )
 {
     for ( uint n1 = 0; n1<auiSamples.length; n1++) 
         if ( auiSamples[n1].StartsWith ( numstr ) ) return "Data/AUI/Scripts/" + auiSamples[n1];
     return "";
 }
 
+String FindProgramAuiLua ( String numstr )
+{
+    for ( uint n1 = 0; n1<auiluaSamples.length; n1++) 
+        if ( auiluaSamples[n1].StartsWith ( numstr ) ) return "Data/AUI/LuaScripts/" + auiluaSamples[n1];
+    return "";
+}
+
 String FindProgramPix ( String numstr )
 {
-   return "Textures/" + numstr + "_pix.jpg"; //png";
+   return "Textures/" + numstr + "_pix.jpg";
 }
 
 void run_program ( String myprogram )
@@ -254,15 +293,18 @@ void run_program ( String myprogram )
     {
          execstr = pgmdir + "Urho3DPlayer " +  pgmdir + FindProgramLua ( numstr );   
     }
-    if ( tech == "aui" )
+    if ( tech == "auias" )
     {
-         execstr = pgmdir + "Urho3DPlayer " +  pgmdir + FindProgramAui ( numstr );   
+         execstr = pgmdir + "Urho3DPlayer " +  pgmdir + FindProgramAuiAs ( numstr );   
+    }
+    if ( tech == "auilua" )
+    {
+         execstr = pgmdir + "Urho3DPlayer " +  pgmdir + FindProgramAuiLua ( numstr );   
     }
 
     if ( execstr != "" )
         fileSystem.SystemCommandAsync ( execstr + execargs);
 
-    //log.Info ( execstr + execargs );
 }
 
 
@@ -297,7 +339,6 @@ void HandleSpawn(StringHash eventType, VariantMap& eventData)
     if ( widget is null ) return;
     if (eventData["Type"] == UI_EVENT_TYPE_CLICK )
     {
-        // log.Info ( "Spawn request for " + widget.GetId() );
         run_program ( widget.GetId() );
     }
 }

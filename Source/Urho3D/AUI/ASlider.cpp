@@ -81,6 +81,8 @@ double ASlider::GetMaxValue() const
 
 bool ASlider::OnEvent(const tb::TBWidgetEvent &ev)
 {
+/* 
+	HELP ATOMIC this make no sense to be in here, it does not produce a custom event or edit_complete
     if (ev.type == EVENT_TYPE_CUSTOM && ev.ref_id == TBIDC("edit_complete"))
     {
         VariantMap eventData;
@@ -89,6 +91,7 @@ bool ASlider::OnEvent(const tb::TBWidgetEvent &ev)
 
         return true;
     }
+*/
     return AWidget::OnEvent(ev);
 }
 
