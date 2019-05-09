@@ -2,7 +2,7 @@ $#include "AUI/AListView.h"
 
 class AListView : public AWidget
 {
-    AListView(Context* context, bool createWidget = true);
+    AListView(bool createWidget = true);
     virtual ~AListView();
     unsigned AddRootItem(const String& text, const String& icon, const String& id);
     unsigned AddChildItem(unsigned parentItemID, const String& text, const String& icon, const String& id);
@@ -14,13 +14,13 @@ class AListView : public AWidget
     void SetExpanded(unsigned itemID, bool value);
     bool GetExpanded(unsigned itemID);
     bool GetExpandable(unsigned itemID);
-    bool GetMultiSelect() const { return multiSelect_; }
-    void SetMultiSelect(bool value) { multiSelect_ = value; }
+    bool GetMultiSelect() const;
+    void SetMultiSelect(bool value);
     void DeleteAllItems();
     void SelectItemByID(const String& id, bool selected = true);
-    String GetHoverItemID() { return rootList_.Null() ? "" : rootList_->GetHoverItemID(); }
-    String GetSelectedItemID() { return rootList_.Null() ? "" : rootList_->GetSelectedItemID(); }
-    ASelectList* GetRootList() { return rootList_; }
+    String GetHoverItemID();
+    String GetSelectedItemID();
+    ASelectList* GetRootList();
     void UpdateItemVisibility();
     void SelectAllItems(bool select = true);
 };
@@ -28,15 +28,62 @@ class AListView : public AWidget
 ${
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_AListView_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AListView_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<AListView>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"AListView",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  AListView* tolua_ret = (AListView*)  Mtolua_new((AListView)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AListView");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_AListView_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AListView_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<AListView>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"AListView",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  AListView* tolua_ret = (AListView*)  Mtolua_new((AListView)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AListView");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 $}

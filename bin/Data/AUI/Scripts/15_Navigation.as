@@ -160,7 +160,7 @@ void CreateUI()
     instructionText.verticalAlignment = VA_CENTER;
     instructionText.SetPosition(0, ui.root.height / 4);
 */
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/15_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/15_layout.ui.txt" );
 
 }
 

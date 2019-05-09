@@ -23,19 +23,15 @@ class Client
     Node@ object;
 }
 
-Text@ instructionsText;
-UIElement@ buttonContainer;
-LineEdit@ textEdit;
-Button@ connectButton;
-Button@ disconnectButton;
-Button@ startServerButton;
+//UIElement@ buttonContainer;
+ATextField@ instructionsText;
+AEditField@ textEdit;
+AButton@ connectButton;
+AButton@ disconnectButton;
+AButton@ startServerButton;
+
 Array<Client> clients;
 uint clientObjectID = 0;
-
-AButton @aconnectButton;
-AButton @adisconnectButton;
-AButton @astartServerButton;
-AEditField @atextEdit;
 
 void Start()
 {
@@ -52,7 +48,7 @@ void Start()
     SetupViewport();
 
     // Set the mouse mode to use in the sample
-    SampleInitMouseMode(MM_RELATIVE);
+    // AUI doesnt activate in this mode -- SampleInitMouseMode(MM_RELATIVE);
 
     // Hook up to necessary events
     SubscribeToEvents();
@@ -131,17 +127,6 @@ void CreateUI()
     cursor.SetPosition(graphics.width / 2, graphics.height / 2);
 
 /*
- * HELP --- THIS DOESNT WORK WITH THE STUPIDO MOUSE MODE, CANT INTERACT WITH THE AUI WIDGETS
- * 
-   AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/17_layout.ui.txt" );
-    AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
-    ALayout @lo0 = uiview.FindWidget("alayout0");
-    if ( lo0 !is null ) lo0.SetLayoutConfig( "YGLPL" ); 
-    aconnectButton = uiview.FindWidget("connectButton");
-    adisconnectButton = uiview.FindWidget("disconnectButton");
-    astartServerButton = uiview.FindWidget("startServerButton");
-    atextEdit = uiview.FindWidget("LineEdit");
-*/ 
     // Construct the instructions text element
     instructionsText = ui.root.CreateChild("Text");
     instructionsText.text = "Use WASD keys to move and RMB to rotate view";
@@ -164,8 +149,21 @@ void CreateUI()
     connectButton = CreateButton("Connect", 90);
     disconnectButton = CreateButton("Disconnect", 100);
     startServerButton = CreateButton("Start Server", 110);
+*/
 
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 16, "AUI/Scenes/17_layout.ui.txt" );
+
+    AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
+    connectButton = uiview.FindWidget("connectButton");
+    disconnectButton = uiview.FindWidget("disconnectButton");
+    startServerButton = uiview.FindWidget("startServerButton");
+    textEdit = uiview.FindWidget("LineEdit");
+    instructionsText = uiview.FindWidget("instructionsText");
+    
+    instructionsText.SetVisibility(UI_WIDGET_VISIBILITY_INVISIBLE);
+    
     UpdateButtons();
+
 }
 
 void SetupViewport()
@@ -186,9 +184,9 @@ void SubscribeToEvents()
     SubscribeToEvent("PostUpdate", "HandlePostUpdate");
 
     // Subscribe to button actions
-    SubscribeToEvent(connectButton, "Released", "HandleConnect");
-    SubscribeToEvent(disconnectButton, "Released", "HandleDisconnect");
-    SubscribeToEvent(startServerButton, "Released", "HandleStartServer");
+    SubscribeToEvent(connectButton, "WidgetEvent", "HandleConnect");  // Released
+    SubscribeToEvent(disconnectButton, "WidgetEvent", "HandleDisconnect");
+    SubscribeToEvent(startServerButton, "WidgetEvent", "HandleStartServer");
 
     // Subscribe to network events
     SubscribeToEvent("ServerConnected", "HandleConnectionStatus");
@@ -202,6 +200,7 @@ void SubscribeToEvents()
     network.RegisterRemoteEvent("ClientObjectID");
 }
 
+/*
 Button@ CreateButton(const String& text, int width)
 {
     Font@ font = cache.GetResource("Font", "Fonts/Anonymous Pro.ttf");
@@ -217,17 +216,39 @@ Button@ CreateButton(const String& text, int width)
 
     return button;
 }
+*/
 
 void UpdateButtons()
 {
     Connection@ serverConnection = network.serverConnection;
     bool serverRunning = network.serverRunning;
-
+    
     // Show and hide buttons so that eg. Connect and Disconnect are never shown at the same time
-    connectButton.visible = serverConnection is null && !serverRunning;
-    disconnectButton.visible = serverConnection !is null || serverRunning;
-    startServerButton.visible = serverConnection is null && !serverRunning;
-    textEdit.visible = serverConnection is null && !serverRunning;
+   
+    if (serverConnection is null && !serverRunning)
+    {
+        connectButton.SetState(UI_WIDGET_STATE_DISABLED, false);
+        startServerButton.SetState(UI_WIDGET_STATE_DISABLED, false);
+        textEdit.SetState(UI_WIDGET_STATE_DISABLED, false);
+    }
+    else 
+    {
+        connectButton.SetState(UI_WIDGET_STATE_DISABLED, true);
+        startServerButton.SetState(UI_WIDGET_STATE_DISABLED, true);
+        textEdit.SetState(UI_WIDGET_STATE_DISABLED, true);
+    }
+    
+    if (serverConnection !is null || serverRunning)
+    {
+        disconnectButton.SetState(UI_WIDGET_STATE_DISABLED, false);
+        instructionsText.SetVisibility( UI_WIDGET_VISIBILITY_VISIBLE );
+    }
+    else 
+    {
+        disconnectButton.SetState(UI_WIDGET_STATE_DISABLED, true);
+        instructionsText.SetVisibility( UI_WIDGET_VISIBILITY_INVISIBLE);
+    }
+
 }
 
 Node@ CreateControllableObject()
@@ -300,7 +321,7 @@ void MoveCamera()
         }
     }
 
-    instructionsText.visible = showInstructions;
+  //  instructionsText.SetVisibility((showInstructions)? UI_WIDGET_VISIBILITY_VISIBLE : UI_WIDGET_VISIBILITY_INVISIBLE);
 }
 
 void HandlePostUpdate(StringHash eventType, VariantMap& eventData)
@@ -371,43 +392,59 @@ void HandlePhysicsPreStep(StringHash eventType, VariantMap& eventData)
 
 void HandleConnect(StringHash eventType, VariantMap& eventData)
 {
-    String address = textEdit.text.Trimmed();
-    if (address.empty)
-        address = "localhost"; // Use localhost to connect if nothing else specified
+    AWidget @widget = eventData["Target"].GetPtr();
+    if ( widget is null ) return;
+    if (eventData["Type"] == UI_EVENT_TYPE_CLICK )
+    {
+        String addrraw = textEdit.GetText();
+        String address = addrraw.Trimmed();
+        if (address.empty)
+            address = "localhost"; // Use localhost to connect if nothing else specified
 
-    // Connect to server, specify scene to use as a client for replication
-    clientObjectID = 0; // Reset own object ID from possible previous connection
-    network.Connect(address, SERVER_PORT, scene_);
+        // Connect to server, specify scene to use as a client for replication
+        clientObjectID = 0; // Reset own object ID from possible previous connection
+        network.Connect(address, SERVER_PORT, scene_);
 
-    UpdateButtons();
+        UpdateButtons();
+    }
 }
 
 void HandleDisconnect(StringHash eventType, VariantMap& eventData)
 {
-    Connection@ serverConnection = network.serverConnection;
-    // If we were connected to server, disconnect. Or if we were running a server, stop it. In both cases clear the
-    // scene of all replicated content, but let the local nodes & components (the static world + camera) stay
-    if (serverConnection !is null)
+    AWidget @widget = eventData["Target"].GetPtr();
+    if ( widget is null ) return;
+    if (eventData["Type"] == UI_EVENT_TYPE_CLICK )
     {
-        serverConnection.Disconnect();
-        scene_.Clear(true, false);
-        clientObjectID = 0;
-    }
-    // Or if we were running a server, stop it
-    else if (network.serverRunning)
-    {
-        network.StopServer();
-        scene_.Clear(true, false);
-    }
+        Connection@ serverConnection = network.serverConnection;
+        // If we were connected to server, disconnect. Or if we were running a server, stop it. In both cases clear the
+        // scene of all replicated content, but let the local nodes & components (the static world + camera) stay
+        if (serverConnection !is null)
+        {
+            serverConnection.Disconnect();
+            scene_.Clear(true, false);
+            clientObjectID = 0;
+        }
+        // Or if we were running a server, stop it
+        else if (network.serverRunning)
+        {
+            network.StopServer();
+            scene_.Clear(true, false);
+        }
 
-    UpdateButtons();
+        UpdateButtons();
+    }
 }
 
 void HandleStartServer(StringHash eventType, VariantMap& eventData)
 {
-    network.StartServer(SERVER_PORT);
+    AWidget @widget = eventData["Target"].GetPtr();
+    if ( widget is null ) return;
+    if (eventData["Type"] == UI_EVENT_TYPE_CLICK )
+    {
+        network.StartServer(SERVER_PORT);
 
-    UpdateButtons();
+        UpdateButtons();
+    }
 }
 
 void HandleConnectionStatus(StringHash eventType, VariantMap& eventData)

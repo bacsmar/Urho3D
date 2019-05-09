@@ -1,4 +1,6 @@
 $#include "AUI/AWidget.h"
+$#include "LuaScript/LuaFile.h"
+$#include "LuaScript/LuaScriptInstance.h"
 
 enum UI_WIDGET_VISIBILITY
 {
@@ -73,11 +75,11 @@ enum UI_AXIS {
 
 class AWidget : public Object
 {
-    AWidget(Context* context, bool createWidget = true);
+    AWidget(bool createWidget = true);
     virtual ~AWidget();
     bool Load(const String& filename);
     const String& GetId();
-    const String GetClassName();  // for binding
+    const String GetClassName();
     AWidget* GetParent();
     AWidget* GetContentRoot();
     IntRect GetRect();
@@ -94,9 +96,14 @@ class AWidget : public Object
     void DeleteAllChildren();
     virtual AWidget *FindWidget ( const String& searchid );
     virtual void PrintPrettyTree();
-    PODVector<AWidget*> SearchAWidgetClass (const String& className );
-    PODVector<AWidget*> SearchAWidgetId ( const String& searchid );
-    PODVector<AWidget*> SearchAWidgetText ( const String& searchText);
+
+    //PODVector<AWidget*> SearchAWidgetClass (const String& className );
+    //PODVector<AWidget*> SearchAWidgetId ( const String& searchid );
+    //PODVector<AWidget*> SearchAWidgetText ( const String& searchText);
+    tolua_outside const PODVector<AWidget*>& AWidgetSearchAWidgetClass  @ SearchAWidgetClass(const String& className );
+    tolua_outside const PODVector<AWidget*>& AWidgetSearchAWidgetId  @ SearchAWidgetId(const String& searchid );
+    tolua_outside const PODVector<AWidget*>& AWidgetSearchAWidgetText  @ SearchAWidgetClass(const String& searchText );
+
     virtual void SetId(const String& id);
     void Center();
     void SetGravity(UI_GRAVITY gravity);
@@ -125,9 +132,9 @@ class AWidget : public Object
     void AddChildBefore(AWidget* child, AWidget* otherChild);
     void AddChildRelative(AWidget* child, UI_WIDGET_Z_REL z, AWidget* reference);
     void InvalidateLayout();
-    void SetDelegate(AWidget* widget) { widget_->SetDelegate(widget); }
-    void SetMultiTouch(bool multiTouch) { multiTouch_ = multiTouch; }
-    bool IsMultiTouch() { return multiTouch_; }
+    void SetDelegate(AWidget* widget);
+    void SetMultiTouch(bool multiTouch);
+    bool IsMultiTouch();
     bool GetCaptured();
     void SetCapturing(bool capturing);
     bool GetCapturing();
@@ -142,14 +149,14 @@ class AWidget : public Object
     String GetFontId();
     void SetFontSize(int size);
     int GetFontSize();
-    void SetX(int x) { IntRect r(GetRect()); r.right_ = x + r.Width(); r.left_ = x; SetRect(r); }
-    int GetX() { return GetRect().left_; }
-    void SetY(int y) { IntRect r(GetRect()); r.bottom_ = y + r.Height(); r.top_ = y; SetRect(r); }
-    int GetY() { return GetRect().top_; }
-    void SetWidth(int width) { IntRect r(GetRect()); r.right_ = r.left_ + width; SetRect(r); }
-    int GetWidth() { return GetRect().Width(); }
-    void SetHeight(int height) { IntRect r(GetRect()); r.bottom_ = r.top_ + height; SetRect(r); }
-    int GetHeight() { return GetRect().Height(); }
+    void SetX(int x);
+    int GetX();
+    void SetY(int y);
+    int GetY();
+    void SetWidth(int width);
+    int GetWidth();
+    void SetHeight(int height);
+    int GetHeight();
     void SetLayoutWidth(int width);
     int GetLayoutWidth();
     void SetLayoutHeight(int height);
@@ -176,16 +183,90 @@ class AWidget : public Object
 
 
 ${
+
 #define TOLUA_DISABLE_tolua_AUILuaAPI_AWidget_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AWidget_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<AWidget>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"AWidget",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  AWidget* tolua_ret = (AWidget*)  Mtolua_new((AWidget)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AWidget");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_AWidget_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AWidget_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<AWidget>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"AWidget",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  AWidget* tolua_ret = (AWidget*)  Mtolua_new((AWidget)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AWidget");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
+
+static const PODVector<AWidget*>& AWidgetSearchAWidgetClass(AWidget *awidget, const String& className )
+{
+    static PODVector<AWidget*> result;
+    result.Clear();
+    result = awidget->SearchAWidgetClass(className);
+    return result;
+}
+
+static const PODVector<AWidget*>& AWidgetSearchAWidgetId(AWidget *awidget, const String& searchid )
+{
+    static PODVector<AWidget*> result;
+    result.Clear();
+    result = awidget->SearchAWidgetId(searchid);
+    return result;
+}
+
+static const PODVector<AWidget*>& AWidgetSearchAWidgetText(AWidget *awidget, const String& searchText )
+{
+    static PODVector<AWidget*> result;
+    result.Clear();
+    result = awidget->SearchAWidgetClass(searchText);
+    return result;
+}
+
+
 $}
 

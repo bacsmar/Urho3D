@@ -371,7 +371,7 @@ void CreateUIContent(String demoTitle)
     lifeText.textEffect = TE_SHADOW;
     lifeText.text = LIFES;
 
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 14, "AUI/Scripts/49_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 14, "AUI/Scenes/49_layout.ui.txt" );
     AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
     AWidget @awid = uiview.FindWidget("gameplay");
     SubscribeToEvent(awid, "WidgetEvent", "HandlePlayButton" );

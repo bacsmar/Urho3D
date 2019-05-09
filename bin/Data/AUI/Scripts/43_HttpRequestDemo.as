@@ -42,7 +42,7 @@ void CreateUI()
     
        */
        
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/01_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/01_layout.ui.txt" );
     writeText ( "Ready" );
 }
 

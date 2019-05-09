@@ -58,14 +58,15 @@ void ALayoutParams::RegisterObject(Context* context)
 #endif
 
 
-ALayout::ALayout(Context* context, UI_AXIS axis, bool createWidget) : AWidget(context, false)
+/// HELP LUA FU -- ALayout::ALayout(Context* context, UI_AXIS axis, bool createWidget) : AWidget(context, false)
+ALayout::ALayout(Context* context, bool createWidget) : AWidget(context, false)
 {
     if (createWidget)
     {
         widget_ = new TBLayout();
         widget_->SetDelegate(this);
         widget_->SetGravity(WIDGET_GRAVITY_ALL);
-        widget_->SetAxis((AXIS) axis);
+        widget_->SetAxis( tb::AXIS_X ); /// HELP LUA FU (AXIS) axis);
         GetSubsystem<AUI>()->WrapWidget(this, widget_);
     }
 }

@@ -4,7 +4,7 @@
 //      - Loading a UI layout from a file and showing it
 //      - Subscribing to the UI layout's events
 
-#include "Scripts/Utilities/Sample.as"
+#include "AUI/Scripts/Utilities/Sample.as"
 
 void Start()
 {
@@ -21,7 +21,7 @@ void Start()
     SetupViewport();
 
     // Set the mouse mode to use in the sample
-    SampleInitMouseMode(MM_RELATIVE);
+    // AUI controls dont work in this mode -- SampleInitMouseMode(MM_RELATIVE);
 
     // Subscribe to global events for camera movement
     SubscribeToEvents();
@@ -57,6 +57,7 @@ void CreateUI()
     // Set starting position of the cursor at the rendering window center
     cursor.SetPosition(graphics.width / 2, graphics.height / 2);
 
+/*
     // Load UI content prepared in the editor and add to the UI hierarchy
     UIElement@ layoutRoot = ui.LoadLayout(cache.GetResource("XMLFile", "UI/UILoadExample.xml"));
     ui.root.AddChild(layoutRoot);
@@ -68,6 +69,39 @@ void CreateUI()
     button = layoutRoot.GetChild("ToggleLight2", true);
     if (button !is null)
         SubscribeToEvent(button, "Released", "ToggleLight2");
+*/
+
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/38_layout.ui.txt" );
+    AView@ uiview = aui.GetFocusedView();
+    AWidget @check1 = uiview.FindWidget("check1");
+    SubscribeToEvent( check1, "WidgetEvent", "HandleLight1" );
+    AWidget @check2 = uiview.FindWidget("check2");
+    SubscribeToEvent( check2, "WidgetEvent", "HandleLight2" );
+
+}
+
+void HandleLight1(StringHash eventType, VariantMap& eventData)
+{
+    AWidget @widget = eventData["Target"].GetPtr();
+    if ( widget is null ) return;
+    if (eventData["Type"] == UI_EVENT_TYPE_CLICK )
+    {
+        Node@ lightNode = scene_.GetChild("Light1", true);
+        if (lightNode !is null)
+            lightNode.enabled = widget.GetValue() > 0.0;
+    }
+}
+
+void HandleLight2(StringHash eventType, VariantMap& eventData)
+{
+    AWidget @widget = eventData["Target"].GetPtr();
+    if ( widget is null ) return;
+    if (eventData["Type"] == UI_EVENT_TYPE_CLICK )
+    {
+        Node@ lightNode = scene_.GetChild("Light2", true);
+        if (lightNode !is null)
+            lightNode.enabled = widget.GetValue() > 0.0;
+    }
 }
 
 void ToggleLight1()

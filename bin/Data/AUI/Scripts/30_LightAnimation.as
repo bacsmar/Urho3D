@@ -142,7 +142,7 @@ void CreateInstructions()
     text.verticalAlignment = VA_CENTER;
     text.SetPosition(0, ui.root.height / 4 + 40);
     
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/23_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/23_layout.ui.txt" );
 
     // Animating sprite in the top left corner
     Sprite@ sprite = ui.root.CreateChild("Sprite", "animatingSprite");

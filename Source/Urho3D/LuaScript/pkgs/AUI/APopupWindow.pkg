@@ -2,7 +2,7 @@ $#include "AUI/APopupWindow.h"
 
 class APopupWindow: public AWidget
 {
-    APopupWindow(Context* context, bool createWidget = true, AWidget* target = nullptr, const String& id = String::EMPTY);
+    APopupWindow(bool createWidget = true, AWidget* target = nullptr, const String& id = String::EMPTY);
     virtual ~APopupWindow();
     void Show(int x = -1, int y = -1);
     void Close();
@@ -11,15 +11,128 @@ class APopupWindow: public AWidget
 ${
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_APopupWindow_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_APopupWindow_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<APopupWindow>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"APopupWindow",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isusertype(tolua_S,3,"AWidget",1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+  AWidget* target = ((AWidget*)  tolua_tousertype(tolua_S,3,nullptr));
+ {
+  APopupWindow* tolua_ret = (APopupWindow*)  Mtolua_new((APopupWindow)(GetContext(tolua_S),createWidget,target));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"APopupWindow");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
+/* method: new_local of class  APopupWindow */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_APopupWindow_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_APopupWindow_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<APopupWindow>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"APopupWindow",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isusertype(tolua_S,3,"AWidget",1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+  AWidget* target = ((AWidget*)  tolua_tousertype(tolua_S,3,nullptr));
+ {
+  APopupWindow* tolua_ret = (APopupWindow*)  Mtolua_new((APopupWindow)(GetContext(tolua_S),createWidget,target));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"APopupWindow");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+
+/* method: new of class  APopupWindow */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_APopupWindow_new01
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_APopupWindow_new01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"APopupWindow",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+ !tolua_isusertype(tolua_S,3,"AWidget",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+  AWidget* target = ((AWidget*)  tolua_tousertype(tolua_S,3,0));
+  const String id = ((const String)  tolua_tourho3dstring(tolua_S,4,0));
+ {
+  APopupWindow* tolua_ret = (APopupWindow*)  Mtolua_new((APopupWindow)(GetContext(tolua_S),createWidget,target,id));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"APopupWindow");
+ tolua_pushurho3dstring(tolua_S,(const char*)id);
+ }
+ }
+ return 2;
+tolua_lerror:
+ return tolua_AUILuaAPI_APopupWindow_new00(tolua_S);
+}
+
+/* method: new_local of class  APopupWindow */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_APopupWindow_new01_local
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_APopupWindow_new01_local(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"APopupWindow",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+ !tolua_isusertype(tolua_S,3,"AWidget",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+  AWidget* target = ((AWidget*)  tolua_tousertype(tolua_S,3,0));
+  const String id = ((const String)  tolua_tourho3dstring(tolua_S,4,0));
+ {
+  APopupWindow* tolua_ret = (APopupWindow*)  Mtolua_new((APopupWindow)(GetContext(tolua_S),createWidget,target,id));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"APopupWindow");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ tolua_pushurho3dstring(tolua_S,(const char*)id);
+ }
+ }
+ return 2;
+tolua_lerror:
+ return tolua_AUILuaAPI_APopupWindow_new00_local(tolua_S);
 }
 
 $}

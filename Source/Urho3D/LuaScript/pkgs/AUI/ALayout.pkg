@@ -32,19 +32,19 @@ enum UI_LAYOUT_DISTRIBUTION_POSITION
 
 class ALayoutParams : public Object
 {
-    ALayoutParams(Context* context);
+    ALayoutParams();
     virtual ~ALayoutParams();
-    void SetWidth(int width) { params_.SetWidth(width); }
-    void SetHeight(int height) { params_.SetHeight(height); }
-    void SetMinWidth(int width) { params_.min_w = width; }
-    void SetMinHeight(int height) { params_.min_h = height; }
-    void SetMaxWidth(int width) { params_.max_w = width; }
-    void SetMaxHeight(int height) { params_.max_h = height; }
+    void SetWidth(int width);
+    void SetHeight(int height);
+    void SetMinWidth(int width);
+    void SetMinHeight(int height);
+    void SetMaxWidth(int width);
+    void SetMaxHeight(int height);
 };
 
 class ALayout : public AWidget
 {
-    ALayout(Context* context, UI_AXIS axis = UI_AXIS_X, bool createWidget = true);
+    ALayout( bool createWidget = true);
     virtual ~ALayout();
     void SetLayoutSize(UI_LAYOUT_SIZE size);
     void SetLayoutPosition(UI_LAYOUT_POSITION position);
@@ -58,28 +58,119 @@ ${
 
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ALayoutParams_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ALayoutParams_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ALayoutParams>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ALayoutParams",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ALayoutParams* tolua_ret = (ALayoutParams*)  Mtolua_new((ALayoutParams)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ALayoutParams");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ALayoutParams_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ALayoutParams_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ALayoutParams>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ALayoutParams",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ALayoutParams* tolua_ret = (ALayoutParams*)  Mtolua_new((ALayoutParams)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ALayoutParams");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ALayout_new00
 static int tolua_AUILuaAPI_ALayout_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ALayout>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ALayout",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ALayout* tolua_ret = (ALayout*)  Mtolua_new((ALayout)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ALayout");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
+/* method: new_local of class  ALayout */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ALayout_new00_local
 static int tolua_AUILuaAPI_ALayout_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ALayout>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ALayout",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ALayout* tolua_ret = (ALayout*)  Mtolua_new((ALayout)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ALayout");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
+
+
 $}
 
 

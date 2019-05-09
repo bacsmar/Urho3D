@@ -81,7 +81,7 @@ void CreateText()
 */
     logHistory.Resize(16); //20);
 
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/52_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/52_layout.ui.txt" );
     AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
     anatServerAddress = uiview.FindWidget("addrEdit"); // get the widgets from ids
     anatServerPort = uiview.FindWidget("portEdit");

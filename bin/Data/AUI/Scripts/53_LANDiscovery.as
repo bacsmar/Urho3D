@@ -54,7 +54,7 @@ void CreateText()
     serverList = CreateLabel("", IntVector2(20, marginTop));
     */
     
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scripts/53_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/53_layout.ui.txt" );
     AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
     aserverList = uiview.FindWidget("serverList");
     astartButton = uiview.FindWidget("startButton");

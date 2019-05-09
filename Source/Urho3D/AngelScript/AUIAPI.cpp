@@ -514,9 +514,9 @@ ALayoutParams * wrapper_ALayoutParams_constructor ()
     return new ALayoutParams (Urho3D::GetScriptContext ());
 }
 
-ALayout * wrapper_ALayout_constructor_axis_createWidget (UI_AXIS axis = UI_AXIS_X, bool createWidget = true)
+ALayout * wrapper_ALayout_constructor_axis_createWidget (bool createWidget = true)
 {
-    return new ALayout (Urho3D::GetScriptContext (), axis, createWidget);
+    return new ALayout (Urho3D::GetScriptContext (), createWidget);
 }
 
 void RegisterUI_LAYOUT_DISTRIBUTION_POSITION (asIScriptEngine *engine)
@@ -553,7 +553,7 @@ template <class T> void RegisterALayout (asIScriptEngine *engine, const char *cl
     {
         Urho3D::RegisterSubclass <AWidget, T> (engine, "AWidget", className);
 
-        engine->RegisterObjectBehaviour (className, asBEHAVE_FACTORY, (Urho3D::String (className) + "@+ f (UI_AXIS axis = UI_AXIS_X, bool createWidget = true)").CString (), asFUNCTION (wrapper_ALayout_constructor_axis_createWidget), asCALL_CDECL);
+        engine->RegisterObjectBehaviour (className, asBEHAVE_FACTORY, (Urho3D::String (className) + "@+ f (bool createWidget = true)").CString (), asFUNCTION (wrapper_ALayout_constructor_axis_createWidget), asCALL_CDECL);
     }
 
     engine->RegisterObjectMethod (className, "void SetLayoutSize (UI_LAYOUT_SIZE size) ", asMETHOD (T, SetLayoutSize), asCALL_THISCALL);

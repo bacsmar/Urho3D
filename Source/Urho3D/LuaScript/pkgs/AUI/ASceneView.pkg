@@ -2,36 +2,83 @@ $#include "AUI/ASceneView.h"
 
 class ASceneView : public AWidget
 {
-    ASceneView(Context* context, bool createWidget = true);
+    ASceneView(bool createWidget = true);
     virtual ~ASceneView();
     void OnResize(const IntVector2& newSize);
     void SetView(Scene* scene, Camera* camera);
     void SetFormat(unsigned format);
     void SetAutoUpdate(bool enable);
     void QueueUpdate();
-    unsigned GetFormat() const { return rttFormat_; }
-    bool GetAutoUpdate() const { return autoUpdate_; }
+    unsigned GetFormat() const;
+    bool GetAutoUpdate() const;
     Scene* GetScene() const;
     Node* GetCameraNode() const;
     Texture2D* GetRenderTexture() const;
     Texture2D* GetDepthTexture() const;
     Viewport* GetViewport() const;
-    void SetResizeRequired() {resizeRequired_ = true;}
-    const IntVector2& GetSize() const { return size_; }
+    void SetResizeRequired();
+    const IntVector2& GetSize() const;
 };
 
 ${
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASceneView_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASceneView_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ASceneView>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASceneView",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ASceneView* tolua_ret = (ASceneView*)  Mtolua_new((ASceneView)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASceneView");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASceneView_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASceneView_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ASceneView>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASceneView",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ASceneView* tolua_ret = (ASceneView*)  Mtolua_new((ASceneView)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASceneView");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 $}

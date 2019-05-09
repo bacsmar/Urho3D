@@ -2,22 +2,69 @@ $#include "AUI/ADimmer.h"
 
 class ADimmer : public AWidget
 {
-    ADimmer(Context* context, bool createWidget = true);
+    ADimmer(bool createWidget = true);
     virtual ~ADimmer();
 };
 
 ${
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ADimmer_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ADimmer_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ADimmer>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ADimmer",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ADimmer* tolua_ret = (ADimmer*)  Mtolua_new((ADimmer)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ADimmer");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ADimmer_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ADimmer_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ADimmer>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ADimmer",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  ADimmer* tolua_ret = (ADimmer*)  Mtolua_new((ADimmer)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ADimmer");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 $}

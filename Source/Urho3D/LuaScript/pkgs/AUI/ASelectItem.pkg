@@ -2,11 +2,11 @@ $#include "AUI/ASelectItem.h"
 
 class ASelectItem : public Object
 {
-    ASelectItem(Context* context, const String& str = String::EMPTY, const String& id = String::EMPTY, const String& skinImage = String::EMPTY);
+    ASelectItem( const String& str = String::EMPTY, const String& id = String::EMPTY, const String& skinImage = String::EMPTY);
     virtual ~ASelectItem();
-    void SetString(const String& str) { str_ = str; }
+    void SetString(const String& str);
     void SetID(const String& id);
-    const String& GetStr() { return str_; }
+    const String& GetStr();
     void SetSkinImage(const String& skinImage);
     void SetSubSource(ASelectItemSource *subSource);
 };
@@ -15,39 +15,308 @@ class ASelectItemSource : public Object
 {
     ASelectItemSource(Context* context);
     virtual ~ASelectItemSource();
-    void AddItem(ASelectItem* item) { items_.Push(SharedPtr<ASelectItem>(item)); }
+    void AddItem(ASelectItem* item);
     void RemoveItemWithId(const String& id);
     void RemoveItemWithStr(const String& str);
-    int GetItemCount() { return items_.Size(); }
-    void Clear() { items_.Clear(); }
+    int GetItemCount();
+    void Clear();
     const String& GetItemStr(int index);
 };
 
 ${
 
+ /* method: new of class  ASelectItem */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASelectItem_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ASelectItem>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
+/* method: new_local of class  ASelectItem */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASelectItem_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ASelectItem>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
+/* method: new of class  ASelectItem */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new01
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASelectItem_new01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S),str));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ tolua_pushurho3dstring(tolua_S,(const char*)str);
+ }
+ }
+ return 2;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASelectItem_new00(tolua_S);
+}
+
+/* method: new_local of class  ASelectItem */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new01_local
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASelectItem_new01_local(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S),str));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ tolua_pushurho3dstring(tolua_S,(const char*)str);
+ }
+ }
+ return 2;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASelectItem_new00_local(tolua_S);
+}
+
+/* method: new of class  ASelectItem */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new02
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASelectItem_new02(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+  const String id = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S),str,id));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ tolua_pushurho3dstring(tolua_S,(const char*)str);
+ tolua_pushurho3dstring(tolua_S,(const char*)id);
+ }
+ }
+ return 3;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASelectItem_new01(tolua_S);
+}
+
+/* method: new_local of class  ASelectItem */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new02_local
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASelectItem_new02_local(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+  const String id = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S),str,id));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ tolua_pushurho3dstring(tolua_S,(const char*)str);
+ tolua_pushurho3dstring(tolua_S,(const char*)id);
+ }
+ }
+ return 3;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASelectItem_new01_local(tolua_S);
+}
+
+/* method: new of class  ASelectItem */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new03
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASelectItem_new03(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+  const String id = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
+  const String skinImage = ((const String)  tolua_tourho3dstring(tolua_S,4,0));
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S),str,id,skinImage));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ tolua_pushurho3dstring(tolua_S,(const char*)str);
+ tolua_pushurho3dstring(tolua_S,(const char*)id);
+ tolua_pushurho3dstring(tolua_S,(const char*)skinImage);
+ }
+ }
+ return 4;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASelectItem_new02(tolua_S);
+}
+
+/* method: new_local of class  ASelectItem */
+#define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItem_new03_local
+/* AUI Constructor with context added */
+static int tolua_AUILuaAPI_ASelectItem_new03_local(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItem",0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
+  const String id = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
+  const String skinImage = ((const String)  tolua_tourho3dstring(tolua_S,4,0));
+ {
+  ASelectItem* tolua_ret = (ASelectItem*)  Mtolua_new((ASelectItem)(GetContext(tolua_S),str,id,skinImage));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItem");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ tolua_pushurho3dstring(tolua_S,(const char*)str);
+ tolua_pushurho3dstring(tolua_S,(const char*)id);
+ tolua_pushurho3dstring(tolua_S,(const char*)skinImage);
+ }
+ }
+ return 4;
+tolua_lerror:
+ return tolua_AUILuaAPI_ASelectItem_new02_local(tolua_S);
+}
+
+
+/* method: new of class  ASelectItemSource */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItemSource_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASelectItemSource_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<ASelectItemSource>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItemSource",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ASelectItemSource* tolua_ret = (ASelectItemSource*)  Mtolua_new((ASelectItemSource)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItemSource");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
+/* method: new_local of class  ASelectItemSource */
 #define TOLUA_DISABLE_tolua_AUILuaAPI_ASelectItemSource_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_ASelectItemSource_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<ASelectItemSource>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"ASelectItemSource",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+ {
+  ASelectItemSource* tolua_ret = (ASelectItemSource*)  Mtolua_new((ASelectItemSource)(GetContext(tolua_S)));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"ASelectItemSource");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
+
 
 $}
 

@@ -72,6 +72,9 @@ extern int tolua_PhysicsLuaAPI_open(lua_State*);
 extern int tolua_ResourceLuaAPI_open(lua_State*);
 extern int tolua_SceneLuaAPI_open(lua_State*);
 extern int tolua_UILuaAPI_open(lua_State*);
+// ATOMIC BEGIN
+extern int tolua_AUILuaAPI_open(lua_State*);
+// ATOMIC END
 #ifdef URHO3D_URHO2D
 extern int tolua_Urho2DLuaAPI_open(lua_State*);
 #endif
@@ -125,6 +128,10 @@ LuaScript::LuaScript(Context* context) :
     tolua_PhysicsLuaAPI_open(luaState_);
 #endif
     tolua_UILuaAPI_open(luaState_);
+// ATOMIC BEGIN
+    tolua_AUILuaAPI_open(luaState_);
+// ATOMIC END
+
 #ifdef URHO3D_URHO2D
     tolua_Urho2DLuaAPI_open(luaState_);
 #endif

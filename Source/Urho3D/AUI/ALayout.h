@@ -137,7 +137,8 @@ class URHO3D_API ALayout : public AWidget
 public:
 
     //@ASBindGen Constructor UseUrho3DScriptContext_arg0
-    ALayout(Context* context, UI_AXIS axis = UI_AXIS_X, bool createWidget = true);
+/// HELP LUA FU -- ALayout(Context* context, UI_AXIS axis = UI_AXIS_X, bool createWidget = true);
+    ALayout(Context* context, bool createWidget = true);
     virtual ~ALayout();
 
     void SetSpacing(int spacing);

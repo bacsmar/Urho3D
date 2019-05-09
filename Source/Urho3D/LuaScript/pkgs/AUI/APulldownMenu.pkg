@@ -2,7 +2,7 @@ $#include "AUI/APulldownMenu.h"
 
 class APulldownMenu : public AButton
 {
-    APulldownMenu(Context* context, bool createWidget = true);
+    APulldownMenu(bool createWidget = true);
     virtual ~APulldownMenu();
     void SetSource(ASelectItemSource* source); /// for programming the pulled down menu
     const String& GetSelectedId(); /// return id of entry selected in menu
@@ -11,15 +11,62 @@ class APulldownMenu : public AButton
 ${
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_APulldownMenu_new00
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_APulldownMenu_new00(lua_State* tolua_S)
 {
-    return ToluaNewObject<APulldownMenu>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"APulldownMenu",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  APulldownMenu* tolua_ret = (APulldownMenu*)  Mtolua_new((APulldownMenu)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"APulldownMenu");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 #define TOLUA_DISABLE_tolua_AUILuaAPI_APulldownMenu_new00_local
+/* AUI Constructor with context added */
 static int tolua_AUILuaAPI_APulldownMenu_new00_local(lua_State* tolua_S)
 {
-    return ToluaNewObjectGC<APulldownMenu>(tolua_S);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertable(tolua_S,1,"APulldownMenu",0,&tolua_err) ||
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  bool createWidget = ((bool)  tolua_toboolean(tolua_S,2,true));
+ {
+  APulldownMenu* tolua_ret = (APulldownMenu*)  Mtolua_new((APulldownMenu)(GetContext(tolua_S),createWidget));
+  tolua_pushusertype(tolua_S,(void*)tolua_ret,"APulldownMenu");
+ tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
 }
 
 $}

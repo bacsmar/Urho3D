@@ -567,7 +567,8 @@ void AUI::HandleUpdate(StringHash eventType, VariantMap& eventData)
         if (hoveredWidget && !tooltip_ && (hoveredWidget->GetShortened() || hoveredWidget->GetTooltip().Length() > 0))
         {
             tooltip_ = new APopupWindow(context_, true, hoveredWidget, "tooltip");
-            ALayout* tooltipLayout = new ALayout(context_, UI_AXIS_Y, true);
+            ALayout* tooltipLayout = new ALayout(context_, true);
+            tooltipLayout->SetAxis(UI_AXIS_Y); // thank you lua...
             if (hoveredWidget->GetShortened())
             {
                 ATextField* fullTextField = new ATextField(context_, true);
@@ -886,7 +887,8 @@ AWidget* AUI::WrapWidget(tb::TBWidget* widget)
 
     if (widget->IsOfType<TBLayout>())
     {
-        ALayout* layout = new ALayout(context_, (UI_AXIS) widget->GetAxis(), false);
+        ALayout* layout = new ALayout(context_,  false);
+        layout->SetAxis((UI_AXIS) widget->GetAxis()); // thx lua
         layout->SetWidget(widget);
         WrapWidget(layout, widget);
         return layout;

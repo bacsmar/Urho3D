@@ -75,7 +75,7 @@ void CreateUI()
     SubscribeToEvent(slider, "SliderChanged", "HandleMusicVolume");
 */
     
-    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 14, "AUI/Scripts/14_layout.ui.txt" );
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 14, "AUI/Scenes/14_layout.ui.txt" );
     
     AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
 
