@@ -9,6 +9,6 @@ TBLayout: config: "YACAC", skin: TBWindow
 	TBLayout: config: "XPCGL"
 		TBButton: id: searchButton, text: "Search..."
 		TBWidget: gravity: all
-	TBTextField: text: "Local Servers", text-align: left
+	TBTextField: text: "Local Servers:", text-align: left
 	TBEditField: id: serverList, multiline: 1, styling: 1, readonly: 1
 

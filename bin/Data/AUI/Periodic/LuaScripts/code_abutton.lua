@@ -11,7 +11,7 @@ function HandleUibuttonEvent( eventType, eventData )
 
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return;
+ 		return
 	end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "demobutton" then

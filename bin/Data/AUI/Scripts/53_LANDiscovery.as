@@ -58,7 +58,7 @@ void CreateText()
     AView@ uiview = aui.GetFocusedView(); // get the topmost aui widget
     aserverList = uiview.FindWidget("serverList");
     astartButton = uiview.FindWidget("startButton");
-    astartButton.SetState(UI_WIDGET_STATE_NONE, true);
+    astartButton.SetState(UI_WIDGET_STATE_DISABLED, false);
     astopButton = uiview.FindWidget("stopButton");
     astopButton.SetState(UI_WIDGET_STATE_DISABLED, true);
 

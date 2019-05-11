@@ -313,88 +313,52 @@ function CreateUIContent(demoTitle)
     lifeText.text = LIFES
 
     -- Create the fullscreen UI for start/end
-    local fullUI = ui.root:CreateChild("Window", "FullUI")
-    fullUI:SetStyleAuto()
-    fullUI:SetSize(ui.root.width, ui.root.height)
-    fullUI.enabled = false -- Do not react to input, only the 'Exit' and 'Play' buttons will
-
-    -- Create the title
-    local title = fullUI:CreateChild("BorderImage", "Title")
-    title:SetMinSize(fullUI.width, 50)
-    title.texture = cache:GetResource("Texture2D", "Textures/HeightMap.png")
-    title:SetFullImageRect()
-    title:SetAlignment(HA_CENTER, VA_TOP)
-    local titleText = title:CreateChild("Text", "TitleText")
-    titleText:SetAlignment(HA_CENTER, VA_CENTER)
-    titleText:SetFont(font, 24)
-    titleText.text = demoTitle
-
-    -- Create the image
-    local spriteUI = fullUI:CreateChild("BorderImage", "Sprite")
-    spriteUI.texture = cache:GetResource("Texture2D", "Urho2D/imp/imp_all.png")
-    spriteUI:SetSize(238, 271)
-    spriteUI:SetAlignment(HA_CENTER, VA_CENTER)
-    spriteUI:SetPosition(0, - ui.root.height / 4)
-
-    -- Create the 'EXIT' button
-    local exitButton = ui.root:CreateChild("Button", "ExitButton")
-    exitButton:SetStyleAuto()
-    exitButton.focusMode = FM_RESETFOCUS
-    exitButton:SetSize(100, 50)
-    exitButton:SetAlignment(HA_CENTER, VA_CENTER)
-    exitButton:SetPosition(-100, 0)
-    local exitText = exitButton:CreateChild("Text", "ExitText")
-    exitText:SetAlignment(HA_CENTER, VA_CENTER)
-    exitText:SetFont(font, 24)
-    exitText.text = "EXIT"
-    SubscribeToEvent(exitButton, "Released", "HandleExitButton")
-
-    -- Create the 'PLAY' button
-    local playButton = ui.root:CreateChild("Button", "PlayButton")
-    playButton:SetStyleAuto()
-    playButton.focusMode = FM_RESETFOCUS
-    playButton:SetSize(100, 50)
-    playButton:SetAlignment(HA_CENTER, VA_CENTER)
-    playButton:SetPosition(100, 0)
-    local playText = playButton:CreateChild("Text", "PlayText")
-    playText:SetAlignment(HA_CENTER, VA_CENTER)
-    playText:SetFont(font, 24)
-    playText.text = "PLAY"
-    SubscribeToEvent(playButton, "Released", "HandlePlayButton")
-
-    -- Create the instructions
-    local instructionText = ui.root:CreateChild("Text", "Instructions")
-    instructionText:SetFont(font, 15)
-    instructionText.textAlignment = HA_CENTER -- Center rows in relation to each other
-    instructionText.text = "Use WASD keys or Arrows to move\nPageUp/PageDown/MouseWheel to zoom\nF5/F7 to save/reload scene\n'Z' to toggle debug geometry\nSpace to fight"
-    instructionText:SetAlignment(HA_CENTER, VA_CENTER)
-    instructionText:SetPosition(0, ui.root.height / 4)
+    AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 14, "AUI/Scenes/49_layout.ui.txt" )
+    local uiview = aui:GetFocusedView()
+    local awid = uiview:FindWidget("gameplay")
+    SubscribeToEvent(awid, "WidgetEvent", "HandlePlayButton" )
+    awid = uiview:FindWidget("gameexit")
+    SubscribeToEvent(awid, "WidgetEvent", "HandleExitButton" )
+    awid = uiview:FindWidget("gametitle")
+    awid:SetText(demoTitle)
 
     -- Show mouse cursor
     input.mouseVisible = true
 end
 
-function HandleExitButton()
-    engine:Exit()
+function HandleExitButton(eventType, eventData)
+    local widget = eventData["Target"]:GetPtr("AWidget")
+    if widget == nil then
+ 		return;
+	end
+    if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
+    	engine:Exit()
+	end
 end
 
-function HandlePlayButton()
-    -- Remove fullscreen UI and unfreeze the scene
-    if ui.root:GetChild("FullUI", true) then
-        ui.root:GetChild("FullUI", true):Remove()
-        scene_.updateEnabled = true
-    else
-        -- Reload the scene
-        ReloadScene(true)
-    end
-
-    -- Hide Instructions and Play/Exit buttons
-    ui.root:GetChild("Instructions", true).text = ""
-    ui.root:GetChild("ExitButton", true).visible = false
-    ui.root:GetChild("PlayButton", true).visible = false
-
-    -- Hide mouse cursor
-    input.mouseVisible = false
+function HandlePlayButton(eventType, eventData)
+    local widget = eventData["Target"]:GetPtr("AWidget")
+    if widget == nil then
+ 		return
+	end
+    if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
+    	-- Remove fullscreen UI and unfreeze the scene
+        local uiview = aui:GetFocusedView()
+        local awid = uiview:FindWidget("FullUI")
+        if awid ~= nil then
+            local ab = uiview:FindWidget("gameplay")
+            UnsubscribeFromEvent(ab, "WidgetEvent")
+            ab = uiview:FindWidget("gameexit")
+            UnsubscribeFromEvent(ab, "WidgetEvent")
+            awid:Remove()
+            scene_.updateEnabled = true
+        else
+            -- Reload scene
+            ReloadScene(true);
+        end
+    	-- Hide mouse cursor
+    	input.mouseVisible = false
+	end
 end
 
 function SaveScene(initial)

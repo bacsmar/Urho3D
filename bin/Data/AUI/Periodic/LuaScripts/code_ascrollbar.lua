@@ -26,10 +26,12 @@ function HandleUiscrollbarEvent( eventType, eventData)
             AppLog( "AScrollBar support : " .. widget:GetId() .. " was pressed ")
             ViewCode ( "Scenes/layout_ascrollbar.ui.txt", widget:GetParent())
         end
-    elseif  eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then
+    elseif eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then
         if widget:GetId() == "scrollbardemo" then
             AppLog( "AScrollBar action : " .. widget:GetId() .. " changed value to " .. widget:GetValue())
         end
-    end
+	else
+       	AppLog( "HandleUiscrollbarEvent " .. widget:GetId() .. " got event " .. eventData["Type"]:GetInt())
+     end
 end
 

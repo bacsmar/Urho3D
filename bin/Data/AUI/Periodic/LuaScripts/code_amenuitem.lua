@@ -10,8 +10,8 @@ function setup_uimenuitem( layout )
 	end
 
     mis = AMenuItemSource:new()
-    mis:AddItem( AMenuItem:new( "ASelectItem1", "item1" ) )
-    mis:AddItem( AMenuItem:new( "ASelectItem2", "item2", "Ctrl+X" ) )
+    mis:AddItem( AMenuItem:new( "ASelectItem1", "item1", "", "" ) )
+    mis:AddItem( AMenuItem:new( "ASelectItem2", "item2", "Ctrl+X", "" ) )
     mis:AddItem( AMenuItem:new( "ASelectItem3", "item3", "Ctrl+D", "DuckButton" ) )
     mis:AddItem( AMenuItem:new( "ASelectItem4", "item4", "Ctrl+A", "LogoAtomic" ) )
 
@@ -52,13 +52,13 @@ function HandleUimenuitemEvent( eventType,  eventData)
         if widget:GetId() ==  "uimi1" then
             AppLog( "AMenuItem action : " .. widget:GetId() .. " was pressed ")
 			if mgmis ~= nil then
-            	mgmis:AddItem( AMenuItem:new( "New AMenuItem", "newitem") )
+            	mgmis:AddItem( AMenuItem:new( "New AMenuItem", "newitem", "", "") )
 			end
         end
         if widget:GetId() ==  "uimi2" then
             AppLog( "AMenuItem action : " .. widget:GetId() .. " was pressed ")
 			if mgmis ~= nil then
-            	mgmis:AddItem( AMenuItem:new( "Newer AMenuItem", "neweritem" ) )
+            	mgmis:AddItem( AMenuItem:new( "Newer AMenuItem", "neweritem", "", "" ) )
 			end
         end
         if widget:GetId() ==  "uimi3" then

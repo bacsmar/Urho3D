@@ -4,6 +4,6 @@ TBLayout: config: "YPCAC"
 	TBWidget
 	TBWidget
 	TBWidget
-	TBEditField: multiline: 1, styling: 1, readonly: 1, skin: "",  adapt-to-content: 1 
+	TBEditField: multiline: 1, styling: 1, readonly: 1, skin: "",  adapt-to-content: 1, id: instructionText
 		text:  "Use WASD keys to move, RMB to rotate view\nLMB to set destination, SHIFT+LMB to spawn a Jack\nMMB or O key to add obstacles or remove obstacles/agents\nF5 to save scene, F7 to load\nTab to toggle navigation mesh streaming\nSpace to toggle debug geometry\nF12 to toggle this instruction text"
 
