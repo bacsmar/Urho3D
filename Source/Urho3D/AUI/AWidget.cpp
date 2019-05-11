@@ -1053,7 +1053,7 @@ AView* AWidget::GetView()
         return 0;
 
     if (GetType() == AView::GetTypeStatic())
-        return (AView*) this;
+        return static_cast<AView*>(this);
 
     TBWidget* tbw = widget_->GetParent();
     while(tbw)
@@ -1061,9 +1061,9 @@ AView* AWidget::GetView()
         TBWidgetDelegate* delegate = tbw->GetDelegate();
         if (delegate)
         {
-            AWidget* d = (AWidget*) delegate;
+            AWidget* d = static_cast<AWidget*>(delegate);
             if (d->GetType() == AView::GetTypeStatic())
-                return (AView*) d;
+                return static_cast<AView*>(d);
         }
 
         tbw = tbw->GetParent();

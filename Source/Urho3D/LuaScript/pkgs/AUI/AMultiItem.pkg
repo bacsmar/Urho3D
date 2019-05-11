@@ -24,18 +24,26 @@ ${
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new00(lua_State* tolua_S)
 {
-#ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
  !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
+ !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+ !tolua_isnumber(tolua_S,6,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,7,&tolua_err)
  )
  goto tolua_lerror;
  else
-#endif
  {
+  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,String::EMPTY));
+  const String widgettype = ((const String)  tolua_tourho3dstring(tolua_S,3,String::EMPTY));
+  const String strt = ((const String)  tolua_tourho3dstring(tolua_S,4,String::EMPTY));
+  int colwidth = ((int)  tolua_tonumber(tolua_S,5,80));
+  int colheight = ((int)  tolua_tonumber(tolua_S,6,24));
  {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S)));
+  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid,widgettype,strt,colwidth,colheight));
   tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
  }
  }
@@ -52,18 +60,26 @@ static int tolua_AUILuaAPI_AMultiItem_new00(lua_State* tolua_S)
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new00_local(lua_State* tolua_S)
 {
-#ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
  !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
+ !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
+ !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+ !tolua_isnumber(tolua_S,6,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,7,&tolua_err)
  )
  goto tolua_lerror;
  else
-#endif
  {
+  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,String::EMPTY));
+  const String widgettype = ((const String)  tolua_tourho3dstring(tolua_S,3,String::EMPTY));
+  const String strt = ((const String)  tolua_tourho3dstring(tolua_S,4,String::EMPTY));
+  int colwidth = ((int)  tolua_tonumber(tolua_S,5,80));
+  int colheight = ((int)  tolua_tonumber(tolua_S,6,24));
  {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S)));
+  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid,widgettype,strt,colwidth,colheight));
   tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
  tolua_register_gc(tolua_S,lua_gettop(tolua_S));
  }
@@ -81,24 +97,7 @@ static int tolua_AUILuaAPI_AMultiItem_new00_local(lua_State* tolua_S)
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new01(lua_State* tolua_S)
 {
- tolua_Error tolua_err;
- if (
- !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
- goto tolua_lerror;
- else
- {
-  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
- {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid));
-  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
- tolua_pushurho3dstring(tolua_S,(const char*)colid);
- }
- }
- return 2;
-tolua_lerror:
+
  return tolua_AUILuaAPI_AMultiItem_new00(tolua_S);
 }
 
@@ -107,25 +106,7 @@ tolua_lerror:
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new01_local(lua_State* tolua_S)
 {
- tolua_Error tolua_err;
- if (
- !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
- goto tolua_lerror;
- else
- {
-  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
- {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid));
-  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
- tolua_register_gc(tolua_S,lua_gettop(tolua_S));
- tolua_pushurho3dstring(tolua_S,(const char*)colid);
- }
- }
- return 2;
-tolua_lerror:
+
  return tolua_AUILuaAPI_AMultiItem_new00_local(tolua_S);
 }
 
@@ -134,28 +115,7 @@ tolua_lerror:
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new02(lua_State* tolua_S)
 {
- tolua_Error tolua_err;
- if (
- !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
- goto tolua_lerror;
- else
- {
-  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
-  const String widgettype = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
- {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid,widgettype));
-  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
- tolua_pushurho3dstring(tolua_S,(const char*)colid);
- tolua_pushurho3dstring(tolua_S,(const char*)widgettype);
- }
- }
- return 3;
-tolua_lerror:
- return tolua_AUILuaAPI_AMultiItem_new01(tolua_S);
+ return tolua_AUILuaAPI_AMultiItem_new00(tolua_S);
 }
 
 /* method: new_local of class  AMultiItem */
@@ -163,29 +123,7 @@ tolua_lerror:
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new02_local(lua_State* tolua_S)
 {
- tolua_Error tolua_err;
- if (
- !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
- goto tolua_lerror;
- else
- {
-  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
-  const String widgettype = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
- {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid,widgettype));
-  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
- tolua_register_gc(tolua_S,lua_gettop(tolua_S));
- tolua_pushurho3dstring(tolua_S,(const char*)colid);
- tolua_pushurho3dstring(tolua_S,(const char*)widgettype);
- }
- }
- return 3;
-tolua_lerror:
- return tolua_AUILuaAPI_AMultiItem_new01_local(tolua_S);
+ return tolua_AUILuaAPI_AMultiItem_new00_local(tolua_S);
 }
 
 /* method: new of class  AMultiItem */
@@ -193,35 +131,7 @@ tolua_lerror:
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new03(lua_State* tolua_S)
 {
- tolua_Error tolua_err;
- if (
- !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
- !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
- !tolua_isnumber(tolua_S,6,1,&tolua_err) ||
- !tolua_isnoobj(tolua_S,7,&tolua_err)
- )
- goto tolua_lerror;
- else
- {
-  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
-  const String widgettype = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
-  const String strt = ((const String)  tolua_tourho3dstring(tolua_S,4,0));
-  int colwidth = ((int)  tolua_tonumber(tolua_S,5,80));
-  int colheight = ((int)  tolua_tonumber(tolua_S,6,24));
- {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid,widgettype,strt,colwidth,colheight));
-  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
- tolua_pushurho3dstring(tolua_S,(const char*)colid);
- tolua_pushurho3dstring(tolua_S,(const char*)widgettype);
- tolua_pushurho3dstring(tolua_S,(const char*)strt);
- }
- }
- return 4;
-tolua_lerror:
- return tolua_AUILuaAPI_AMultiItem_new02(tolua_S);
+ return tolua_AUILuaAPI_AMultiItem_new00(tolua_S);
 }
 
 /* method: new_local of class  AMultiItem */
@@ -229,36 +139,7 @@ tolua_lerror:
 /* AUI Constructor with context added */
 static int tolua_AUILuaAPI_AMultiItem_new03_local(lua_State* tolua_S)
 {
- tolua_Error tolua_err;
- if (
- !tolua_isusertable(tolua_S,1,"AMultiItem",0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,2,0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,3,0,&tolua_err) ||
- !tolua_isurho3dstring(tolua_S,4,0,&tolua_err) ||
- !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
- !tolua_isnumber(tolua_S,6,1,&tolua_err) ||
- !tolua_isnoobj(tolua_S,7,&tolua_err)
- )
- goto tolua_lerror;
- else
- {
-  const String colid = ((const String)  tolua_tourho3dstring(tolua_S,2,0));
-  const String widgettype = ((const String)  tolua_tourho3dstring(tolua_S,3,0));
-  const String strt = ((const String)  tolua_tourho3dstring(tolua_S,4,0));
-  int colwidth = ((int)  tolua_tonumber(tolua_S,5,80));
-  int colheight = ((int)  tolua_tonumber(tolua_S,6,24));
- {
-  AMultiItem* tolua_ret = (AMultiItem*)  Mtolua_new((AMultiItem)(GetContext(tolua_S),colid,widgettype,strt,colwidth,colheight));
-  tolua_pushusertype(tolua_S,(void*)tolua_ret,"AMultiItem");
- tolua_register_gc(tolua_S,lua_gettop(tolua_S));
- tolua_pushurho3dstring(tolua_S,(const char*)colid);
- tolua_pushurho3dstring(tolua_S,(const char*)widgettype);
- tolua_pushurho3dstring(tolua_S,(const char*)strt);
- }
- }
- return 4;
-tolua_lerror:
- return tolua_AUILuaAPI_AMultiItem_new02_local(tolua_S);
+ return tolua_AUILuaAPI_AMultiItem_new00_local(tolua_S);
 }
 
 

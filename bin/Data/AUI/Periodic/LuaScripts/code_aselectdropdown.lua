@@ -20,6 +20,8 @@ function HandleAllSelectdropdownEvent(eventType, eventData)
 	end
   	if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then   
 		AppLog( "ASelectDropdown changed event : " .. widget:GetId() .. " changed value to " .. widget:GetText())
+	elseif eventData["Type"]:GetInt() > 0 then
+		AppLog( "ASelectDropdown " .. widget:GetId() .. " got event : " .. eventData["Type"]:GetInt())
     end
 end
 
