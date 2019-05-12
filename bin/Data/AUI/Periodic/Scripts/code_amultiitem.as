@@ -1,5 +1,7 @@
 // ASelectItem and ASelectItemSource application source code
 
+// persistant copy of menu contents
+AMultiItemSource @gmsis = null;
 
 void setup_uimultiitem( AWidget @layout )
 {
@@ -23,34 +25,24 @@ void setup_uimultiitem( AWidget @layout )
     mysvc.AddChildBefore(mylist, lower);
     SubscribeToEvent(mylist, "WidgetEvent", "HandleUimultiitemEvent" );
 
-    AMultiItemSource @sis =  AMultiItemSource();
+    gmsis = AMultiItemSource();
     AMultiItem @mi1 =  AMultiItem(  "sitem1", "TEXT", "AMultiItem1", 88,0 );
     mi1.AddColumn ( "TEXT", "Col2", 44 );
     mi1.AddColumn ( "TEXT", "Col3", 44 );
-    sis.AddItem(mi1);
+    gmsis.AddItem(mi1);
     AMultiItem @mi2 =  AMultiItem(  "sitem2", "TEXT", "AMultiItem2",  88,0  );
     mi2.AddColumn ( "TEXT", "Col4", 44 );
     mi2.AddColumn ( "TEXT", "Col5", 44 );
-    sis.AddItem(mi2);
+    gmsis.AddItem(mi2);
     AMultiItem @mi3 =  AMultiItem(  "sitem3", "TEXT", "AMultiItem3",  88,0 );
     mi3.AddColumn ( "TEXT", "Col6", 44 );
     mi3.AddColumn ( "TEXT", "Col7", 44 );
-    sis.AddItem(mi3);
-
-    Variant sisx ( sis );
-    SetGlobalVar( "multiitemptr", sisx );  // make a global reference.
-
-    AMultiItemSource @gsis = cast<AMultiItemSource@>(GetGlobalVar("multiitemptr").GetPtr());  //get global ref
-
+    gmsis.AddItem(mi3);
     AMultiItem @mi4 =  AMultiItem(  "sitem4", "TEXT", "AMultiItem4",  88,0 );
     mi4.AddColumn ( "TEXT", "Col8", 44 );
-    
-    if ( gsis is sis )
-        mi4.AddColumn ( "TEXT", "PASS", 44 );
-    else
-        mi4.AddColumn ( "TEXT", "FAIL", 44 );
-    sis.AddItem(mi4);
-    mylist.SetSource(sis); // assign this into the list
+    mi4.AddColumn ( "TEXT", "PASS", 44 );
+    gmsis.AddItem(mi4);
+    mylist.SetSource(gmsis); // assign this into the list
       
 }
 
@@ -84,59 +76,53 @@ void HandleUimultiitemEvent(StringHash eventType, VariantMap& eventData)
             if ( slist !is null )
             {
                 AppLog( "AMultiItem2 action : " + widget.GetId() + " was pressed ");
-                AMultiItemSource @gsis = cast<AMultiItemSource@>(GetGlobalVar("multiitemptr").GetPtr());
-                if ( gsis !is null )
+                if ( gmsis !is null )
                 {
                     AppLog( "AMultiItem3 action : " + widget.GetId() + " was pressed ");
                     AMultiItem @mi1 = AMultiItem( "sitem1", "TEXT", " MultiItem", 88, 0 );
                     mi1.AddColumn ( "TEXT", "Col2", 44 );
                     mi1.AddColumn ( "TEXT", "Col3", 44 );
-                    gsis.AddItem(mi1);
-                    slist.SetSource(gsis);
+                    gmsis.AddItem(mi1);
+                    slist.SetSource(gmsis);
                 }
             }
         }
         if (widget.GetId() ==  "uimi2" )
         {
             AppLog( "AMultiItem action : " + widget.GetId() + " was pressed");
-            AMultiItemSource @gsis = cast<AMultiItemSource@>(GetGlobalVar("multiitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("AMultiItemList"));
             AMultiItem @mi2 =  AMultiItem( "sitem2", "TEXT", "Another Item",  88, 0 );
             mi2.AddColumn ( "COLOR", "#3333FF", 44 );
             mi2.AddColumn ( "TEXT", "Col5", 44 );
-            gsis.AddItem(mi2);
-            slist.SetSource(gsis);
+            gmsis.AddItem(mi2);
+            slist.SetSource(gmsis);
         }
         if (widget.GetId() ==  "uimi3" )
         {
             AppLog( "AMultiItem action : " + widget.GetId() + " was pressed ");
-            AMultiItemSource @gsis = cast<AMultiItemSource@>(GetGlobalVar("multiitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("AMultiItemList"));
             AMultiItem @mi3 =  AMultiItem(  "Duck", "ICON", "DuckButton", 88, 0 );
             mi3.AddColumn ( "TEXT", "Col6", 44 );
             mi3.AddColumn ( "TEXT", "Col7", 44 );
-            gsis.AddItem(mi3);
-            slist.SetSource(gsis);
+            gmsis.AddItem(mi3);
+            slist.SetSource(gmsis);
         }
         if (widget.GetId() ==  "uimi4" )
         {
             AppLog( "AMultiItem action : " + widget.GetId() + " was pressed ");
-            AMultiItemSource @gsis = cast<AMultiItemSource@>(GetGlobalVar("multiitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("AMultiItemList"));
             AMultiItem @mi4 =  AMultiItem(  "Atomic", "ICON", "LogoAtomic", 88,0 );
             mi4.AddColumn ( "TEXT", "Col8", 44 );
             mi4.AddColumn ( "TEXT", "Col9", 44 );
-            gsis.AddItem(mi4);
-          //  gsis.AddItem(  AMultiItem( "Atomic!", "atomic", "LogoAtomic" ) );
-            slist.SetSource(gsis);
+            gmsis.AddItem(mi4);
+            slist.SetSource(gmsis);
         }
         if (widget.GetId() ==  "uimi5" )
         {
             AppLog( "AMultiItem action : " + widget.GetId() + " was pressed ");
-            AMultiItemSource @gsis = cast<AMultiItemSource@>(GetGlobalVar("multiitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("AMultiItemList"));
-            gsis.Clear();
-            slist.SetSource(gsis);
+            gmsis.Clear();
+            slist.SetSource(gmsis);
         }
     }
 }
