@@ -1,5 +1,7 @@
 // AMenuWindow application source code
 
+// persistant copy of menu contents
+AMenuItemSource @glmis = null;
 
 void setup_uimenuwindow( AWidget @layout )
 {
@@ -30,15 +32,19 @@ void HandleUimenuwindowEvent(StringHash eventType, VariantMap& eventData)
         {
             AppLog( "AMenuWindow action : " + widget.GetId() + " was pressed " );
             AMenuWindow@ mymenuwindow =  AMenuWindow(  widget, "MenuWindowDemo");
-            AMenuItemSource @mis =  AMenuItemSource();
-            mis.AddItem(  AMenuItem( "ASelectItem1", "item1", "", "" ) );
-            mis.AddItem(  AMenuItem( "ASelectItem2", "item2", "Ctrl+C", "" ) );
-            mis.AddItem(  AMenuItem( "ASelectItem3", "item3", "Ctrl+A", "DuckButton" ) );
-            mis.AddItem(  AMenuItem( "ASelectItem4", "item4", "Ctrl+O", "LogoAtomic" ) );
+            if ( glmis is null )
+                glmis = AMenuItemSource();
+            else
+                glmis.Clear();
+
+            glmis.AddItem(  AMenuItem( "ASelectItem1", "item1", "", "" ) );
+            glmis.AddItem(  AMenuItem( "ASelectItem2", "item2", "Ctrl+C", "" ) );
+            glmis.AddItem(  AMenuItem( "ASelectItem3", "item3", "Ctrl+A", "DuckButton" ) );
+            glmis.AddItem(  AMenuItem( "ASelectItem4", "item4", "Ctrl+O", "LogoAtomic" ) );
             int xx = widget.GetX() + (widget.GetWidth()/2);
             int yy = widget.GetY() + (widget.GetHeight()/2);
             SubscribeToEvent(mymenuwindow, "WidgetEvent", "HandleUimenuwindowEvent" );
-            mymenuwindow.ShowMenu(mis, xx, yy);
+            mymenuwindow.ShowMenu(glmis, xx, yy);
         }
 
         if (widget.GetId() ==  "MenuWindowDemo" )

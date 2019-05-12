@@ -1,7 +1,7 @@
 # Urho3D sample 16 layout file
 TBLayout: config: "YGLPL"
 	TBLayout: config: "XPCAC"
-		TBEditField: id: LineEdit, text: "", squeezable: 1, gravity: all, tooltip: "Enter IP address"
+		TBEditField: id: LineEdit, text: "", squeezable: 1, gravity: all, placeholder: "Enter IP address"
 		TBButton: id: startServerButton, text: "Start Server", squeezable: 1
 		TBButton: id: connectButton, text: "Connect", squeezable: 1
 		TBButton: id: disconnectButton, text: "Disconnect", squeezable: 1

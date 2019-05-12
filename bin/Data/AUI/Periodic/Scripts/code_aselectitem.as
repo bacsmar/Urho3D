@@ -1,5 +1,7 @@
 // ASelectItem and ASelectItemSource application source code
 
+// persistant copy of menu contents
+ASelectItemSource @globalasis = null;
 
 void setup_uiselectitem( AWidget @layout )
 {
@@ -22,15 +24,13 @@ void setup_uiselectitem( AWidget @layout )
     mysvc.AddChildBefore(mylist, lower);
     SubscribeToEvent(mylist, "WidgetEvent", "HandleUiselectitemEvent" );
 
-    ASelectItemSource @sis = ASelectItemSource();
-    sis.AddItem(  ASelectItem(  "ASelectItem1", "sitem1", "" ) );
-    sis.AddItem(  ASelectItem(  "ASelectItem2", "sitem2", "" ) );
-    sis.AddItem(  ASelectItem(  "ASelectItem3", "sitem3", "DuckButton" ) );
-    sis.AddItem(  ASelectItem(  "ASelectItem4", "sitem4", "LogoAtomic" ) );
-    Variant sisx(sis);
-    SetGlobalVar( "selectitemptr", sisx );  // make a global reference.
+    globalasis = ASelectItemSource();
+    globalasis.AddItem( ASelectItem(  "ASelectItem1", "sitem1", "" ) );
+    globalasis.AddItem( ASelectItem(  "ASelectItem2", "sitem2", "" ) );
+    globalasis.AddItem( ASelectItem(  "ASelectItem3", "sitem3", "DuckButton" ) );
+    globalasis.AddItem( ASelectItem(  "ASelectItem4", "sitem4", "LogoAtomic" ) );
 
-    mylist.SetSource(sis); // assign this into the list
+    mylist.SetSource(globalasis); // assign this into the list
 }
 
 void HandleUiselectitemEvent(StringHash eventType, VariantMap& eventData)
@@ -59,42 +59,37 @@ void HandleUiselectitemEvent(StringHash eventType, VariantMap& eventData)
         if (widget.GetId() ==  "uisi1" )
         {
             AppLog( "ASelectItem action : " + widget.GetId() + " was pressed ");
-            ASelectItemSource @gsis = cast<ASelectItemSource@>(GetGlobalVar("selectitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("ASelectItemList"));
-            gsis.AddItem(  ASelectItem(  "New ASelectItem", "", "") );
-            slist.SetSource(gsis);
+            globalasis.AddItem( ASelectItem( "New ASelectItem", "newitem", "") );
+            slist.SetSource(globalasis);
         }
         if (widget.GetId() ==  "uisi2" )
         {
             AppLog( "ASelectItem action : " + widget.GetId() + " was pressed ");
-            ASelectItemSource @gsis = cast<ASelectItemSource@>(GetGlobalVar("selectitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("ASelectItemList"));
-            gsis.AddItem(  ASelectItem( "Newer ASelectItem", "eritem", "" ) );
-            slist.SetSource(gsis);
+            globalasis.AddItem(  ASelectItem( "Newer ASelectItem", "neweritem", "" ) );
+            slist.SetSource(globalasis);
         }
         if (widget.GetId() ==  "uisi3" )
         {
             AppLog( "ASelectItem action : " + widget.GetId() + " was pressed ");
-            ASelectItemSource @gsis = cast<ASelectItemSource@>(GetGlobalVar("selectitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("ASelectItemList"));
-            gsis.AddItem(  ASelectItem(  "A Duck", "aduck", "DuckButton" ) );
-            slist.SetSource(gsis);
+            globalasis.AddItem( ASelectItem(  "A Duck", "aduck", "DuckButton" ) );
+            slist.SetSource(globalasis);
         }
         if (widget.GetId() ==  "uisi4" )
         {
             AppLog( "ASelectItem action : " + widget.GetId() + " was pressed ");
-            ASelectItemSource @gsis = cast<ASelectItemSource@>(GetGlobalVar("selectitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("ASelectItemList"));
-            gsis.AddItem(  ASelectItem( "Atomic!", "atomic", "LogoAtomic" ) );
-            slist.SetSource(gsis);
+            globalasis.AddItem( ASelectItem( "Atomic!", "atomic", "LogoAtomic" ) );
+            slist.SetSource(globalasis);
         }
         if (widget.GetId() ==  "uisi5" )
         {
             AppLog( "ASelectItem action : " + widget.GetId() + " was pressed ");
-            ASelectItemSource @gsis = cast<ASelectItemSource@>(GetGlobalVar("selectitemptr").GetPtr());
             ASelectList@ slist = cast<ASelectList@>(widget.FindWidget("ASelectItemList"));
-            gsis.Clear();
-            slist.SetSource(gsis);
+            globalasis.Clear();
+            slist.SetSource(globalasis);
         }
     }
 }
