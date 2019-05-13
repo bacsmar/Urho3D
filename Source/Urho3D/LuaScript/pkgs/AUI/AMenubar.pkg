@@ -18,6 +18,7 @@ ${
 /* AUI all-in-one constructor with context added */
 static int tolua_AUILuaAPI_AMenuItem_new00(lua_State* tolua_S)
 {
+#ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
  !tolua_isusertable(tolua_S,1,"AMenuItem",0,&tolua_err) ||
@@ -29,6 +30,7 @@ static int tolua_AUILuaAPI_AMenuItem_new00(lua_State* tolua_S)
  )
  goto tolua_lerror;
  else
+#endif
  {
   const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,String::EMPTY));
   const String id = ((const String)  tolua_tourho3dstring(tolua_S,3,String::EMPTY));
@@ -51,6 +53,7 @@ static int tolua_AUILuaAPI_AMenuItem_new00(lua_State* tolua_S)
 /* AUI all-in-one constructor with context added */
 static int tolua_AUILuaAPI_AMenuItem_new00_local(lua_State* tolua_S)
 {
+#ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
  !tolua_isusertable(tolua_S,1,"AMenuItem",0,&tolua_err) ||
@@ -62,6 +65,7 @@ static int tolua_AUILuaAPI_AMenuItem_new00_local(lua_State* tolua_S)
  )
  goto tolua_lerror;
  else
+#endif
  {
   const String str = ((const String)  tolua_tourho3dstring(tolua_S,2,String::EMPTY));
   const String id = ((const String)  tolua_tourho3dstring(tolua_S,3,String::EMPTY));
