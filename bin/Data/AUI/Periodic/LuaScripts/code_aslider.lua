@@ -4,22 +4,22 @@ function setup_uislider( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUisliderEvent")
-	end
+    end
 
     local sld1 = layout:GetWidget ("sliderdemo")
     if sld1 ~= nil then
-		local d1 = tolua.cast(sld1, "AWidget")
-		if d1 ~= nil then
-        	SubscribeToEvent(d1, "WidgetEvent", "HandleUisliderEvent" )
-		end
-	end
+        local d1 = tolua.cast(sld1, "AWidget")
+        if d1 ~= nil then
+            SubscribeToEvent(d1, "WidgetEvent", "HandleUisliderEvent" )
+        end
+    end
 end
 
 function HandleUisliderEvent( eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uislidercode" then
             AppLog( "ASlider support : " .. widget:GetId() .. " was pressed " )

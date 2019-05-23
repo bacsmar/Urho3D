@@ -36,7 +36,7 @@ class URHO3D_API AButtonGrid : public AWidget
 
 public:
 
-    AButtonGrid(Context* context, int numRows, int numColumns, int margin=0, bool createWidget = true );
+    AButtonGrid(Context* context, int numRows=0, int numColumns=0, int margin=0, bool createWidget = true );
     virtual ~AButtonGrid();
     
     /// returns id text for a row,column location, ie, A1 for location 0,0
@@ -67,6 +67,11 @@ public:
     int GetColumnWidth() const;
     /// returns current margin value
     int GetMargin() const;
+
+#ifdef URHO3D_ANGELSCRIPT
+    /// Angelscript Register object factory. (semi-manditory)
+    static void RegisterObject(Context* context);
+#endif
 
 protected:
 

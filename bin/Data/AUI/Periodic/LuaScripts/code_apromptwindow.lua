@@ -5,7 +5,7 @@ function setup_uipromptwindow( layout, uiview )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUipromptwindowEvent")
-	end
+    end
 end
 
 function HandlePromptCompleteEvent(eventType, eventData)
@@ -17,8 +17,8 @@ end
 function HandleUipromptwindowEvent( eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uipromptwindowcode" then
             AppLog( "APromptWindow support : " .. widget:GetId() .. " was pressed " )

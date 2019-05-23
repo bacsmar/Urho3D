@@ -69,6 +69,11 @@ class URHO3D_API AWindow : public AWidget
     void AddChild(AWidget *child) override;
 
     //@ASBindGen Function
+	void SetCloseDelegate ( bool setdel );
+    //@ASBindGen Function
+	bool GetCloseDelegate ();
+
+    //@ASBindGen Function
     void Close();
     
     void SetAxis(UI_AXIS axis);  /// Axis orientation of titlebar, UI_AXIS_Y = top(default), UI_AXIS_X = left side

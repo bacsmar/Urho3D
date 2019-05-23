@@ -1546,8 +1546,8 @@ bool TBWidget::InvokePointerDown(int x, int y, int click_count, MODIFIER_KEYS mo
         ev.count = click_count;
         down_widget->InvokeEvent(ev);
 
-		// Return true when captured instead of InvokeEvent result. If a widget is
-		// hit is more interesting for callers than if the event was handled or not.
+        // Return true when captured instead of InvokeEvent result. If a widget is
+        // hit is more interesting for callers than if the event was handled or not.
         return true;
     }
     return false;
@@ -1562,7 +1562,7 @@ bool TBWidget::InvokePointerUp(int x, int y, MODIFIER_KEYS modifierkeys, bool to
     int oy = y;
     //save old_capture for later check, because captured_widget can be nullptr after releasing capture
     TBWidget *old_capture = captured_widget;
-    if (captured_widget && captured_widget->touchId_ == touchId)
+    if (captured_widget && captured_widget->touchId_ == (unsigned)touchId)
     {
         captured_widget->ConvertFromRoot(x, y);
         TBWidgetEvent ev_up(EVENT_TYPE_POINTER_UP, x, y, touch, modifierkeys);
@@ -1591,7 +1591,7 @@ bool TBWidget::InvokePointerUp(int x, int y, MODIFIER_KEYS modifierkeys, bool to
     x = ox;
     y = oy;
     //make sure that down_widget is not captured_widget to don't sent event twice
-    if (down_widget && down_widget->touchId_ == touchId && old_capture != down_widget)
+    if (down_widget && down_widget->touchId_ == (unsigned)touchId && old_capture != down_widget)
     {
         down_widget->ConvertFromRoot(x, y);
         TBWidgetEvent ev_up(EVENT_TYPE_POINTER_UP, x, y, touch, modifierkeys);

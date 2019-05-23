@@ -974,6 +974,23 @@ UI_WIDGET_VISIBILITY AWidget::GetVisibility()
     return (UI_WIDGET_VISIBILITY) widget_->GetVisibility();
 }
 
+AWidget* AWidget::GetChildFromIndex(int index) const
+{
+    if (!widget_)
+        return NULL;
+
+    return GetSubsystem<AUI>()->WrapWidget( widget_->GetChildFromIndex(index) );
+}
+
+
+int AWidget::numChildren() const
+{
+    if (!widget_)
+        return 0;
+	return widget_->numChildren();
+}
+
+
 AWidget* AWidget::GetFirstChild()
 {
     if (!widget_)

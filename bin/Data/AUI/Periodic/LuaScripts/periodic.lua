@@ -38,6 +38,9 @@ require ( "AUI/Periodic/LuaScripts/code_atextfield")
 require ( "AUI/Periodic/LuaScripts/code_atexturewidget")
 require ( "AUI/Periodic/LuaScripts/code_awidget")
 require ( "AUI/Periodic/LuaScripts/code_awindow")
+require ( "AUI/Periodic/LuaScripts/code_alistview")
+require ( "AUI/Periodic/LuaScripts/code_abuttongrid")
+require ( "AUI/Periodic/LuaScripts/code_adimmer")
 
 -- "globals"
 uiview = nil
@@ -79,7 +82,7 @@ function Start()
             aui:SetDefaultFont("Vera", 14)
         else 
             aui:SetDefaultFont("Vera", 10)
-		end
+        end
     else
         aui:LoadSkin("Textures/desktop.tb.txt","")
     end
@@ -148,6 +151,9 @@ function Start()
     setup_uitexturewidget( lo0:GetWidget("pageuitexturewidget") )
     setup_uiwindow( lo0:GetWidget("pageuiwindow"), uiview )
     setup_uiwidget( lo0:GetWidget("pageuiwidget") )
+    setup_uibuttongrid( lo0:GetWidget("pageuibuttongrid") )
+    setup_uidimmer( lo0:GetWidget("pageuidimmer") )
+    setup_uilistview( lo0:GetWidget("pageuilistview") )
  
     AppLog ( "Ready" )
 
@@ -156,8 +162,8 @@ end
 function HandleExitEvent( eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "exitapp" then
             engine:Exit()
@@ -181,7 +187,7 @@ end
 function AppLog( logtext )
     if logger ~= nil then
         logger:SetText( logtext )
-	end
+    end
 end
 
 function ViewCode ( filename, layoutParent )
@@ -200,33 +206,33 @@ function ViewCode ( filename, layoutParent )
         coder = window:GetWidget("viewCodeText")
         if coder ~= nil then
             coder:SetText(textx)
-		end
+        end
         window:ResizeToFitContent()
         local view1 = someview
         if view1 ~= nil then
             local w1 = tolua.cast(window,"AWindow")
             if w1 ~= nil then
                 view1:AddChild(w1)
-			end
+            end
         end
         window:Center()
         local someok = window:GetWidget("viewCodeOK")
         if someok ~= nil then
             SubscribeToEvent(someok, "WidgetEvent", "HandleViewCodeEvent")
-		end
+        end
     end
 end
 
 function HandleViewCodeEvent( eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         local mywindow = FindTheWindowParent(widget) 
         if mywindow ~= nil then    
-        	mywindow:Close()
-		end
+            mywindow:Close()
+        end
     end
 end
 
@@ -234,7 +240,7 @@ end
 function FindTheWindowParent( fromThisWidget )
     if fromThisWidget == nil then
         return nil
-	end
+    end
     if fromThisWidget:GetClassName() == "TBWindow" or fromThisWidget:GetClassName() == "TBDockWindow" then 
         return fromThisWidget
     end
@@ -242,7 +248,7 @@ function FindTheWindowParent( fromThisWidget )
     while tbw ~= nil do
         if tbw:GetClassName() == "TBWindow" or tbw:GetClassName() == "TBDockWindow" then
             return tbw
-		end
+        end
         tbw = tbw:GetParent()
     end
     return nil 

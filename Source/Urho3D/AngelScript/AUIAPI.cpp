@@ -58,6 +58,9 @@
 #include "../AUI/ASelectList.h"
 #include "../AUI/AMenubar.h"
 #include "../AUI/ASeparator.h"
+#include "../AUI/ADimmer.h"
+#include "../AUI/AButtonGrid.h"
+#include "../AUI/AListView.h"
 #include "../AUI/ASkinImage.h"
 #include "../AUI/ASlider.h"
 #include "../AUI/ATabContainer.h"
@@ -268,6 +271,45 @@ template <class T> void RegisterAClickLabel (asIScriptEngine *engine, const char
 }
 
 
+AListView * wrapper_AListView_constructor_createWidget (bool createWidget = true)
+{
+    return new AListView (Urho3D::GetScriptContext (), createWidget);
+}
+
+template <class T> void RegisterAListView (asIScriptEngine *engine, const char *className, bool registerConstructors)
+{
+    RegisterAWidget <T> (engine, className, false);
+
+    if (registerConstructors)
+    {
+        Urho3D::RegisterSubclass <AWidget, T> (engine, "AWidget", className);
+
+        engine->RegisterObjectBehaviour (className, asBEHAVE_FACTORY, (Urho3D::String (className) + "@+ f (bool createWidget = true)").CString (), asFUNCTION (wrapper_AListView_constructor_createWidget), asCALL_CDECL);
+    }
+
+    engine->RegisterObjectMethod (className, "uint AddRootItem(const String& text, const String& icon, const String& id) ", asMETHOD (T, AddRootItem), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "uint AddChildItem(uint parentItemID, const String& text, const String& icon, const String& id) ", asMETHOD (T, AddChildItem), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetItemText(const String& id, const String& text) ", asMETHOD (T, SetItemText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetItemTextSkin(const String& id, const String& skin) ", asMETHOD (T, SetItemTextSkin), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetItemIcon(const String& id, const String& icon) ", asMETHOD (T, SetItemIcon), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void DeleteItemByID(const String& id) ", asMETHOD (T, DeleteItemByID), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void ScrollToSelectedItem() ", asMETHOD (T, ScrollToSelectedItem), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetExpanded(uint itemID, bool value) ", asMETHOD (T, SetExpanded), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool GetExpanded(uint itemID) ", asMETHOD (T, GetExpanded), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool GetExpandable(uint itemID) ", asMETHOD (T, GetExpandable), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool GetMultiSelect() const ", asMETHOD (T, GetMultiSelect), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetMultiSelect(bool value) ", asMETHOD (T, SetMultiSelect), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void DeleteAllItems() ", asMETHOD (T, DeleteAllItems), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SelectItemByID(const String& id, bool selected = true) ", asMETHOD (T, SelectItemByID), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "String GetHoverItemID() ", asMETHOD (T, GetHoverItemID), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "String GetSelectedItemID() ", asMETHOD (T, GetSelectedItemID), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "ASelectList@+ GetRootList() ", asMETHOD (T, GetRootList), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void UpdateItemVisibility() ", asMETHOD (T, UpdateItemVisibility), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SelectAllItems(bool select = true) ", asMETHOD (T, SelectAllItems), asCALL_THISCALL);
+ 
+}
+
+
 AColorWheel * wrapper_AColorWheel_constructor_createWidget (bool createWidget = true)
 {
     return new AColorWheel (Urho3D::GetScriptContext (), createWidget);
@@ -288,7 +330,6 @@ template <class T> void RegisterAColorWheel (asIScriptEngine *engine, const char
     engine->RegisterObjectMethod (className, "float GetSaturation () ", asMETHOD (T, GetSaturation), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void SetHueSaturation (float hue, float saturation) ", asMETHOD (T, SetHueSaturation), asCALL_THISCALL);
 }
-
 
 AColorWidget * wrapper_AColorWidget_constructor_createWidget (bool createWidget = true)
 {
@@ -392,7 +433,7 @@ template <class T> void RegisterAEditField (asIScriptEngine *engine, const char 
         engine->RegisterObjectBehaviour (className, asBEHAVE_FACTORY, (Urho3D::String (className) + "@+ f (bool createWidget = true)").CString (), asFUNCTION (wrapper_AEditField_constructor_createWidget), asCALL_CDECL);
     }
 
-    engine->RegisterObjectMethod (className, "void AppendText (const String& text) ", asMETHOD (T, AppendText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void AppendText (const String& text, int len = 2147483647, bool clear_undo_redo = false ) ", asMETHOD (T, AppendText), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void SetTextAlign (UI_TEXT_ALIGN align) ", asMETHOD (T, SetTextAlign), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void SetAdaptToContentSize (bool adapt) ", asMETHOD (T, SetAdaptToContentSize), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "bool GetAdaptToContentSize () const", asMETHOD (T, GetAdaptToContentSize), asCALL_THISCALL);
@@ -404,6 +445,14 @@ template <class T> void RegisterAEditField (asIScriptEngine *engine, const char 
     engine->RegisterObjectMethod (className, "void ScrollTo (int x, int y) ", asMETHOD (T, ScrollTo), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void SetWrapping (bool wrap) ", asMETHOD (T, SetWrapping), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "bool GetWrapping () ", asMETHOD (T, GetWrapping), asCALL_THISCALL);
+
+    engine->RegisterObjectMethod (className, "void SetPlaceholderText (const String &text) ", asMETHOD (T, SetPlaceholderText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "const String GetPlaceholderText () ", asMETHOD (T, GetPlaceholderText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void Undo () ", asMETHOD (T, Undo), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void Redo () ", asMETHOD (T, Redo), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool CanUndo () const ", asMETHOD (T, CanUndo), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool CanRedo () const ", asMETHOD (T, CanRedo), asCALL_THISCALL);
+
 }
 
 void RegisterUI_EDIT_TYPE (asIScriptEngine *engine)
@@ -793,6 +842,14 @@ template <class T> void RegisterAPulldownMenu (asIScriptEngine *engine, const ch
 
     engine->RegisterObjectMethod (className, "void SetSource (ASelectItemSource@+ source) ", asMETHOD (T, SetSource), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "const String& GetSelectedId () ", asMETHOD (T, GetSelectedId), asCALL_THISCALL);
+
+    engine->RegisterObjectMethod (className, "int NumMenuItems() const ", asMETHOD (T, NumMenuItems), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "String GetMenuItemId( int index ) ", asMETHOD (T, GetMenuItemId), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "String GetMenuItemString( int index ) ", asMETHOD (T, GetMenuItemString), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetMenuItemState( int index ) ", asMETHOD (T, GetMenuItemState), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetMenuItemString( int index, String newstr ) ", asMETHOD (T, SetMenuItemString), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetMenuItemState( int index, int newstate ) ", asMETHOD (T, SetMenuItemState), asCALL_THISCALL);
+
 }
 
 
@@ -1008,6 +1065,59 @@ template <class T> void RegisterASeparator (asIScriptEngine *engine, const char 
 }
 
 
+ADimmer * wrapper_ADimmer_constructor_createWidget (bool createWidget = true)
+{
+    return new ADimmer (Urho3D::GetScriptContext (), createWidget);
+}
+
+template <class T> void RegisterADimmer (asIScriptEngine *engine, const char *className, bool registerConstructors)
+{
+    RegisterAWidget <T> (engine, className, false);
+
+    if (registerConstructors)
+    {
+        Urho3D::RegisterSubclass <AWidget, T> (engine, "AWidget", className);
+
+        engine->RegisterObjectBehaviour (className, asBEHAVE_FACTORY, (Urho3D::String (className) + "@+ f (bool createWidget = true)").CString (), asFUNCTION (wrapper_ADimmer_constructor_createWidget), asCALL_CDECL);
+    }
+
+}
+
+AButtonGrid * wrapper_AButtonGrid_constructor_createWidget (int numRows=0, int numColumns=0, int margin=0, bool createWidget = true)
+{
+    return new AButtonGrid (Urho3D::GetScriptContext (), numRows, numColumns, margin, createWidget);
+}
+
+template <class T> void RegisterAButtonGrid (asIScriptEngine *engine, const char *className, bool registerConstructors)
+{
+    RegisterAWidget <T> (engine, className, false);
+
+    if (registerConstructors)
+    {
+        Urho3D::RegisterSubclass <AWidget, T> (engine, "AWidget", className);
+
+        engine->RegisterObjectBehaviour (className, asBEHAVE_FACTORY, (Urho3D::String (className) + "@+ f (int numRows=0, int numColumns=0, int margin=0, bool createWidget = true) ").CString (), asFUNCTION (wrapper_AButtonGrid_constructor_createWidget), asCALL_CDECL);
+    }
+
+    engine->RegisterObjectMethod (className, "String GetGridId( int row, int column ) ", asMETHOD (T, GetGridId), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetGridText ( int row, int column, String str ) ", asMETHOD (T, SetGridText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "String GetGridText( int row, int column ) ", asMETHOD (T, GetGridText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "AWidget@+ GetGridWidget( int row, int column ) ", asMETHOD (T, GetGridWidget), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int AddGridText ( String str ) ", asMETHOD (T, AddGridText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void ResetAddCount() ", asMETHOD (T, ResetAddCount), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "AWidget@+ AtGridWidget( int count ) ", asMETHOD (T, AtGridWidget), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "String AtGridText( int count ) ", asMETHOD (T, AtGridText), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void DisableEmptyButtons() ", asMETHOD (T, DisableEmptyButtons), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetNumRows() const ", asMETHOD (T, GetNumRows), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetNumColumns() const ", asMETHOD (T, GetNumColumns), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetRowHeight() const ", asMETHOD (T, GetRowHeight), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetColumnWidth() const ", asMETHOD (T, GetColumnWidth), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetMargin() const ", asMETHOD (T, GetMargin), asCALL_THISCALL);
+
+}
+
+
+
 
 ASkinImage * wrapper_ASkinImage_constructor_bitmapID_createWidget (const String& bitmapID, bool createWidget = true)
 {
@@ -1079,6 +1189,10 @@ template <class T> void RegisterATabContainer (asIScriptEngine *engine, const ch
     engine->RegisterObjectMethod (className, "void AddTabPageWidget (const String & tabname, AWidget @+ widget, bool selecttab = true) ", asMETHOD (T, AddTabPageWidget), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void UndockPage (int page) ", asMETHOD (T, UndockPage), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "bool DockWindow (String windowTitle) ", asMETHOD (T, DockWindow), asCALL_THISCALL);
+
+    engine->RegisterObjectMethod (className, "ALayout@+ GetTabLayout () ", asMETHOD (T, GetTabLayout), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "AWidget@+ GetPageTab (int page) ", asMETHOD (T, GetPageTab), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "AWidget@+ GetPageContent (int page) ", asMETHOD (T, GetPageContent), asCALL_THISCALL);
 }
 
 
@@ -1227,6 +1341,9 @@ void RegisterAUIAPI(asIScriptEngine* engine)
     engine->RegisterObjectType ("ASelectItemSource", 0, asOBJ_REF);
     engine->RegisterObjectType ("ASelectList", 0, asOBJ_REF);
     engine->RegisterObjectType ("ASeparator", 0, asOBJ_REF);
+    engine->RegisterObjectType ("ADimmer", 0, asOBJ_REF);
+    engine->RegisterObjectType ("AListView", 0, asOBJ_REF);
+    engine->RegisterObjectType ("AButtonGrid", 0, asOBJ_REF);
     engine->RegisterObjectType ("ASkinImage", 0, asOBJ_REF);
     engine->RegisterObjectType ("ASlider", 0, asOBJ_REF);
     engine->RegisterObjectType ("ATabContainer", 0, asOBJ_REF);
@@ -1289,6 +1406,9 @@ void RegisterAUIAPI(asIScriptEngine* engine)
     RegisterASelectItemSource <ASelectItemSource> (engine, "ASelectItemSource", true);
     RegisterASelectList <ASelectList> (engine, "ASelectList", true);
     RegisterASeparator <ASeparator> (engine, "ASeparator", true);
+    RegisterADimmer <ADimmer> (engine, "ADimmer", true);
+    RegisterAListView <AListView> (engine, "AListView", true);
+    RegisterAButtonGrid <AButtonGrid> (engine, "AButtonGrid", true);
     RegisterASkinImage <ASkinImage> (engine, "ASkinImage", true);
     RegisterASlider <ASlider> (engine, "ASlider", true);
     RegisterATabContainer <ATabContainer> (engine, "ATabContainer", true);

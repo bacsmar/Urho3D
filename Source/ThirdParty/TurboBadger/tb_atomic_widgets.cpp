@@ -237,7 +237,7 @@ void TBBarGraph::OnPaint(const PaintProps &paint_props)
     {
         double w1 = (double)local_rect.w * ( m_value / 100.0 );
         local_rect.w = (int)w1;
-        if ( m_margin > 0 && m_margin < (local_rect.h/2)-2)
+        if ( m_margin > 0 && m_margin < (unsigned)(local_rect.h/2)-2)
         {
             local_rect.h -= (m_margin *2);
             local_rect.y += m_margin;
@@ -248,7 +248,7 @@ void TBBarGraph::OnPaint(const PaintProps &paint_props)
         double h1 = (double)local_rect.h * ( m_value / 100.0 );
         local_rect.y = local_rect.h - (int)h1;
         local_rect.h = (int)h1;
-        if ( m_margin > 0 && m_margin < (local_rect.w/2)-2 )
+        if ( m_margin > 0 && m_margin < (unsigned)(local_rect.w/2)-2)
         {
             local_rect.w -= (m_margin*2);
             local_rect.x += m_margin;
@@ -985,6 +985,8 @@ bool MultiItemSource::Filter(int index, const char *filter)
 TBWidget *MultiItemSource::CreateItemWidget(int index, TBSelectItemViewer *viewer)
 {
     TBLayout *layout = new MultiItemWidget( GetItem(index));
+    if ( GetItemState(index) == 0 ) layout->SetState(WIDGET_STATE_DISABLED, true );
+    else layout->SetState(WIDGET_STATE_DISABLED, false );
     return layout;
 }
 

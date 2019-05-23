@@ -17,6 +17,8 @@ class AWindow : public AWidget
     void SetSettings(UI_WINDOW_SETTINGS settings);
     void ResizeToFitContent();
     void Close();
+	void SetCloseDelegate ( bool setdel );
+	bool GetCloseDelegate ();
 };
 
 

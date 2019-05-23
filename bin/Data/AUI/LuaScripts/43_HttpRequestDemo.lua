@@ -30,9 +30,9 @@ end
 
 function writeText( mystr )
     local mytext = aui:GetRootAWidget():FindWidget("helloText")
-	if mytext ~= nil then
-    	mytext:SetText ( mystr )
-	end
+    if mytext ~= nil then
+        mytext:SetText ( mystr )
+    end
 end
 
 function SubscribeToEvents()

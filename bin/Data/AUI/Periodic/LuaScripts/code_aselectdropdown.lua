@@ -5,31 +5,31 @@ function setup_uiselectdropdown( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUiselectdropdownEvent")
-	end
+    end
  
     local demo = layout:GetWidget("selectdropdowndemo")
     if demo ~= nil then
-		SubscribeToEvent(demo, "WidgetEvent", "HandleAllSelectdropdownEvent" )
+        SubscribeToEvent(demo, "WidgetEvent", "HandleAllSelectdropdownEvent" )
     end
 end
 
 function HandleAllSelectdropdownEvent(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
-  	if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then   
-		AppLog( "ASelectDropdown changed event : " .. widget:GetId() .. " changed value to " .. widget:GetText())
-	elseif eventData["Type"]:GetInt() > 0 then
-		AppLog( "ASelectDropdown " .. widget:GetId() .. " got event : " .. eventData["Type"]:GetInt())
+        return
+    end
+    if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then   
+        AppLog( "ASelectDropdown changed event : " .. widget:GetId() .. " changed value to " .. widget:GetText())
+    elseif eventData["Type"]:GetInt() > 0 then
+        AppLog( "ASelectDropdown " .. widget:GetId() .. " got event : " .. eventData["Type"]:GetInt())
     end
 end
 
 function HandleUiselectdropdownEvent( eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uiselectdropdowncode" then
             AppLog( "ASelectDropdown support : " .. widget:GetId() .. " was pressed " .. widget:GetText() )

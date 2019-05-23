@@ -1491,6 +1491,10 @@ template <class T> void RegisterAWidget (asIScriptEngine *engine, const char *cl
     engine->RegisterObjectMethod (className, "float GetOpacity () ", asMETHOD (T, GetOpacity), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void SetAutoOpacity (float autoOpacity) ", asMETHOD (T, SetAutoOpacity), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "float GetAutoOpacity () ", asMETHOD (T, GetAutoOpacity), asCALL_THISCALL);
+
+    engine->RegisterObjectMethod (className, "AWidget@+ GetChildFromIndex (int index) const", asMETHOD (T, GetChildFromIndex), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int numChildren () const", asMETHOD (T, numChildren), asCALL_THISCALL);
+
 }
 
 // AWindow from ASBindGen
@@ -1511,6 +1515,9 @@ template <class T> void RegisterAWindow (asIScriptEngine *engine, const char *cl
     engine->RegisterObjectMethod (className, "void SetSettings (UI_WINDOW_SETTINGS settings) ", asMETHOD (T, SetSettings), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void ResizeToFitContent () ", asMETHOD (T, ResizeToFitContent), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void Close () ", asMETHOD (T, Close), asCALL_THISCALL);
+
+    engine->RegisterObjectMethod (className, "void SetCloseDelegate ( bool setdel ) ", asMETHOD (T, SetCloseDelegate), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool GetCloseDelegate () ", asMETHOD (T, GetCloseDelegate), asCALL_THISCALL);
 }
 
 //AButton from ASBindGen

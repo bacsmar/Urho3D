@@ -367,7 +367,19 @@ void ReadItems(TBNode *node, TBGenericStringItemSource *target_source)
             if (TBNode *n_id = n->GetNode("id"))
                 TBWidgetsReader::SetIDFromNode(item_id, n_id);
 
+            // ATOMIC BEGIN
+            int statenum = 1; 
+            if (const char *state = n->GetValueString("state", nullptr))
+            {
+                if (strstr(state, "disabled"))
+                    statenum = 0;
+            }
+            // ATOMIC END
+
             TBGenericStringItem *item = new TBGenericStringItem(item_str, item_id);
+            // ATOMIC BEGIN
+            if ( item &&  statenum == 0 ) item->SetState( statenum );
+            // ATOMIC END
             if (!item || !target_source->AddItem(item))
             {
                 // Out of memory

@@ -10,7 +10,7 @@ void PeriodicApp::setup_table( AWidget *mylayout )
 //    PODVector<AWidget*> dest;
 //    pgtable->SearchWidgetClass( "TBButton", dest );
 
-	PODVector<AWidget*> dest = pgtable->SearchAWidgetClass( "TBButton" ); // dogfood it.
+    PODVector<AWidget*> dest = pgtable->SearchAWidgetClass( "TBButton" ); // dogfood it.
 
     for (unsigned ii = 0; ii < dest.Size(); ii++)  // set bulk event handlers on all buttons -- boom!
         SubscribeToEvent(dest[ii], E_WIDGETEVENT, URHO3D_HANDLER(PeriodicApp, HandleTableEvent));
@@ -75,6 +75,11 @@ void PeriodicApp::HandleTableEvent(StringHash eventType, VariantMap& eventData)
         {
             maintb->SetCurrentPage(1);
             acttb->SetCurrentPage(8);
+        }
+        if (widget->GetId() ==  "A10" )
+        {
+            maintb->SetCurrentPage(1);
+            acttb->SetCurrentPage(9);
         }
 
         if (widget->GetId() ==  "B1" )
@@ -168,6 +173,11 @@ void PeriodicApp::HandleTableEvent(StringHash eventType, VariantMap& eventData)
             maintb->SetCurrentPage(3);
             viewtb->SetCurrentPage(8);
         }
+        if (widget->GetId() ==  "C10" )
+        {
+            maintb->SetCurrentPage(3);
+            viewtb->SetCurrentPage(9);
+        }
 
         if (widget->GetId() ==  "D1" )
         {
@@ -213,6 +223,11 @@ void PeriodicApp::HandleTableEvent(StringHash eventType, VariantMap& eventData)
         {
             maintb->SetCurrentPage(4);
             supporttb->SetCurrentPage(8);
+        }
+        if (widget->GetId() ==  "D10" )
+        {
+            maintb->SetCurrentPage(4);
+            supporttb->SetCurrentPage(9);
         }
     }
 }

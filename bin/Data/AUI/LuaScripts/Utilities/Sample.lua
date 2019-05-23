@@ -317,12 +317,12 @@ function AUIInit ( defaultFont, defaultFontHandle, defaultFontSize, layoutfile )
     uiview:SetSkinBg ("")  -- no background skin, transparent.
 
     if layoutfile ~= "" then -- if a layout file is specified 
-    	local lo0 = ALayout:new() -- make the host widget for all visible ui
-    	lo0:SetId( "alayout0" ) -- name it, incase we need to change it
-    	lo0:SetRect( uiview:GetRect()) -- size it to fill the screen area
-    	lo0:SetLayoutConfig( "YAGAC" )  -- all-in-one setting
+        local lo0 = ALayout:new() -- make the host widget for all visible ui
+        lo0:SetId( "alayout0" ) -- name it, incase we need to change it
+        lo0:SetRect( uiview:GetRect()) -- size it to fill the screen area
+        lo0:SetLayoutConfig( "YAGAC" )  -- all-in-one setting
         lo0:Load(layoutfile) -- load the main layout
-    	uiview:AddChild(lo0) -- And make it show up.
+        uiview:AddChild(lo0) -- And make it show up.
     end
 end
 

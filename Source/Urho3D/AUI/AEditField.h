@@ -26,6 +26,8 @@
 
 #include "../AUI/AWidget.h"
 
+#define UI_ALL_TO_TERMINATION 2147483647
+
 namespace Urho3D
 {
 
@@ -52,7 +54,7 @@ public:
     virtual ~AEditField();
 
     //@ASBindGen Function
-    void AppendText(const String& text);
+    void AppendText(const String& text, int len = UI_ALL_TO_TERMINATION, bool clear_undo_redo = false);
 
     //@ASBindGen Function
     void SetTextAlign(UI_TEXT_ALIGN align);
@@ -82,6 +84,14 @@ public:
     void SetWrapping(bool wrap);
     //@ASBindGen Function
     bool GetWrapping();
+
+    void SetPlaceholderText(const String &text);
+    const String GetPlaceholderText();
+
+    void Undo();
+    void Redo();
+    bool CanUndo() const;
+    bool CanRedo() const;
 
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)

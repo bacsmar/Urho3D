@@ -6,6 +6,8 @@ TBLayout: axis: y
 	TBButton: id: windowdemo, text: "Bring up a custom login AWindow..."
 	TBButton: id: windowdemo1, text: "Bring up a custom table AWindow..."
 	TBButton: id: windowdemo2, text: "Bring up a rotated AWindow..."
+	TBButton: id: windowdemo3, text: "Bring up an AWindow with overriden close action..."
+
 	TBTextField: id: spacer, text: "   "
 	TBLayout
 		TBButton: state: disabled, id: "uiwindowhelp", text: "AWindow help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uiwindow.html"

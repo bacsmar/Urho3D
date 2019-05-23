@@ -21,6 +21,8 @@ TBTabContainer
 			text APromptWindow
 		TBButton
 			text AFinderWindow
+		TBButton
+			text AListView
 	TBLayout
 		id pageuimultiitem
 		size available
@@ -66,4 +68,9 @@ TBTabContainer
 		size available
 		distribution available
 		@file layout_afinderwindow.ui.txt
+	TBLayout
+		id pageuilistview
+		size available
+		distribution available
+		@file layout_alistview.ui.txt
 

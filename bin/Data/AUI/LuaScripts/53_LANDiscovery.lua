@@ -67,42 +67,42 @@ end
 function HandleStartServer(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	if network:StartServer(SERVER_PORT) == true then
-        	local data = VariantMap()
-        	data["Name"] = "Test server"
-        	data["Players"] = 100
-        	-- Set data which will be sent to all who requests LAN network discovery
-        	network:SetDiscoveryBeacon(data);
+        if network:StartServer(SERVER_PORT) == true then
+            local data = VariantMap()
+            data["Name"] = "Test server"
+            data["Players"] = 100
+            -- Set data which will be sent to all who requests LAN network discovery
+            network:SetDiscoveryBeacon(data);
             astartButton:SetState(UI_WIDGET_STATE_DISABLED, true)
             astopButton:SetState(UI_WIDGET_STATE_DISABLED, false)
-		end
+        end
     end
 end
 
 function HandleStopServer(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	network:StopServer()
+        network:StopServer()
         astartButton:SetState(UI_WIDGET_STATE_DISABLED, false)
         astopButton:SetState(UI_WIDGET_STATE_DISABLED, true)
-	end
+    end
 end
 
 function HandleDoNetworkDiscovery(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-     	network:DiscoverHosts(SERVER_PORT)
-    	aserverList:SetText("")
-	end
+        network:DiscoverHosts(SERVER_PORT)
+        aserverList:SetText("")
+    end
 end
 
 -- Create XML patch instructions for screen joystick layout specific to this sample app

@@ -5,7 +5,7 @@ function setup_uitexturewidget( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUitexturewidgetEvent")
-	end
+    end
 
     local mytexturewidget = ATextureWidget:new()
     mytexturewidget:SetId( "ATextureWidgetDemo")
@@ -53,8 +53,8 @@ end
 function HandleUitexturewidgetEvent(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uitexturewidgetcode" then
             AppLog( "ATextureWidget support : " .. widget:GetId() .. " was pressed " )
@@ -68,32 +68,32 @@ function HandleUitexturewidgetEvent(eventType, eventData)
         if widget:GetId() ==  "uitexturewidgetch1" then
             AppLog( "ATextureWidget support : " .. widget:GetId() .. " was pressed ")
             local twraw = widget:FindWidget("ATextureWidgetDemo")
-			if twraw ~= nil then
-				local tw = tolua.cast(twraw, "ATextureWidget" )
-				if tw ~= nil then
-		            tw:SetTexture( cache:GetResource("Texture2D","Textures/newbuilddetected_header.jpg") )
-				end
-			end
+            if twraw ~= nil then
+                local tw = tolua.cast(twraw, "ATextureWidget" )
+                if tw ~= nil then
+                    tw:SetTexture( cache:GetResource("Texture2D","Textures/newbuilddetected_header.jpg") )
+                end
+            end
         end
         if widget:GetId() ==  "uitexturewidgetch2" then
             AppLog( "ATextureWidget support : " .. widget:GetId() .. " was pressed ")
             local twraw = widget:FindWidget("ATextureWidgetDemo")
-			if twraw ~= nil then
-				local tw = tolua.cast(twraw, "ATextureWidget" )
-				if tw ~= nil then
-            		tw:SetTexture( cache:GetResource( "Texture2D", "Textures/HSV21.png") )
-				end
-			end
+            if twraw ~= nil then
+                local tw = tolua.cast(twraw, "ATextureWidget" )
+                if tw ~= nil then
+                    tw:SetTexture( cache:GetResource( "Texture2D", "Textures/HSV21.png") )
+                end
+            end
         end
         if widget:GetId() ==  "uitexturewidgetch3" then
             AppLog( "ATextureWidget support : " .. widget:GetId() .. " was pressed ")
             local twraw = widget:FindWidget("ATextureWidgetDemo")
-			if twraw ~= nil then
-				local tw = tolua.cast(twraw, "ATextureWidget" )
-				if tw ~= nil then
-            		tw:SetTexture( cache:GetResource( "Texture2D", "Textures/planet.jpg") )
-				end
-			end
+            if twraw ~= nil then
+                local tw = tolua.cast(twraw, "ATextureWidget" )
+                if tw ~= nil then
+                    tw:SetTexture( cache:GetResource( "Texture2D", "Textures/planet.jpg") )
+                end
+            end
         end
     end
 end

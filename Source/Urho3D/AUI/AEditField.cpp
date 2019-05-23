@@ -26,6 +26,7 @@
 
 #include "../Precompiled.h"
 #include "../Input/Input.h"
+#include "../IO/File.h"
 
 #include "../AUI/AUI.h"
 #include "../AUI/AEvents.h"
@@ -137,7 +138,7 @@ void AEditField::ScrollTo(int x, int y)
 
 }
 
-void AEditField::AppendText(const String& text)
+void AEditField::AppendText(const String& text, int len, bool clear_undo_redo )
 {
     if (!widget_)
         return;
@@ -145,7 +146,7 @@ void AEditField::AppendText(const String& text)
     // safe cast?
     TBEditField* w = (TBEditField*) widget_;
 
-    w->AppendText(text.CString());
+    w->AppendText(text.CString(), len, clear_undo_redo);
 
 }
 
@@ -287,6 +288,69 @@ bool AEditField::OnEvent(const tb::TBWidgetEvent &ev)
     }
 
     return AWidget::OnEvent(ev);
+}
+
+
+void AEditField::SetPlaceholderText(const String &text)
+{
+    if (!widget_)
+        return;
+    TBEditField* w = (TBEditField*) widget_;
+    w->SetPlaceholderText(text.CString());
+}
+
+const String AEditField::GetPlaceholderText()
+{
+    if (!widget_)
+        return String::EMPTY;
+    TBEditField* w = (TBEditField*) widget_;
+    TBStr text;
+    w->GetPlaceholderText(text);
+    return text.CStr();
+}
+
+void AEditField::Undo()
+{
+    if (!widget_)
+        return;
+    TBEditField* w = (TBEditField*) widget_;
+    TBStyleEdit *se = w->GetStyleEdit();
+    if ( !se )
+        return;
+    se->Undo();
+}
+
+void AEditField::Redo()
+{
+    if (!widget_)
+        return;
+    TBEditField* w = (TBEditField*) widget_;
+    TBStyleEdit *se = w->GetStyleEdit();
+    if ( !se )
+        return;
+    se->Redo();
+}
+
+bool AEditField::CanUndo() const
+{
+    if (!widget_)
+        return false;
+    TBEditField* w = (TBEditField*) widget_;
+    TBStyleEdit *se = w->GetStyleEdit();
+    if ( !se )
+        return false;
+    return se->CanUndo();
+}
+
+bool AEditField::CanRedo() const
+{
+    if (!widget_)
+        return false;
+    TBEditField* w = (TBEditField*) widget_;
+    TBStyleEdit *se = w->GetStyleEdit();
+    if ( !se )
+        return false;
+    return se->CanRedo();
 }
 
 #if URHO3D_ANGELSCRIPT

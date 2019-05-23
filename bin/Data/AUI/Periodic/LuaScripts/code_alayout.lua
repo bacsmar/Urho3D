@@ -4,7 +4,7 @@ function setup_uilayout( layout, uiview )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do 
         SubscribeToEvent(awid, "WidgetEvent", "HandleUilayoutEvent")
-	end
+    end
 
    local mycw = layout:GetWidget("uilayoutcontainer") -- get the container layout
    local myc = tolua.cast(mycw, "ALayout")
@@ -99,8 +99,8 @@ end
 function HandleUilayoutEvent(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "go_layout_config" then -- its LAYOUT-O-MATIC time:
             AppLog( "ALayout action : " .. widget:GetId() .. " was pressed, its LAYOUT-O-MATIC time")
@@ -112,303 +112,303 @@ function HandleUilayoutEvent(eventType, eventData)
             uiview:AddChild(win)
             local okbutt = win:GetWidget("ok")
             SubscribeToEvent(okbutt, "WidgetEvent", "HandleUilayoutEvent" )
-    		local dest = win:SearchAWidgetClass( "TBRadioButton" )
-    		for i, awid in ipairs(dest) do  -- set bulk event handlers on all buttons -- boom!
-        		SubscribeToEvent(awid, "WidgetEvent", "HandleUilayoutEvent")
-			end
-       	end
+            local dest = win:SearchAWidgetClass( "TBRadioButton" )
+            for i, awid in ipairs(dest) do  -- set bulk event handlers on all buttons -- boom!
+                SubscribeToEvent(awid, "WidgetEvent", "HandleUilayoutEvent")
+            end
+        end
         if widget:GetId() ==  "ok" then
             local mywindow = FindTheWindowParent(widget)
             if mywindow ~= nil then
-				local w1 = tolua.cast( mywindow, "AWindow")
+                local w1 = tolua.cast( mywindow, "AWindow")
                 w1:Close()
-			end
+            end
         end
         if widget:GetId() ==  "set_ax" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                    	local current = GetGlobalVar("layoutomaticstr"):GetString() -- strings are immutable in lua.
-						local c1 = 'X' -- current[0] = 'X' -- current:Replace (0, 1, "X")
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-                	end
-				end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString() -- strings are immutable in lua.
+                        local c1 = 'X' -- current[0] = 'X' -- current:Replace (0, 1, "X")
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
+                end
             end
         end
         if widget:GetId() == "set_ay" then
             local targetl = widget:FindWidget("target_layout")
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton")
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                    	local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = 'Y'
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton")
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = 'Y'
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() == "set_sza" then
             local targetl = widget:FindWidget("target_layout")
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton")
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                    	local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = 'A'
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton")
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = 'A'
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() == "set_szg" then
             local targetl = widget:FindWidget("target_layout")
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton")
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                    	local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = 'G'
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton")
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = 'G'
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() == "set_szp" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                    	local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = 'P'
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = 'P'
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
 
         if widget:GetId() == "set_posc" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = 'C'
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = 'C'
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() == "set_posg" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = 'G'
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = 'G'
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() == "set_posl" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = 'L'
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = 'L'
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() == "set_posr" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = 'R'
-						local c4 = current:sub (4,4)
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = 'R'
+                        local c4 = current:sub (4,4)
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
 
         if widget:GetId() == "set_dista" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = 'A'
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = 'A'
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() ==  "set_distg" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = 'G'
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = 'G'
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() ==  "set_distp" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = 'P'
-						local c5 = current:sub (5,5)
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = 'P'
+                        local c5 = current:sub (5,5)
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
 
         if widget:GetId() == "set_dpc" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = 'C'
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = 'C'
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() ==  "set_dpl" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = 'L'
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = 'L'
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end
         if widget:GetId() ==  "set_dpr" then
             local targetl = widget:FindWidget("target_layout") -- who to operate on:
-			if targetl ~= nil then 
-				local t1 = tolua.cast( targetl, "ALayout")
-				local b1 = tolua.cast( widget, "ARadioButton") -- who we are
-            	if t1 ~= nil and b1 ~= nil then
-                	if b1:GetValue() == 1 then
-                   		local current = GetGlobalVar("layoutomaticstr"):GetString()
-						local c1 = current:sub (1,1)
-						local c2 = current:sub (2,2)
-						local c3 = current:sub (3,3)
-						local c4 = current:sub (4,4)
-						local c5 = 'R'
-                    	t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
-                    	SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
-					end
+            if targetl ~= nil then 
+                local t1 = tolua.cast( targetl, "ALayout")
+                local b1 = tolua.cast( widget, "ARadioButton") -- who we are
+                if t1 ~= nil and b1 ~= nil then
+                    if b1:GetValue() == 1 then
+                        local current = GetGlobalVar("layoutomaticstr"):GetString()
+                        local c1 = current:sub (1,1)
+                        local c2 = current:sub (2,2)
+                        local c3 = current:sub (3,3)
+                        local c4 = current:sub (4,4)
+                        local c5 = 'R'
+                        t1:SetLayoutConfig( c1 .. c2 .. c3 .. c4 .. c5 )
+                        SetGlobalVar("layoutomaticstr", Variant(c1 .. c2 .. c3 .. c4 .. c5) )
+                    end
                 end
             end
         end

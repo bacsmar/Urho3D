@@ -4,7 +4,7 @@ function setup_uifinderwindow( layout, uiview )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUifinderwindowEvent")
-	end
+    end
 end
 
 function HandleFinderCompleteEvent( eventType, eventData )
@@ -16,8 +16,8 @@ end
 function HandleUifinderwindowEvent( eventType, eventData )
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return;
-	end
+        return;
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if (widget:GetId() == "uifinderwindowcode" ) then
             AppLog( "AFinderWindow support : " .. widget:GetId() .. " was pressed " );

@@ -7,7 +7,7 @@ function setup_uimenuitem( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUimenuitemEvent")
-	end
+    end
 
     mis = AMenuItemSource:new()
     mis:AddItem( AMenuItem:new( "ASelectItem1", "item1", "", "" ) )
@@ -15,7 +15,7 @@ function setup_uimenuitem( layout )
     mis:AddItem( AMenuItem:new( "ASelectItem3", "item3", "Ctrl+D", "DuckButton" ) )
     mis:AddItem( AMenuItem:new( "ASelectItem4", "item4", "Ctrl+A", "LogoAtomic" ) )
 
- 	mgmis = mis
+    mgmis = mis
 
 end
 
@@ -23,8 +23,8 @@ function HandleUimenuitemEvent( eventType,  eventData)
     local refid = eventData["RefID"]:GetString()
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uimenuitemcode" then
             AppLog( "AMenuItem support : " .. widget:GetId() .. " was pressed " )
@@ -36,13 +36,13 @@ function HandleUimenuitemEvent( eventType,  eventData)
         end
 
         if widget:GetId() ==  "uimenuitempush" then
-			if mgmis ~= nil then
-            	local mymenuwindow = AMenuWindow:new( widget, "MenuItemDemo")
-           	 	SubscribeToEvent(mymenuwindow, "WidgetEvent", "HandleUimenuitemEvent" )
-            	local xx = widget:GetX() + (widget:GetWidth()/2)
-            	local yy = widget:GetY() + (widget:GetHeight()/2)
-           	 	mymenuwindow:ShowMenu(mgmis, xx, yy)
-			end
+            if mgmis ~= nil then
+                local mymenuwindow = AMenuWindow:new( widget, "MenuItemDemo")
+                SubscribeToEvent(mymenuwindow, "WidgetEvent", "HandleUimenuitemEvent" )
+                local xx = widget:GetX() + (widget:GetWidth()/2)
+                local yy = widget:GetY() + (widget:GetHeight()/2)
+                mymenuwindow:ShowMenu(mgmis, xx, yy)
+            end
         end
 
         if widget:GetId() ==  "MenuItemDemo" then
@@ -51,33 +51,33 @@ function HandleUimenuitemEvent( eventType,  eventData)
 
         if widget:GetId() ==  "uimi1" then
             AppLog( "AMenuItem action : " .. widget:GetId() .. " was pressed ")
-			if mgmis ~= nil then
-            	mgmis:AddItem( AMenuItem:new( "New AMenuItem", "newitem", "", "") )
-			end
+            if mgmis ~= nil then
+                mgmis:AddItem( AMenuItem:new( "New AMenuItem", "newitem", "", "") )
+            end
         end
         if widget:GetId() ==  "uimi2" then
             AppLog( "AMenuItem action : " .. widget:GetId() .. " was pressed ")
-			if mgmis ~= nil then
-            	mgmis:AddItem( AMenuItem:new( "Newer AMenuItem", "neweritem", "", "" ) )
-			end
+            if mgmis ~= nil then
+                mgmis:AddItem( AMenuItem:new( "Newer AMenuItem", "neweritem", "", "" ) )
+            end
         end
         if widget:GetId() ==  "uimi3" then
             AppLog( "AMenuItem action : " .. widget:GetId() .. " was pressed ")
-			if mgmis ~= nil then
-            	mgmis:AddItem( AMenuItem:new( "A Duck", "aduck", "", "DuckButton" ) )
-			end
+            if mgmis ~= nil then
+                mgmis:AddItem( AMenuItem:new( "A Duck", "aduck", "", "DuckButton" ) )
+            end
         end
         if widget:GetId() ==  "uimi4" then
             AppLog( "AMenuItem action : " .. widget:GetId() .. " was pressed ")
-			if mgmis ~= nil then
-            	mgmis:AddItem( AMenuItem:new( "Atomic!", "atomic", "", "LogoAtomic") )
-			end
+            if mgmis ~= nil then
+                mgmis:AddItem( AMenuItem:new( "Atomic!", "atomic", "", "LogoAtomic") )
+            end
         end
         if widget:GetId() ==  "uimi5" then
             AppLog( "AMenuItem action : " .. widget:GetId() .. " was pressed ")
-			if mgmis ~= nil then
-           		mgmis:Clear()
-			end
+            if mgmis ~= nil then
+                mgmis:Clear()
+            end
         end
     end
 end

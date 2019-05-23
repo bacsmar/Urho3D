@@ -5,20 +5,20 @@ function setup_uiradiobutton( layout)
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUiradiobuttonEvent")
-	end
+    end
 
     demochk = layout:GetWidget ("demoradio")
     if demochk ~= nil then
-		local d2 = tolua.cast(demochk, "AWidget")
+        local d2 = tolua.cast(demochk, "AWidget")
         SubscribeToEvent(d2, "WidgetEvent", "HandleUiradiobuttonEvent")
-	end
+    end
 end
 
 function HandleUiradiobuttonEvent( eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uiradiobuttoncode" then
             AppLog( "ARadioButton support : " .. widget:GetId() .. " was pressed " )

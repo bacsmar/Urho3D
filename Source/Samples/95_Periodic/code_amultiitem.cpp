@@ -15,11 +15,11 @@ void PeriodicApp::setup_amultiitem( AWidget *layout )
     ASelectList *mylist = new ASelectList(context_);
     mylist->SetId( "AMultiItemList"); // tag it, in case we want to get it again later
     ALayoutParams *lpx = new ALayoutParams(context_);
-    lpx->SetWidth (200);
+    lpx->SetWidth(300);
     lpx->SetHeight(256);
-    lpx->SetMinWidth(200);
+    lpx->SetMinWidth(300);
     lpx->SetMinHeight(256);
-    lpx->SetMaxWidth (200);
+    lpx->SetMaxWidth (300);
     lpx->SetMaxHeight(256);
     mylist->SetLayoutParams(lpx);
     mylist->SetLayoutParams(lpx);
@@ -30,21 +30,21 @@ void PeriodicApp::setup_amultiitem( AWidget *layout )
 
     AMultiItemSource *sis = new AMultiItemSource(context_);
     AMultiItem *mi1 = new AMultiItem( context_, "sitem1", "TEXT", "AMultiItem1", 88,0 );
-	mi1->AddColumn ( "TEXT", "Col2", 44 );
-	mi1->AddColumn ( "TEXT", "Col3", 44 );
-	sis->AddItem(mi1);
+    mi1->AddColumn ( "TEXT", "Col2", 44 );
+    mi1->AddColumn ( "TEXT", "Col3", 44 );
+    sis->AddItem(mi1);
     AMultiItem *mi2 = new AMultiItem( context_, "sitem2", "TEXT", "AMultiItem2",  88,0  );
-	mi2->AddColumn ( "TEXT", "Col4", 44 );
-	mi2->AddColumn ( "TEXT", "Col5", 44 );
-	sis->AddItem(mi2);
+    mi2->AddColumn ( "TEXT", "Col4", 44 );
+    mi2->AddColumn ( "TEXT", "Col5", 44 );
+    sis->AddItem(mi2);
     AMultiItem *mi3 = new AMultiItem( context_, "sitem3", "TEXT", "AMultiItem3",  88,0 );
-	mi3->AddColumn ( "TEXT", "Col6", 44 );
-	mi3->AddColumn ( "TEXT", "Col7", 44 );
-	sis->AddItem(mi3);
+    mi3->AddColumn ( "TEXT", "Col6", 44 );
+    mi3->AddColumn ( "TEXT", "Col7", 44 );
+    sis->AddItem(mi3);
     AMultiItem *mi4 = new AMultiItem( context_, "sitem4", "TEXT", "AMultiItem4",  88,0 );
-	mi4->AddColumn ( "TEXT", "Col8", 44 );
-	mi4->AddColumn ( "TEXT", "Col9", 44 );
-	sis->AddItem(mi4);
+    mi4->AddColumn ( "TEXT", "Col8", 44 );
+    mi4->AddColumn ( "TEXT", "Col9", 44 );
+    sis->AddItem(mi4);
 
     context_->SetGlobalVar( "multiitemptr", sis );  // make a global reference.
 
@@ -80,10 +80,10 @@ void PeriodicApp::HandleAmultiitemEvent(StringHash eventType, VariantMap& eventD
             AppLog( "AMultiItem action : " + widget->GetId() + " was pressed ");
             AMultiItemSource *gsis = (AMultiItemSource*)context_->GetGlobalVar("multiitemptr").GetPtr();
             ASelectList* slist = static_cast<ASelectList*>(widget->FindWidget("AMultiItemList"));
-  			AMultiItem *mi1 = new AMultiItem( context_, "ADD1", "TEXT", "new MultiItem", 88,0 );
-			mi1->AddColumn ( "TEXT", "Col2", 44 );
-			mi1->AddColumn ( "TEXT", "Col3", 44 );
-			gsis->AddItem(mi1);
+            AMultiItem *mi1 = new AMultiItem( context_, "ADD1", "TEXT", "new MultiItem", 88,0 );
+            mi1->AddColumn ( "TEXT", "Col2", 44 );
+            mi1->AddColumn ( "TEXT", "Col3", 44 );
+            gsis->AddItem(mi1);
             slist->SetSource(gsis);
         }
         if (widget->GetId() ==  "uimi2" )
@@ -91,10 +91,10 @@ void PeriodicApp::HandleAmultiitemEvent(StringHash eventType, VariantMap& eventD
             AppLog( "AMultiItem action : " + widget->GetId() + " was pressed ");
             AMultiItemSource *gsis = (AMultiItemSource*)context_->GetGlobalVar("multiitemptr").GetPtr();
             ASelectList* slist = static_cast<ASelectList*>(widget->FindWidget("AMultiItemList"));
-    		AMultiItem *mi2 = new AMultiItem( context_, "ADD2", "TEXT", "Another Item",  88,0  );
-			mi2->AddColumn ( "COLOR", "#3333FF", 44 );
-			mi2->AddColumn ( "TEXT", "Col5", 44 );
-			gsis->AddItem(mi2);
+            AMultiItem *mi2 = new AMultiItem( context_, "ADD2", "TEXT", "Another Item",  88,0  );
+            mi2->AddColumn ( "COLOR", "#3333FF", 44 );
+            mi2->AddColumn ( "TEXT", "Col5", 44 );
+            gsis->AddItem(mi2);
             slist->SetSource(gsis);
         }
         if (widget->GetId() ==  "uimi3" )
@@ -102,10 +102,10 @@ void PeriodicApp::HandleAmultiitemEvent(StringHash eventType, VariantMap& eventD
             AppLog( "AMultiItem action : " + widget->GetId() + " was pressed ");
             AMultiItemSource *gsis = (AMultiItemSource*)context_->GetGlobalVar("multiitemptr").GetPtr();
             ASelectList* slist = static_cast<ASelectList*>(widget->FindWidget("AMultiItemList"));
-    		AMultiItem *mi3 = new AMultiItem( context_, "Duck", "ICON", "DuckButton",  88,0 );
-			mi3->AddColumn ( "TEXT", "Col6", 44 );
-			mi3->AddColumn ( "TEXT", "Col7", 44 );
-			gsis->AddItem(mi3);
+            AMultiItem *mi3 = new AMultiItem( context_, "Duck", "ICON", "DuckButton",  88,0 );
+            mi3->AddColumn ( "TEXT", "Col6", 44 );
+            mi3->AddColumn ( "TEXT", "Col7", 44 );
+            gsis->AddItem(mi3);
             slist->SetSource(gsis);
         }
         if (widget->GetId() ==  "uimi4" )
@@ -113,10 +113,10 @@ void PeriodicApp::HandleAmultiitemEvent(StringHash eventType, VariantMap& eventD
             AppLog( "AMultiItem action : " + widget->GetId() + " was pressed ");
             AMultiItemSource *gsis = (AMultiItemSource*)context_->GetGlobalVar("multiitemptr").GetPtr();
             ASelectList* slist = static_cast<ASelectList*>(widget->FindWidget("AMultiItemList"));
-    		AMultiItem *mi4 = new AMultiItem( context_, "Atomic", "ICON", "LogoAtomic", 88,0 );
-			mi4->AddColumn ( "TEXT", "Col8", 44 );
-			mi4->AddColumn ( "TEXT", "Col9", 44 );
-			gsis->AddItem(mi4);
+            AMultiItem *mi4 = new AMultiItem( context_, "Atomic", "ICON", "LogoAtomic", 88,0 );
+            mi4->AddColumn ( "TEXT", "Col8", 44 );
+            mi4->AddColumn ( "TEXT", "Col9", 44 );
+            gsis->AddItem(mi4);
             slist->SetSource(gsis);
         }
         if (widget->GetId() ==  "uimi5" )

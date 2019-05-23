@@ -374,13 +374,13 @@ function MoveCamera(timeStep)
 
     -- Toggle instruction text with F12
     elseif input:GetKeyPress(KEY_F12) then
-    	local uiview = aui:GetFocusedView()
-    	local widget = uiview:FindWidget("instructionText")
-		if widget:GetVisibility() == UI_WIDGET_VISIBILITY_VISIBLE then
-		 	widget:SetVisibility(UI_WIDGET_VISIBILITY_INVISIBLE)
-		elseif widget:GetVisibility() == UI_WIDGET_VISIBILITY_INVISIBLE then
-		 	widget:SetVisibility(UI_WIDGET_VISIBILITY_VISIBLE)
-		end
+        local uiview = aui:GetFocusedView()
+        local widget = uiview:FindWidget("instructionText")
+        if widget:GetVisibility() == UI_WIDGET_VISIBILITY_VISIBLE then
+            widget:SetVisibility(UI_WIDGET_VISIBILITY_INVISIBLE)
+        elseif widget:GetVisibility() == UI_WIDGET_VISIBILITY_INVISIBLE then
+            widget:SetVisibility(UI_WIDGET_VISIBILITY_VISIBLE)
+        end
     end
 end
 function ToggleStreaming(enabled)

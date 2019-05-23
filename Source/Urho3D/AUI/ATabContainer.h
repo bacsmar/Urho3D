@@ -48,6 +48,7 @@ public:
     //@ASBindGen Function AddRef_arg-1
     AWidget* GetCurrentPageWidget();
 
+    //@ASBindGen Function AddRef_arg-1
     ALayout* GetTabLayout();
     
     //@ASBindGen Function
@@ -58,6 +59,11 @@ public:
     void AddTabPageFile ( const String &tabname, const String &layoutFile, bool selecttab = true ); /// adds a tab + page from file
     //@ASBindGen Function AddRef_arg1
    void AddTabPageWidget ( const String &tabname, AWidget *widget, bool selecttab = true ); /// adds a tab + page widget(s)
+
+    //@ASBindGen Function AddRef_arg-1
+    AWidget* GetPageTab(int page);   /// tab widget for wanted page
+    //@ASBindGen Function AddRef_arg-1
+    AWidget* GetPageContent(int page); /// content widget for wanted page
 
     //@ASBindGen Function
     void UndockPage ( int page ); /// undocks the page into a window with the tab name, and removes the tab

@@ -91,6 +91,11 @@ public:
     void setup_awidget( AWidget *layout);
     void setup_awindow( AWidget *layout, AView *someview);
 
+    void setup_adimmer( AWidget *layout );
+    void setup_alistview( AWidget *layout);
+    void setup_abuttongrid( AWidget *layout);
+
+
 protected:
 
     void HandleExitEvent(StringHash eventType, VariantMap& eventData);  // handle exit (atomic logo) button.
@@ -133,11 +138,19 @@ protected:
     void HandleAwidgetEvent(StringHash eventType, VariantMap& eventData);
     void HandleAwindowEvent(StringHash eventType, VariantMap& eventData);
 
+    void HandleAdimmerEvent(StringHash eventType, VariantMap& eventData);
+    void HandleAlistviewEvent(StringHash eventType, VariantMap& eventData);
+    void HandleAbuttongridEvent(StringHash eventType, VariantMap& eventData);
+
     void HandleFinderCompleteEvent(StringHash eventType, VariantMap& eventData);
     void HandlePromptCompleteEvent(StringHash eventType, VariantMap& eventData);
     void HandleMessageCompleteEvent(StringHash eventType, VariantMap& eventData);
+    void HandleModalCompleteEvent(StringHash eventType, VariantMap& eventData);
 
-    // for widget class event handlers
+    void HandleCloseOverrideEvent(StringHash eventType, VariantMap& eventData);
+    void HandleCloseYesNoEvent(StringHash eventType, VariantMap& eventData);
+
+   // for widget class event handlers
     void HandleAllScrollcontainerEvent(StringHash eventType, VariantMap& eventData);
     void HandleAllSelectdropdownEvent(StringHash eventType, VariantMap& eventData);
     void HandleAllSliderEvent(StringHash eventType, VariantMap& eventData);

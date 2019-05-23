@@ -4,15 +4,15 @@ function setup_uibutton( layout)
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUibuttonEvent")
-	end
+    end
 end
 
 function HandleUibuttonEvent( eventType, eventData )
 
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "demobutton" then
             AppLog( "AButton action : " .. widget:GetId() .. " was pressed ")

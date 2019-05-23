@@ -164,10 +164,19 @@ TBWidget *TBSelectItemSource::CreateItemWidget(int index, TBSelectItemViewer *vi
     const char *string = GetItemString(index);
     TBSelectItemSource *sub_source = GetItemSubSource(index);
     TBID image = GetItemImage(index);
+    // ATOMIC BEGIN
+    int state = GetItemState(index);
+    // ATOMIC END
     if (sub_source || image)
     {
         if (TBSimpleLayoutItemWidget *itemwidget = new TBSimpleLayoutItemWidget(image, sub_source, string))
+        {
+            // ATOMIC BEGIN
+            if ( state == 0 ) itemwidget->SetState(WIDGET_STATE_DISABLED, true );
+            else itemwidget->SetState(WIDGET_STATE_DISABLED, false );
+            // ATOMIC END
             return itemwidget;
+        }
     }
     else if (string && *string == '-')
     {
@@ -183,6 +192,10 @@ TBWidget *TBSelectItemSource::CreateItemWidget(int index, TBSelectItemViewer *vi
         textfield->SetSkinBg("TBSelectItem");
         textfield->SetText(string);
         textfield->SetTextAlign(TB_TEXT_ALIGN_LEFT);
+        // ATOMIC BEGIN
+        if ( state == 0 ) textfield->SetState(WIDGET_STATE_DISABLED, true );
+        else textfield->SetState(WIDGET_STATE_DISABLED, false );
+        // ATOMIC END
         return textfield;
     }
     return nullptr;

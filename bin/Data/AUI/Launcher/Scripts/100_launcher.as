@@ -329,8 +329,19 @@ void HandleButtons(StringHash eventType, VariantMap& eventData)
             uiview.AddChild(win2);
             win2.Center();
             PresetConfiguration( win2 );
+            win2.SetCloseDelegate(true);
+            SubscribeToEvent( win2, "AWidgetEditCanceled", "HandleUserWindowClose" );
         }
     }
+}
+
+void HandleUserWindowClose(StringHash eventType, VariantMap& eventData)
+{
+    AWidget @widget = eventData["Widget"].GetPtr();
+    if ( widget is null ) return;
+    AWindow @mywin = cast<AWindow@>(widget);
+    if ( mywin !is null )
+        mywin.Close();
 }
 
 void HandleSpawn(StringHash eventType, VariantMap& eventData)
@@ -351,7 +362,7 @@ void poke_at_android() // actually pokes at everything.
     if ((platform == "Android") || (platform == "iOS"))
         localVars["BasePath"] = fileSystem.userDocumentsDir; // somewhere writable on mobile
     else
-        localVars["BasePath"] = fileSystem.GetAppPreferencesDir("urho33", "100_launcher"); // desktop systems
+        localVars["BasePath"] = fileSystem.GetAppPreferencesDir("urho3d", "100_launcher"); // desktop systems
 
     localVars["SettingsPath"] = localVars["BasePath"].GetString() + "settings/";
 

@@ -109,15 +109,15 @@ end
 function HandleSaveNatSettings(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	local address = anatServerAddress:GetText()
-    	local port = anatServerPort:GetText()
-    	-- Save NAT server configuration
-    	network:SetNATServerInfo(address, port);
-    	ShowLogMessage("Saving NAT settings: " .. address .. ":" .. port);
-	end
+        local address = anatServerAddress:GetText()
+        local port = anatServerPort:GetText()
+        -- Save NAT server configuration
+        network:SetNATServerInfo(address, port);
+        ShowLogMessage("Saving NAT settings: " .. address .. ":" .. port);
+    end
 end
 
 function HandleServerConnected(eventType, eventData)
@@ -138,34 +138,34 @@ end
 function HandleStartServer(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	network:StartServer(SERVER_PORT)
-    	ShowLogMessage("Server: Server started on port: " .. SERVER_PORT)
+        network:StartServer(SERVER_PORT)
+        ShowLogMessage("Server: Server started on port: " .. SERVER_PORT)
 
-    	-- Connect to the NAT server
-    	network:StartNATClient()
-    	ShowLogMessage("Server: Starting NAT client for server...")
+        -- Connect to the NAT server
+        network:StartNATClient()
+        ShowLogMessage("Server: Starting NAT client for server...")
 
-    	-- Output our assigned GUID which others will use to connect to our server
-    	aguid.SetText(network:GetGUID())
-	end
+        -- Output our assigned GUID which others will use to connect to our server
+        aguid.SetText(network:GetGUID())
+    end
 end
 
 function HandleConnect(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-	    local userData = VariantMap()
-    	userData["Name"] = "Urho3D"
+        local userData = VariantMap()
+        userData["Name"] = "Urho3D"
 
-    	-- Attempt connecting to server using custom GUID, Scene = null as a second parameter and user identity is passed as third parameter
-    	network:AttemptNATPunchtrough(aserverGuid:GetText(), null, userData)
-    	ShowLogMessage("Client: Attempting NAT punchtrough to guid: " + aserverGuid:GetText())
-	end
+        -- Attempt connecting to server using custom GUID, Scene = null as a second parameter and user identity is passed as third parameter
+        network:AttemptNATPunchtrough(aserverGuid:GetText(), null, userData)
+        ShowLogMessage("Client: Attempting NAT punchtrough to guid: " + aserverGuid:GetText())
+    end
 end
 
 function HandleNatConnectionFailed(eventType, eventData)

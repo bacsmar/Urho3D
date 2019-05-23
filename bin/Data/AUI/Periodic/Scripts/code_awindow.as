@@ -77,6 +77,52 @@ void HandleUiwindowEvent(StringHash eventType, VariantMap& eventData)
             uiview.AddChild(win3);
             win3.Center();
         }
+        if (widget.GetId() == "windowdemo3" )
+        {
+            AppLog( "AWindow action : " + widget.GetId() + " was pressed " );
+            AWindow@window = AWindow();
+            window.SetId ("WinCloseOverride" );
+            window.SetSettings ( UI_WINDOW_SETTINGS_DEFAULT );
+            window.SetText("AWindow with Close Override action" );
+            window.Load("Scenes/sheet.ui.txt");
+            window.ResizeToFitContent();
+            window.SetCloseDelegate(true);
+            SubscribeToEvent(window, "AWidgetEditCanceled", "HandleCloseOverrideEvent");
+            uiview.AddChild(window);
+            window.Center();
+        }
+    }
+}
+
+void HandleCloseOverrideEvent(StringHash eventType, VariantMap& eventData)
+{
+    AWidget@ widget = cast<AWidget@>(eventData["Widget"].GetPtr());
+    if ( widget is null ) return;
+
+    AMessageWindow @mess4 = AMessageWindow(uiview, "mymess4");
+    SubscribeToEvent(mess4, "WidgetEvent", "HandleCloseYesNoEvent");
+    mess4.Show( "Close Window Request", "Do you really want to close this window?", UI_MESSAGEWINDOW_SETTINGS_YES_NO, false, 0, 0);
+}
+
+void HandleCloseYesNoEvent(StringHash eventType, VariantMap& eventData)
+{
+    AWidget@ widget = cast<AWidget@>(eventData["Target"].GetPtr());
+    if ( widget is null ) return;
+    AWindow@ mywin = cast<AWindow@>(widget.FindWidget("WinCloseOverride"));
+    String refid = eventData["RefID"].GetString();
+    if (eventData["Type"].GetInt() == UI_EVENT_TYPE_CLICK)
+    {
+        if (refid == "TBMessageWindow.yes" )
+        {
+            AppLog( "AWindow event : " + refid + " closed the AMessageWindow");
+            if (mywin !is null)
+                mywin.Close();
+        }
+        if (refid == "TBMessageWindow.no" )
+        {
+            AppLog( "AWindow event : " + refid + " closed the AMessageWindow");
+            //wait for it ...
+        }
     }
 }
 

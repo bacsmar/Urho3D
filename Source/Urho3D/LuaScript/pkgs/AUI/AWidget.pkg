@@ -179,6 +179,9 @@ class AWidget : public Object
     float GetOpacity();
     void SetAutoOpacity(float autoOpacity);
     float GetAutoOpacity();
+	AWidget* GetChildFromIndex(int index) const;
+    int numChildren() const;
+
 };
 
 

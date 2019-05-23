@@ -104,6 +104,8 @@ public:
     /** Set along which axis the content should be layouted. */
     virtual AXIS GetAxis() const { return m_axis; }
     virtual void SetAxis(AXIS axis);
+	virtual void SetCloseDelegate ( bool setdel ) { m_close_delegate = setdel; }
+	virtual bool GetCloseDelegate () { return m_close_delegate; }
 // ATOMIC END
 
 protected:
@@ -115,6 +117,7 @@ protected:
     TBWidgetSafePointer m_last_focus;
 // ATOMIC BEGIN
     AXIS m_axis;
+    bool m_close_delegate;  // user handles Close action 
 // ATOMIC END
     TBWindow *GetTopMostOtherWindow(bool only_activable_windows);
     void SetWindowActiveState(bool active);

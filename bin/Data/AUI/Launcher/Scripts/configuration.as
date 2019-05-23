@@ -24,6 +24,7 @@ void PresetConfiguration( AWindow @win )
         if ( aedit !is null )
         {
             aedit.SetText( prgArguments[nn] );
+            SubscribeToEvent(aedit, "AWidgetEditComplete", "HandleStringEntry");
         }
     }
 }
@@ -90,6 +91,14 @@ void HandleCheckEvent(StringHash eventType, VariantMap& eventData)
         
         GenerateExecArgs();
     }
+}
+
+void HandleStringEntry(StringHash eventType, VariantMap& eventData)
+{
+    AWidget @widget = eventData["Widget"].GetPtr();
+    if ( widget is null ) return;
+    String count = widget.GetId().Substring(3);
+    prgArguments[count.ToInt()] = widget.GetText();
 }
 
 void ReadConfiguration()

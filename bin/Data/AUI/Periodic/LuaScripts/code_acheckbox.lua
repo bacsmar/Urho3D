@@ -4,20 +4,20 @@ function setup_uicheckbox( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUicheckboxEvent")
-	end
+    end
 
     local demochk = layout:GetWidget ("democheck")
     if (demochk ~= nil) then
-		local d2 = tolua.cast(demochk, "AWidget")
-       	SubscribeToEvent(d2, "WidgetEvent", "HandleUicheckboxEvent")
-	end
+        local d2 = tolua.cast(demochk, "AWidget")
+        SubscribeToEvent(d2, "WidgetEvent", "HandleUicheckboxEvent")
+    end
 end
 
 function HandleUicheckboxEvent(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if ( widget == nil) then
- 		return;
-	end
+        return;
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uicheckboxcode" then
             AppLog( "ACheckBox support : " .. widget:GetId() .. " was pressed " )

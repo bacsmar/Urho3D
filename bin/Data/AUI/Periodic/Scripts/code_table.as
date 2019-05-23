@@ -82,6 +82,11 @@ void HandleTableEvent(StringHash eventType, VariantMap& eventData)
             maintb.SetCurrentPage(1);
             acttb.SetCurrentPage(8);
         }
+        if (widget.GetId() ==  "A10" )
+        {
+            maintb.SetCurrentPage(1);
+            acttb.SetCurrentPage(9);
+        }
 
         if (widget.GetId() ==  "B1" )
         {
@@ -174,6 +179,11 @@ void HandleTableEvent(StringHash eventType, VariantMap& eventData)
             maintb.SetCurrentPage(3);
             viewtb.SetCurrentPage(8);
         }
+        if (widget.GetId() ==  "C10" )
+        {
+            maintb.SetCurrentPage(3);
+            viewtb.SetCurrentPage(9);
+        }
 
         if (widget.GetId() ==  "D1" )
         {
@@ -219,6 +229,11 @@ void HandleTableEvent(StringHash eventType, VariantMap& eventData)
         {
             maintb.SetCurrentPage(4);
             supporttb.SetCurrentPage(8);
+        }
+        if (widget.GetId() ==  "D10" )
+        {
+            maintb.SetCurrentPage(4);
+            supporttb.SetCurrentPage(9);
         }
     }
 }

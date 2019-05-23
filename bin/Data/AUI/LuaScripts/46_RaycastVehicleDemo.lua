@@ -300,27 +300,27 @@ function Vehicle:Init()
     local LtBrown = Color(0.972, 0.780, 0.412)
     for i = 1, #self.connectionPoints do
         local wheelNode = scene_:CreateChild()
-	local connectionPoint = self.connectionPoints[i]
-	-- Front wheels are at front (z > 0)
-	-- Back wheels are at z < 0
-	-- Setting rotation according to wheel position
-	local isFrontWheel = connectionPoint.z > 0.0
-	if connectionPoint.x >= 0.0 then
+    local connectionPoint = self.connectionPoints[i]
+    -- Front wheels are at front (z > 0)
+    -- Back wheels are at z < 0
+    -- Setting rotation according to wheel position
+    local isFrontWheel = connectionPoint.z > 0.0
+    if connectionPoint.x >= 0.0 then
         wheelNode.rotation = Quaternion(0.0, 0.0, -90.0)
     else
         wheelNode.rotation = Quaternion(0.0, 0.0, 90.0)
-	end
-	wheelNode.worldPosition = node.worldPosition + node.worldRotation * connectionPoint
-	wheelNode.scale = Vector3(1.0, 0.65, 1.0)
-	raycastVehicle:AddWheel(wheelNode, wheelDirection, wheelAxle, self.suspensionRestLength, self.wheelRadius, isFrontWheel)
-	raycastVehicle:SetWheelSuspensionStiffness(i - 1, self.suspensionStiffness)
-	raycastVehicle:SetWheelDampingRelaxation(i - 1, self.suspensionDamping)
-	raycastVehicle:SetWheelDampingCompression(i - 1, self.suspensionCompression)
-	raycastVehicle:SetWheelRollInfluence(i - 1, self.rollInfluence)
-	local pWheel = wheelNode:CreateComponent("StaticModel")
-	pWheel.model = cache:GetResource("Model", "Models/Cylinder.mdl")
-	pWheel.material = cache:GetResource("Material", "Materials/Stone.xml")
-	pWheel.castShadows = true
+    end
+    wheelNode.worldPosition = node.worldPosition + node.worldRotation * connectionPoint
+    wheelNode.scale = Vector3(1.0, 0.65, 1.0)
+    raycastVehicle:AddWheel(wheelNode, wheelDirection, wheelAxle, self.suspensionRestLength, self.wheelRadius, isFrontWheel)
+    raycastVehicle:SetWheelSuspensionStiffness(i - 1, self.suspensionStiffness)
+    raycastVehicle:SetWheelDampingRelaxation(i - 1, self.suspensionDamping)
+    raycastVehicle:SetWheelDampingCompression(i - 1, self.suspensionCompression)
+    raycastVehicle:SetWheelRollInfluence(i - 1, self.rollInfluence)
+    local pWheel = wheelNode:CreateComponent("StaticModel")
+    pWheel.model = cache:GetResource("Model", "Models/Cylinder.mdl")
+    pWheel.material = cache:GetResource("Material", "Materials/Stone.xml")
+    pWheel.castShadows = true
     end
 
     self:PostInit()
@@ -343,7 +343,7 @@ function Vehicle:CreateEmitters()
     local raycastVehicle = node:GetComponent("RaycastVehicle")
     for id = 0, raycastVehicle:GetNumWheels() do
         local connectionPoint = raycastVehicle:GetWheelConnectionPoint(id)
-	self:CreateEmitter(connectionPoint)
+    self:CreateEmitter(connectionPoint)
     end
 end
 
@@ -392,11 +392,11 @@ function Vehicle:FixedUpdate(timeStep)
     raycastVehicle:SetEngineForce(2, self.maxEngineForce * accelerator)
     raycastVehicle:SetEngineForce(3, self.maxEngineForce * accelerator)
     for i = 0, raycastVehicle:GetNumWheels() - 1 do
-	    if brake then
-		    raycastVehicle:SetBrake(i, self.brakingForce)
-	    else
-		    raycastVehicle:SetBrake(i, 0.0)
-	    end
+        if brake then
+            raycastVehicle:SetBrake(i, self.brakingForce)
+        else
+            raycastVehicle:SetBrake(i, 0.0)
+        end
     end
 
     -- Apply downforce proportional to velocity
@@ -408,23 +408,23 @@ function Vehicle:PostUpdate(timeStep)
     local node = self.node
     local raycastVehicle = node:GetComponent("RaycastVehicle")
     if #self.particleEmitterNodeList == 0 then
-	    return
+        return
     end
     local velocity = self.hullBody.linearVelocity
     local accel = (velocity - self.prevVelocity) / timeStep
     local planeAccel = Vector3(accel.x, 0.0, accel.z):Length()
     for i = 0, raycastVehicle:GetNumWheels()  - 1 do
-	    local emitter = self.particleEmitterNodeList[i + 1]
-	    local particleEmitter = emitter:GetComponent("ParticleEmitter")
-	    if raycastVehicle:WheelIsGrounded(i) and (raycastVehicle:GetWheelSkidInfoCumulative(i) < 0.9 or raycastVehicle:GetBrake(i) > 2.0 or planeAccel > 15.0) then
+        local emitter = self.particleEmitterNodeList[i + 1]
+        local particleEmitter = emitter:GetComponent("ParticleEmitter")
+        if raycastVehicle:WheelIsGrounded(i) and (raycastVehicle:GetWheelSkidInfoCumulative(i) < 0.9 or raycastVehicle:GetBrake(i) > 2.0 or planeAccel > 15.0) then
                 emitter.worldPosition = raycastVehicle:GetContactPosition(i)
-		if not particleEmitter.emitting then
-			particleEmitter.emitting = true
-		end
-	    else if particleEmitter.emitting then
-		    particleEmitter.emitting = false
-	        end
-	    end
+        if not particleEmitter.emitting then
+            particleEmitter.emitting = true
+        end
+        else if particleEmitter.emitting then
+            particleEmitter.emitting = false
+            end
+        end
     end
     self.prevVelocity = velocity
 end

@@ -1,0 +1,12 @@
+# AListView widget layout file
+TBLayout: axis: y, id: listviewcontainer
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "AListView widget\nThis widget can display an tree of information.\nThis one displays the AUI widget tree for this app."
+	TBTextField: id: spacer, text: "   "
+# there is NO AListView widget, its entirely an Atomic Widget, well add it with code
+	TBTextField: id: "uilistviewlower", text: "   "
+	TBLayout:
+		TBButton: state: disabled, text: "AListView help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uilistview.html"
+		TBButton: text: "AListView application code", id: uilistviewcode
+		TBButton: text: "AListView layout code", id: uilistviewlayout
+

@@ -68,27 +68,27 @@ end
 function HandleLight1(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	local lightNode = scene_:GetChild("Light1", true)
-    	if lightNode  ~= nil then
-        	lightNode.enabled = widget:GetValue() > 0.0
-    	end
-	end
+        local lightNode = scene_:GetChild("Light1", true)
+        if lightNode  ~= nil then
+            lightNode.enabled = widget:GetValue() > 0.0
+        end
+    end
 end
 
 function HandleLight2(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	local lightNode = scene_:GetChild("Light2", true)
-    	if lightNode  ~= nil then
-        	lightNode.enabled = widget:GetValue() > 0.0
-    	end
-	end
+        local lightNode = scene_:GetChild("Light2", true)
+        if lightNode  ~= nil then
+            lightNode.enabled = widget:GetValue() > 0.0
+        end
+    end
 end
 
 function ToggleLight1()

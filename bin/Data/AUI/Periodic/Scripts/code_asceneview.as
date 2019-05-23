@@ -14,7 +14,7 @@ void setup_uisceneview( AWidget @layout)
 
     /*
         Scene @myscene = GetSubsystem<Urho3DPlayer::Player>().LoadScene("Scenes/sceneview.scene");
-    	DONT DO IT THIS WAY for C++! Make a scene, then LoadXML!
+        DONT DO IT THIS WAY for C++! Make a scene, then LoadXML!
     */
 
     Scene @myscene = Scene();

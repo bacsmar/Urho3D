@@ -90,6 +90,44 @@ ALayout* ATabContainer::GetTabLayout()
     return (ALayout*) ui->WrapWidget(layout);
 }
 
+AWidget* ATabContainer::GetPageTab(int page)
+{
+    if (!widget_ || page < 0 || page > GetNumPages() - 1)
+        return 0;
+
+    TBLayout* layout = ((TBTabContainer*)widget_)->GetTabLayout();
+
+     if (!layout)
+        return 0;
+
+   TBWidget* myWidget = layout->GetChildFromIndex(page);
+
+    if (!myWidget)
+        return 0;
+
+    AUI* ui = GetSubsystem<AUI>();
+    return (AWidget*) ui->WrapWidget(myWidget);
+}
+
+AWidget* ATabContainer::GetPageContent(int page)
+{
+    if (!widget_ || page < 0 || page > GetNumPages() - 1)
+        return 0;
+
+    TBWidget *conroot = ((TBTabContainer*)widget_)->GetContentRoot();
+
+     if (!conroot)
+        return 0;
+
+   TBWidget* myWidget = conroot->GetChildFromIndex(page);
+
+    if (!myWidget)
+        return 0;
+
+    AUI* ui = GetSubsystem<AUI>();
+    return (AWidget*) ui->WrapWidget(myWidget);
+}
+
 void ATabContainer::SetCurrentPage(int page)
 {
     if (!widget_)
@@ -224,6 +262,7 @@ void ATabContainer::UndockPage ( int page )
     if ( page - 1 > 0 ) num = page - 1;
     SetCurrentPage(num);
 
+    Invalidate();
 }
 
 /// docks content from a ADockWindow with specified title
@@ -232,10 +271,12 @@ bool ATabContainer::DockWindow ( String windowTitle )
     if (!widget_)
         return false;
     bool done = ((TBTabContainer*)widget_)->DockFromWindow(windowTitle.CString());
-    if (done) 
+    if (done)
+    {
         SetCurrentPage( GetNumPages() -1 );
-
-   return done;
+        Invalidate();
+    }
+    return done;
 }
 
 #ifdef URHO3D_ANGELSCRIPT

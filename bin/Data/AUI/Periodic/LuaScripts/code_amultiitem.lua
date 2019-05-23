@@ -7,7 +7,7 @@ function setup_uimultiitem( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUimultiitemEvent")
-	end
+    end
 
     local mylist = ASelectList:new() -- uses a regular ASelectList to hold the multilist items
     mylist:SetId("AMultiItemList")   -- tag it, in case we want to get it again later
@@ -45,15 +45,15 @@ function setup_uimultiitem( layout )
 
     mylist:SetSource(xis)
 
-	mmmis = xis
+    mmmis = xis
 end
 
 function HandleUimultiitemEvent( eventType, eventData)
     local refid = eventData["RefID"]:GetString()
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uimultiitemcode" then
             AppLog( "AMultiItem support : " .. widget:GetId() .. " was pressed " )
@@ -70,7 +70,7 @@ function HandleUimultiitemEvent( eventType, eventData)
             AppLog( "AMultiItem1 action : " .. widget:GetId() .. " was pressed ")
             local slist = widget:FindWidget("AMultiItemList")
             if slist ~= nil then
-				local sl2 = tolua.cast(slist, "ASelectList")
+                local sl2 = tolua.cast(slist, "ASelectList")
                 if mmmis ~= nil then
                     local mi1 = AMultiItem:new( "sitem1", "TEXT", " MultiItem", 88, 0 )
                     mi1:AddColumn ( "TEXT", "Col2", 44 )
@@ -84,54 +84,54 @@ function HandleUimultiitemEvent( eventType, eventData)
             AppLog( "AMultiItem action : " .. widget:GetId() .. " was pressed")
             local slist = widget:FindWidget("AMultiItemList")
             if slist ~= nil then
-				local sl2 = tolua.cast(slist, "ASelectList")
+                local sl2 = tolua.cast(slist, "ASelectList")
                 if mmmis ~= nil then
-            		local mi2 = AMultiItem:new( "sitem2", "TEXT", "Another Item",  88, 0 )
-            		mi2:AddColumn ( "COLOR", "#3333FF", 44 )
-            		mi2:AddColumn ( "TEXT", "Col5", 44 )
-            		mmmis:AddItem(mi2)
-            		sl2:SetSource(mmmis)
-				end
-			end
+                    local mi2 = AMultiItem:new( "sitem2", "TEXT", "Another Item",  88, 0 )
+                    mi2:AddColumn ( "COLOR", "#3333FF", 44 )
+                    mi2:AddColumn ( "TEXT", "Col5", 44 )
+                    mmmis:AddItem(mi2)
+                    sl2:SetSource(mmmis)
+                end
+            end
         end
         if widget:GetId() ==  "uimi3" then
             AppLog( "AMultiItem action : " .. widget:GetId() .. " was pressed ")
             local slist = widget:FindWidget("AMultiItemList")
             if slist ~= nil then
-				local sl2 = tolua.cast(slist, "ASelectList")
+                local sl2 = tolua.cast(slist, "ASelectList")
                 if mmmis ~= nil then
-             		local mi3 = AMultiItem( "Duck", "ICON", "DuckButton", 88, 0 )
-            		mi3:AddColumn ( "TEXT", "Col6", 44 )
-            		mi3:AddColumn ( "TEXT", "Col7", 44 )
-            		mmmis:AddItem(mi3)
-            		sl2:SetSource(mmmis)
-				end
-			end
+                    local mi3 = AMultiItem( "Duck", "ICON", "DuckButton", 88, 0 )
+                    mi3:AddColumn ( "TEXT", "Col6", 44 )
+                    mi3:AddColumn ( "TEXT", "Col7", 44 )
+                    mmmis:AddItem(mi3)
+                    sl2:SetSource(mmmis)
+                end
+            end
         end
         if widget:GetId() ==  "uimi4" then
             AppLog( "AMultiItem action : " .. widget:GetId() .. " was pressed ")
             local slist = widget:FindWidget("AMultiItemList")
             if slist ~= nil then
-				local sl2 = tolua.cast(slist, "ASelectList")
+                local sl2 = tolua.cast(slist, "ASelectList")
                 if mmmis ~= nil then
-            		local mi4 = AMultiItem:new( "Atomic", "ICON", "LogoAtomic", 88,0 )
-            		mi4:AddColumn ( "TEXT", "Col8", 44 )
-            		mi4:AddColumn ( "TEXT", "Col9", 44 )
-            		mmmis:AddItem(mi4)
-            		sl2:SetSource(mmmis)
-				end
-			end
+                    local mi4 = AMultiItem:new( "Atomic", "ICON", "LogoAtomic", 88,0 )
+                    mi4:AddColumn ( "TEXT", "Col8", 44 )
+                    mi4:AddColumn ( "TEXT", "Col9", 44 )
+                    mmmis:AddItem(mi4)
+                    sl2:SetSource(mmmis)
+                end
+            end
         end
         if widget:GetId() ==  "uimi5" then
             AppLog( "AMultiItem action : " .. widget:GetId() .. " was pressed ")
             local slist = widget:FindWidget("AMultiItemList")
             if slist ~= nil then
-				local sl2 = tolua.cast(slist, "ASelectList")
+                local sl2 = tolua.cast(slist, "ASelectList")
                 if mmmis ~= nil then
-             		mmmis:Clear()
-            		sl2:SetSource(mmmis)
-				end
-			end
+                    mmmis:Clear()
+                    sl2:SetSource(mmmis)
+                end
+            end
         end
     end
 end

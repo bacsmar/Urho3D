@@ -329,20 +329,20 @@ end
 function HandleExitButton(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return;
-	end
+        return;
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	engine:Exit()
-	end
+        engine:Exit()
+    end
 end
 
 function HandlePlayButton(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	-- Remove fullscreen UI and unfreeze the scene
+        -- Remove fullscreen UI and unfreeze the scene
         local uiview = aui:GetFocusedView()
         local awid = uiview:FindWidget("FullUI")
         if awid ~= nil then
@@ -356,9 +356,9 @@ function HandlePlayButton(eventType, eventData)
             -- Reload scene
             ReloadScene(true);
         end
-    	-- Hide mouse cursor
-    	input.mouseVisible = false
-	end
+        -- Hide mouse cursor
+        input.mouseVisible = false
+    end
 end
 
 function SaveScene(initial)

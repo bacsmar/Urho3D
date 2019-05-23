@@ -81,6 +81,90 @@ const String& APulldownMenu::GetSelectedId()
     return sid_;
 }
 
+// for operational updates 
+int APulldownMenu::NumMenuItems() const
+{
+    if (!widget_)
+        return 0;
+
+    TBGenericStringItemSource *menusrc = ((TBSelectDropdown*)widget_)->GetDefaultSource();
+	if (menusrc)
+	{
+		return menusrc->GetNumItems();
+	}
+
+	return 0;
+}
+
+String APulldownMenu::GetMenuItemId( int index )
+{
+	String idx;
+
+    if (widget_)
+	{
+    	TBGenericStringItemSource *menusrc = ((TBSelectDropdown*)widget_)->GetDefaultSource();
+		if (menusrc)
+		{
+   			AUI* ui = GetSubsystem<AUI>();
+    		ui->GetTBIDString( menusrc->GetItemID(index), idx);
+		}
+	}
+
+    return idx;
+}
+
+String APulldownMenu::GetMenuItemString( int index )
+{
+    if (widget_)
+	{
+    	TBGenericStringItemSource *menusrc = ((TBSelectDropdown*)widget_)->GetDefaultSource();
+		if (menusrc)
+		{
+			const char* istr = menusrc->GetItemString(index);
+			if (istr)
+    			return String(istr);
+		}
+	}
+	return String::EMPTY;
+}
+
+int APulldownMenu::GetMenuItemState( int index )
+{
+    if (widget_)
+	{
+    	TBGenericStringItemSource *menusrc = ((TBSelectDropdown*)widget_)->GetDefaultSource();
+		if (menusrc)
+		{
+			return menusrc->GetItemState(index);
+		}
+	}
+	return 0;
+}
+
+void APulldownMenu::SetMenuItemString( int index, String newstr )
+{
+    if (widget_)
+	{
+    	TBGenericStringItemSource *menusrc = ((TBSelectDropdown*)widget_)->GetDefaultSource();
+		if (menusrc)
+		{
+			menusrc->ChangeItemString(index, newstr.CString());
+		}
+	}
+}
+
+void APulldownMenu::SetMenuItemState( int index, int newstate )
+{
+    if (widget_)
+	{
+    	TBGenericStringItemSource *menusrc = ((TBSelectDropdown*)widget_)->GetDefaultSource();
+		if (menusrc)
+		{
+			menusrc->ChangeItemState(index, newstate);
+		}
+	}
+}
+
 bool APulldownMenu::OnEvent(const tb::TBWidgetEvent &ev)
 {
 

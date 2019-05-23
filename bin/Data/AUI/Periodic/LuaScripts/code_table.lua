@@ -5,7 +5,7 @@ function setup_table(mylayout)
     dest = pgtable:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleTableEvent")
-	end
+    end
 end
 
 function HandleTableEvent(eventType, eventData)
@@ -28,14 +28,14 @@ function HandleTableEvent(eventType, eventData)
 
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
-		return
-	end
+        return
+    end
     if (eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK) then
-	   	local maintb = tolua.cast(uiview:FindWidget("maintabs"), "ATabContainer")
-    	local acttb = tolua.cast(uiview:FindWidget("primarytabs"), "ATabContainer")
-    	local semitb = tolua.cast(uiview:FindWidget("moretabs"), "ATabContainer")
-    	local viewtb = tolua.cast(uiview:FindWidget("supporttabs"), "ATabContainer")
-    	local supporttb = tolua.cast(uiview:FindWidget("atomictabs"), "ATabContainer")
+        local maintb = tolua.cast(uiview:FindWidget("maintabs"), "ATabContainer")
+        local acttb = tolua.cast(uiview:FindWidget("primarytabs"), "ATabContainer")
+        local semitb = tolua.cast(uiview:FindWidget("moretabs"), "ATabContainer")
+        local viewtb = tolua.cast(uiview:FindWidget("supporttabs"), "ATabContainer")
+        local supporttb = tolua.cast(uiview:FindWidget("atomictabs"), "ATabContainer")
 
         if widget:GetId() ==  "A1" then
             maintb:SetCurrentPage(1)
@@ -72,6 +72,10 @@ function HandleTableEvent(eventType, eventData)
         if widget:GetId() ==  "A9" then
             maintb:SetCurrentPage(1)
             acttb:SetCurrentPage(8)
+        end
+        if widget:GetId() ==  "A10" then
+            maintb:SetCurrentPage(1)
+            acttb:SetCurrentPage(9)
         end
 
         if widget:GetId() ==  "B1" then
@@ -147,6 +151,10 @@ function HandleTableEvent(eventType, eventData)
             maintb:SetCurrentPage(3)
             viewtb:SetCurrentPage(8)
         end
+        if widget:GetId() ==  "C10" then
+            maintb:SetCurrentPage(3)
+            viewtb:SetCurrentPage(9)
+        end
 
         if widget:GetId() ==  "D1" then
             maintb:SetCurrentPage(4)
@@ -183,6 +191,10 @@ function HandleTableEvent(eventType, eventData)
         if widget:GetId() ==  "D9" then
             maintb:SetCurrentPage(4)
             supporttb:SetCurrentPage(8)
+        end
+        if widget:GetId() ==  "D10" then
+            maintb:SetCurrentPage(4)
+            supporttb:SetCurrentPage(9)
         end
     end
 end

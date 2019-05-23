@@ -13,6 +13,9 @@ class ATabContainer : public AWidget
     void AddTabPageWidget ( const String &tabname, AWidget *widget, bool selecttab = true );
     void UndockPage ( int page );
     bool DockWindow ( String windowTitle );
+    ALayout* GetTabLayout();
+    AWidget* GetPageTab(int page);
+    AWidget* GetPageContent(int page);
 };
 
 ${

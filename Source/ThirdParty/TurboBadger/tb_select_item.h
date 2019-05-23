@@ -91,8 +91,13 @@ public:
     /** Get the skin image to be painted before the text for this item. */
     virtual TBID GetItemImage(int index) { return TBID(); }
 
-    /** Get the if of the item. */
+    /** Get the id of the item. */
     virtual TBID GetItemID(int index) { return TBID(); }
+
+    // ATOMIC BEGIN
+    /** Get the enabled state of the item. */
+    virtual int GetItemState(int index) { return 0; }
+    // ATOMIC END
 
     /** Create the item representation widget(s). By default, it will create
         a TBTextField for string-only items, and other types for items that
@@ -130,6 +135,9 @@ public:
     virtual TBSelectItemSource *GetItemSubSource(int index){ return GetItem(index)->sub_source; }
     virtual TBID GetItemImage(int index)				{ return GetItem(index)->skin_image; }
     virtual TBID GetItemID(int index)					{ return GetItem(index)->id; }
+    // ATOMIC BEGIN
+    virtual int GetItemState(int index)					{ return GetItem(index)->GetState(); }
+    // ATOMIC END
     virtual int GetNumItems()							{ return m_items.GetNumItems(); }
     virtual TBWidget *CreateItemWidget(int index, TBSelectItemViewer *viewer)
     {
@@ -176,6 +184,21 @@ public:
         m_items.DeleteAll();
         InvokeAllItemsRemoved();
     }
+
+    // ATOMIC BEGIN
+    void ChangeItemString(int index, const char *newstr)
+    {
+        GetItem(index)->str = newstr;
+        InvokeItemChanged(index);
+    }
+    
+    void ChangeItemState(int index, int newstate)
+    {
+        GetItem(index)->SetState(newstate);
+        InvokeItemChanged(index);
+    }
+    // ATOMIC END
+
 private:
     TBListOf<T> m_items;
 };
@@ -186,19 +209,24 @@ class TBGenericStringItem
 {
 public:
     TBGenericStringItem(const TBGenericStringItem& other) : str(other.str), id(other.id), sub_source(other.sub_source), tag(other.tag) {}
-    TBGenericStringItem(const char *str) : str(str), sub_source(nullptr) {}
-    TBGenericStringItem(const char *str, TBID id) : str(str), id(id), sub_source(nullptr) {}
-    TBGenericStringItem(const char *str, TBSelectItemSource *sub_source) : str(str), sub_source(sub_source) {}
+    TBGenericStringItem(const char *str) : str(str), sub_source(nullptr), tag(1) {}
+    TBGenericStringItem(const char *str, TBID id) : str(str), id(id), sub_source(nullptr), tag(1) {}
+    TBGenericStringItem(const char *str, TBSelectItemSource *sub_source) : str(str), sub_source(sub_source), tag(1) {}
     const TBGenericStringItem& operator = (const TBGenericStringItem &other) { str.Set(other.str); id = other.id; sub_source = other.sub_source; tag = other.tag; return *this; }
 
     void SetSkinImage(const TBID &image) { skin_image = image; }
+// ATOMIC BEGIN 
+    void SetState(int enableState ) { tag.SetInt(enableState); }
+    int GetState() const { return tag.GetInt(); }
+// ATOMIC END
+
 public:
     TBStr str;
     TBID id;
     TBID skin_image;
     TBSelectItemSource *sub_source;
 
-    /** This value is free to use for anything. It's not used internally. */
+    /** This value is free to use for anything. It's not used internally. ATOMIC: it is now. */
     TBValue tag;
 };
 

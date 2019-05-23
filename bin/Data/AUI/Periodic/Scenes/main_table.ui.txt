@@ -92,5 +92,14 @@ TBLayout: axis: x, size: available, position: gravity, distribution: available, 
 		lp: pref-width: 150dp
 	TBButton: id: D9, text: "AFinderWindow", squeezable: 1
 		lp: pref-width: 150dp
+TBLayout: axis: x, size: available, position: gravity, distribution: available, spacing: 2
+	TBButton: id: A10, text: "ADimmer", squeezable: 1
+		lp: pref-width: 150dp
+	TBTextField: id: B10, text: "", squeezable: 1
+		lp: pref-width: 150dp
+	TBButton: id: C10, text: "AButtonGrid", squeezable: 1
+		lp: pref-width: 150dp
+	TBButton: id: D10, text: "AListView", squeezable: 1
+		lp: pref-width: 150dp
 TBWidget
 

@@ -32,6 +32,8 @@
 #include "../AUI/AButtonGrid.h"
 
 #ifdef URHO3D_ANGELSCRIPT
+#include "../Core/Context.h"
+#include "../Scene/Serializable.h"
 extern const char* AUI_CATEGORY;  /// for angelscript binding
 #endif
 
@@ -124,25 +126,19 @@ int AButtonGrid::GetMargin() const
 
 String AButtonGrid::GetGridId( int row, int column ) 
 {
-    return String( 'A' + row ) + String(column); // generate spreadsheet style id
+    AWidget *widget = GetGridWidget(row, column);
+	if ( widget )
+		return widget->GetId();
+
+	String rowstr = String( (char) ('A' + (char)row) );
+    return rowstr + String(column); // generate spreadsheet style id
 }
 
 String AButtonGrid::GetGridText(int row, int column)
 {
-    if (!widget_)
-        return "";
-    
-    TBLayout *lo0 = (TBLayout *)widget_->GetChildFromIndex(row);  // find row
-    if (lo0) 
-    {
-        TBButton *b0 = (TBButton *)lo0->GetChildFromIndex(column);  // find column
-        if (b0)
-        {
-            TBStr foo;
-            if ( b0->GetText( foo ) )
-                return foo.CStr();
-        } 
-    }
+    AWidget *widget = GetGridWidget(row, column);
+	if ( widget )
+		return widget->GetText();
     return "";
 }
 
@@ -287,5 +283,14 @@ bool AButtonGrid::OnEvent(const tb::TBWidgetEvent &ev)
 {
     return AWidget::OnEvent(ev);
 }
+
+#ifdef URHO3D_ANGELSCRIPT
+/// Angelscript Register object factory. (semi-manditory)
+void AButtonGrid::RegisterObject(Context* context)
+{
+    context->RegisterFactory<AButtonGrid>(AUI_CATEGORY);
+    URHO3D_COPY_BASE_ATTRIBUTES(AWidget);
+}
+#endif
 
 }

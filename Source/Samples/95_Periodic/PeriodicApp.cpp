@@ -53,6 +53,11 @@
 #include <Urho3D/AUI/AFinderWindow.h>
 #include <Urho3D/AUI/APromptWindow.h>
 #include <Urho3D/AUI/AMultiItem.h>
+#include <Urho3D/AUI/ADimmer.h>
+#include <Urho3D/AUI/AListView.h>
+#include <Urho3D/AUI/AButtonGrid.h>
+
+
 #include <Urho3D/Resource/XMLFile.h>
 #include <Urho3D/IO/Log.h>
 
@@ -236,6 +241,9 @@ void PeriodicApp::DoSomething()
     setup_atextfield(  lo0->GetWidget("pageuitextfield") );
     setup_atexturewidget(  lo0->GetWidget("pageuitexturewidget") );
     setup_awindow(  lo0->GetWidget("pageuiwindow"), someview );
+    setup_adimmer(  lo0->GetWidget("pageuidimmer") );
+    setup_alistview(  lo0->GetWidget("pageuilistview") );
+    setup_abuttongrid(  lo0->GetWidget("pageuibuttongrid") );
     AppLog ( "Ready" );
 }
 
@@ -253,9 +261,13 @@ void PeriodicApp::ViewCode ( String filename, AWidget *layoutParent )
     window->SetSettings ( UI_WINDOW_SETTINGS_DEFAULT );
     window->SetText( "Code Viewer");
     window->Load("Scenes/view_code.ui.txt");
+    String textx = "Unable to open resource file `" + filename + "`";
     SharedPtr<File> filex = cache->GetFile(filename);
-    String textx = filex->ReadText();
-    filex->Close();
+    if ( filex && filex->IsOpen() )
+    {
+        textx = filex->ReadText();
+        filex->Close();
+    }
     AWidget *coder = window->GetWidget("viewCodeText");
     coder->SetText(textx);
     window->ResizeToFitContent();
@@ -289,20 +301,20 @@ void PeriodicApp::HandleExitEvent(StringHash eventType, VariantMap& eventData)
         AWidget* widget = static_cast<AWidget*>(eventData[P_TARGET].GetPtr());
         if (widget)
         {
-        	if (widget->GetId() == "exitapp" )
-        	{
-            	engine_->Exit();
-			}
-        	if (widget->GetId() == "liteapp" )
-        	{
-    			AUI* ui = GetSubsystem<AUI>();  // get the ui pointer
-				ui->LoadSkin( "resources/default_skin_light/skin.tb.txt"); //  boom!
-			}
-         	if (widget->GetId() == "darkapp" )
-        	{
-    			AUI* ui = GetSubsystem<AUI>();  // get the ui pointer
-				ui->LoadSkin( "resources/default_skin/skin.tb.txt"); //  boom!
-			}
+            if (widget->GetId() == "exitapp" )
+            {
+                engine_->Exit();
+            }
+            if (widget->GetId() == "liteapp" )
+            {
+                AUI* ui = GetSubsystem<AUI>();  // get the ui pointer
+                ui->LoadSkin( "resources/default_skin_light/skin.tb.txt"); //  boom!
+            }
+            if (widget->GetId() == "darkapp" )
+            {
+                AUI* ui = GetSubsystem<AUI>();  // get the ui pointer
+                ui->LoadSkin( "resources/default_skin/skin.tb.txt"); //  boom!
+            }
        }
     }
 }

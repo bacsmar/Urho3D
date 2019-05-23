@@ -128,25 +128,25 @@ end
 function HandleSend(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
 
-    	local text = atextEdit:GetText()
-    	if text == "" then
-        	return -- Do not send an empty message
-    	end
+        local text = atextEdit:GetText()
+        if text == "" then
+            return -- Do not send an empty message
+        end
 
-    	local serverConnection = network.serverConnection
-    	if serverConnection ~= nil then
-        	-- A VectorBuffer object is convenient for constructing a message to send
-        	local msg = VectorBuffer()
-        	msg:WriteString(text)
-        	-- Send the chat message as in-order and reliable
-        	serverConnection:SendMessage(MSG_CHAT, true, true, msg)
-        	-- Empty the text edit after sending
-        	atextEdit:SetText("")
-		end
+        local serverConnection = network.serverConnection
+        if serverConnection ~= nil then
+            -- A VectorBuffer object is convenient for constructing a message to send
+            local msg = VectorBuffer()
+            msg:WriteString(text)
+            -- Send the chat message as in-order and reliable
+            serverConnection:SendMessage(MSG_CHAT, true, true, msg)
+            -- Empty the text edit after sending
+            atextEdit:SetText("")
+        end
     end
 end
 

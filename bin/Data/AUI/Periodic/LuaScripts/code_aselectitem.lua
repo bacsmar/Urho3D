@@ -5,7 +5,7 @@ function setup_uiselectitem( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUiselectitemEvent")
-	end
+    end
 
     local mylist = ASelectList:new()
     mylist:SetId( "ASelectItemList")
@@ -35,8 +35,8 @@ function HandleUiselectitemEvent(eventType, eventData)
     local refid = eventData["RefID"]:GetString()
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uiselectitemcode" then
             AppLog( "ASelectItem support : " .. widget:GetId() .. " was pressed " )
@@ -55,61 +55,61 @@ function HandleUiselectitemEvent(eventType, eventData)
             AppLog( "ASelectItem action : " .. widget:GetId() .. " was pressed ")
             local gsis = GetGlobalVar("selectitemptr"):GetPtr("ASelectItemSource")
             local slist = widget:FindWidget("ASelectItemList")
-			if slist ~= nil then
-				local s1 = tolua.cast(slist, "ASelectList" )
-				if s1 ~= nil then
-            		gsis:AddItem( ASelectItem:new( "New ASelectItem", "newitemx", "") )
-            		s1:SetSource(gsis)
-				end
-			end
+            if slist ~= nil then
+                local s1 = tolua.cast(slist, "ASelectList" )
+                if s1 ~= nil then
+                    gsis:AddItem( ASelectItem:new( "New ASelectItem", "newitemx", "") )
+                    s1:SetSource(gsis)
+                end
+            end
         end
         if widget:GetId() ==  "uisi2" then
             AppLog( "ASelectItem action : " .. widget:GetId() .. " was pressed ")
             local gsis = GetGlobalVar("selectitemptr"):GetPtr("ASelectItemSource")
             local slist = widget:FindWidget("ASelectItemList") 
-			if slist ~= nil then
-				local s1 = tolua.cast(slist, "ASelectList" )
-				if s1 ~= nil then
-            		gsis:AddItem( ASelectItem:new( "Newer ASelectItem", "eritem", "" ) )
-            		s1:SetSource(gsis)
-				end
-			end
+            if slist ~= nil then
+                local s1 = tolua.cast(slist, "ASelectList" )
+                if s1 ~= nil then
+                    gsis:AddItem( ASelectItem:new( "Newer ASelectItem", "eritem", "" ) )
+                    s1:SetSource(gsis)
+                end
+            end
         end
         if widget:GetId() ==  "uisi3" then
             AppLog( "ASelectItem action : " .. widget:GetId() .. " was pressed ")
             local gsis = GetGlobalVar("selectitemptr"):GetPtr("ASelectItemSource")
             local slist = widget:FindWidget("ASelectItemList")
-			if slist ~= nil then
-				local s1 = tolua.cast(slist, "ASelectList" )
-				if s1 ~= nil then
-            		gsis:AddItem( ASelectItem:new( "A Duck", "aduck", "DuckButton" ) )
-            		s1:SetSource(gsis)
-				end
-			end
+            if slist ~= nil then
+                local s1 = tolua.cast(slist, "ASelectList" )
+                if s1 ~= nil then
+                    gsis:AddItem( ASelectItem:new( "A Duck", "aduck", "DuckButton" ) )
+                    s1:SetSource(gsis)
+                end
+            end
         end
         if widget:GetId() ==  "uisi4" then
             AppLog( "ASelectItem action : " .. widget:GetId() .. " was pressed ")
             local gsis = GetGlobalVar("selectitemptr"):GetPtr("ASelectItemSource")
             local slist = widget:FindWidget("ASelectItemList")
-			if slist ~= nil then
-				local s1 = tolua.cast(slist, "ASelectList" )
-				if s1 ~= nil then
-            		gsis:AddItem( ASelectItem:new( "Atomic!", "atomic", "LogoAtomic" ) )
-            		s1:SetSource(gsis)
-				end
-			end
+            if slist ~= nil then
+                local s1 = tolua.cast(slist, "ASelectList" )
+                if s1 ~= nil then
+                    gsis:AddItem( ASelectItem:new( "Atomic!", "atomic", "LogoAtomic" ) )
+                    s1:SetSource(gsis)
+                end
+            end
         end
         if widget:GetId() ==  "uisi5" then
             AppLog( "ASelectItem action : " .. widget:GetId() .. " was pressed ")
             local gsis = GetGlobalVar("selectitemptr"):GetPtr("ASelectItemSource")
             local slist = widget:FindWidget("ASelectItemList")
-			if slist ~= nil then
-				local s1 = tolua.cast(slist, "ASelectList" )
-				if s1 ~= nil then
-            		gsis:Clear()
-            		s1:SetSource(gsis)
-				end
-			end
+            if slist ~= nil then
+                local s1 = tolua.cast(slist, "ASelectList" )
+                if s1 ~= nil then
+                    gsis:Clear()
+                    s1:SetSource(gsis)
+                end
+            end
         end
     end
 end

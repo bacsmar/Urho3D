@@ -30,6 +30,12 @@
 #include "../AUI/AUI.h"
 #include "../AUI/ADimmer.h"
 
+#ifdef URHO3D_ANGELSCRIPT
+#include "../Core/Context.h"
+#include "../Scene/Serializable.h"
+extern const char* AUI_CATEGORY;  /// for angelscript binding
+#endif
+
 using namespace tb;
 
 namespace Urho3D
@@ -54,5 +60,15 @@ bool ADimmer::OnEvent(const tb::TBWidgetEvent &ev)
 {
     return AWidget::OnEvent(ev);
 }
+
+#ifdef URHO3D_ANGELSCRIPT
+/// Angelscript Register object factory. (semi-manditory)
+void ADimmer::RegisterObject(Context* context)
+{
+    context->RegisterFactory<ADimmer>(AUI_CATEGORY);
+    URHO3D_COPY_BASE_ATTRIBUTES(AWidget);
+}
+#endif
+
 
 }

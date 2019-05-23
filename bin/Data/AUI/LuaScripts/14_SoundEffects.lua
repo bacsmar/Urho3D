@@ -71,11 +71,11 @@ end
 
 
 function HandlePlaySound(eventType, eventData)
-	local sound = nil
+    local sound = nil
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "fistbutton" then
             sound = cache:GetResource("Sound", soundResourceNames[1])
@@ -86,7 +86,7 @@ function HandlePlaySound(eventType, eventData)
         if widget:GetId() == "powerupbutton" then
             sound = cache:GetResource("Sound", soundResourceNames[3])
         end
-	end
+    end
     if sound ~= nil then
         -- Create a SoundSource component for playing the sound. The SoundSource component plays
         -- non-positional audio, so its 3D position in the scene does not matter. For positional sounds the
@@ -102,47 +102,47 @@ end
 function HandlePlayMusic(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	local music = cache:GetResource("Sound", "Music/Ninja Gods.ogg")
-    	-- Set the song to loop
-    	music.looped = true
+        local music = cache:GetResource("Sound", "Music/Ninja Gods.ogg")
+        -- Set the song to loop
+        music.looped = true
 
-    	musicSource:Play(music)
-	end
+        musicSource:Play(music)
+    end
 end
 
 function HandleStopMusic(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
-    	musicSource:Stop()
-	end
+        musicSource:Stop()
+    end
 end
 
 function HandleSoundVolume(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then
-    	local newVolume = widget:GetValue()
-   		audio:SetMasterGain(SOUND_EFFECT, newVolume)
-	end
+        local newVolume = widget:GetValue()
+        audio:SetMasterGain(SOUND_EFFECT, newVolume)
+    end
 end
 
 function HandleMusicVolume(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then
-    	local newVolume = widget:GetValue()
-    	audio:SetMasterGain(SOUND_MUSIC, newVolume)
-	end
+        local newVolume = widget:GetValue()
+        audio:SetMasterGain(SOUND_MUSIC, newVolume)
+    end
 end
 
 -- Create XML patch instructions for screen joystick layout specific to this sample app

@@ -45,6 +45,14 @@ public:
     //@ASBindGen Function
     const String& GetSelectedId(); /// return id of entry selected in menu
 
+	// for operational updates 
+	int NumMenuItems() const;
+	String GetMenuItemId( int index );
+	String GetMenuItemString( int index );
+	int GetMenuItemState( int index );
+	void SetMenuItemString( int index, String newstr );
+	void SetMenuItemState( int index, int newstate );
+
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)
     static void RegisterObject(Context* context);

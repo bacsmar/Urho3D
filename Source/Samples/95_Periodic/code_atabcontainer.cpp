@@ -21,7 +21,6 @@ void PeriodicApp::setup_atabcontainer( AWidget *layout )
     {
         tcx->SetCurrentPage(0);   // fix or it looks like crap
         tcx->SubscribeToEvent( E_WIDGETEVENT, URHO3D_HANDLER(PeriodicApp, HandleAllTabcontainerEvent ));
-        // warning - this will route for all ATabContainer instances events into this event handler.
     }
 }
 

@@ -5,14 +5,14 @@ function setup_uiseparator( layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUiseparatorEvent")
-	end
+    end
 end
 
 function HandleUiseparatorEvent(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uiseparatorcode" then
             AppLog( "ASeparator support : " .. widget:GetId() .. " was pressed " )

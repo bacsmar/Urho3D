@@ -21,6 +21,8 @@ TBTabContainer
 			text AFontDescription
 		TBButton
 			text ALayoutParams
+		TBButton
+			text AButtonGrid
 	TBLayout
 		id pageuiwidget
 		size available
@@ -66,4 +68,9 @@ TBTabContainer
 		size available
 		distribution available
 		@file layout_alayoutparams.ui.txt
+	TBLayout
+		id pageuibuttongrid
+		size available
+		distribution available
+		@file layout_abuttongrid.ui.txt
 

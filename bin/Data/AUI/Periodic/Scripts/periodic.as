@@ -38,7 +38,9 @@
 #include "code_atexturewidget.as"
 #include "code_awidget.as"
 #include "code_awindow.as"
-
+#include "code_adimmer.as"
+#include "code_alistview.as"
+#include "code_abuttongrid.as"
 
 // "globals"
 AUI@ uia;
@@ -68,7 +70,7 @@ void Start()
     @uiroot = uia.GetRootAWidget();
 
     ALayout@ lo0 = ALayout();  // make the host widget for all visible ui
-    lo0.SetRect ( uiview.GetRect()); //size it to fill the screen area
+    lo0.SetRect (uiview.GetRect()); //size it to fill the screen area
     lo0.SetLayoutConfig( "YAGAC" );  //all-in-one setting
     lo0.SetSkinBg ("background_solid");  // make it look presentable.
 
@@ -155,7 +157,10 @@ void Start()
     setup_uitexturewidget(  lo0.GetWidget("pageuitexturewidget") );
     setup_uiwindow(  lo0.GetWidget("pageuiwindow"), uiview );
     setup_uiwidget(  lo0.GetWidget("pageuiwidget") );
- 
+    setup_uidimmer( lo0.GetWidget("pageuidimmer") );
+    setup_uilistview( lo0.GetWidget("pageuilistview") );
+    setup_uibuttongrid( lo0.GetWidget("pageuibuttongrid") );
+
     AppLog ( "Ready" );
 
 }
@@ -185,9 +190,9 @@ void HandleExitEvent(StringHash eventType, VariantMap& eventData)
 
 void HandleKeyDown(StringHash eventType, VariantMap& eventData)
 {
-	int key = eventData["key"].GetInt();
-	
-	if(key == KEY_ESCAPE)
+    int key = eventData["key"].GetInt();
+    
+    if(key == KEY_ESCAPE)
         engine.Exit();
 }
 

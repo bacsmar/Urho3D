@@ -4,14 +4,14 @@ function setup_uibargraph( layout )
     dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do  -- set bulk event handlers on all buttons -- boom!
         SubscribeToEvent(awid, "WidgetEvent", "HandleUibargraphEvent")
-	end
+    end
 end
 
 function HandleUibargraphEvent( eventType, eventData )
     local widget = eventData["Target"]:GetPtr("AWidget")
     if ( widget == nil) then
- 		return;
-	end
+        return;
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uibargraphcode" then
             AppLog( "ABargraph support : " .. widget:GetId() .. " was pressed " )

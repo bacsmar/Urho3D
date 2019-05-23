@@ -21,6 +21,8 @@ TBTabContainer
 			text ARadioButton
 		TBButton
 			text ATabContainer
+		TBButton
+			text ADimmer
 	TBLayout
 		id pageuibutton
 		size available
@@ -66,4 +68,9 @@ TBTabContainer
 		size available
 		distribution available
 		@file layout_atabcontainer.ui.txt
+	TBLayout
+		id pageuidimmer
+		size available
+		distribution available
+		@file layout_adimmer.ui.txt
 

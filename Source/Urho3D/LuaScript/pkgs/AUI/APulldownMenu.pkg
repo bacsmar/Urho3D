@@ -6,6 +6,14 @@ class APulldownMenu : public AButton
     virtual ~APulldownMenu();
     void SetSource(ASelectItemSource* source); /// for programming the pulled down menu
     const String& GetSelectedId(); /// return id of entry selected in menu
+
+	int NumMenuItems() const;
+	String GetMenuItemId( int index );
+	String GetMenuItemString( int index );
+	int GetMenuItemState( int index );
+	void SetMenuItemString( int index, String newstr );
+	void SetMenuItemState( int index, int newstate );
+
 };
 
 ${

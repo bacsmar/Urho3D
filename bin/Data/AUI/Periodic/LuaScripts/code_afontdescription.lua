@@ -5,19 +5,19 @@ function setup_uifontdescription(  layout )
     local dest = layout:SearchAWidgetClass( "TBButton" )
     for i, awid in ipairs(dest) do
         SubscribeToEvent(awid, "WidgetEvent", "HandleUifontdescriptionEvent")
-	end
+    end
     local sld = layout:GetWidget ("fontstep")
     if sld ~= nil then
-		local d1 = tolua.cast(sld, "AWidget")
+        local d1 = tolua.cast(sld, "AWidget")
         SubscribeToEvent(d1, "WidgetEvent", "HandleUifontdescriptionEvent" )
-	end
+    end
 end
 
 function HandleUifontdescriptionEvent( eventType,  eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK then
         if widget:GetId() == "uifontdescriptioncode" then
             AppLog( "UIFontdescription support : " .. widget:GetId() .. " was pressed " )
@@ -29,7 +29,7 @@ function HandleUifontdescriptionEvent( eventType,  eventData)
         end
     elseif eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then
         if widget:GetId() == "fontstep" then
- 			local uis2 = tolua.cast( widget, "ASlider")
+            local uis2 = tolua.cast( widget, "ASlider")
             local mytext = widget:FindWidget("changetext")
             local myfont = AFontDescription:new()
             myfont:SetSize( math.floor(uis2:GetValue())) -- convert float to int

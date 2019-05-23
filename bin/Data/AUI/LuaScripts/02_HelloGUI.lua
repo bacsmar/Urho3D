@@ -118,13 +118,13 @@ end
 function HandleWidgetEvent(eventType, eventData)
     local widget = eventData["Target"]:GetPtr("AWidget")
     if widget == nil then
- 		return
-	end
+        return
+    end
     if eventData["Type"]:GetInt() == UI_EVENT_TYPE_CLICK or eventData["Type"]:GetInt() == UI_EVENT_TYPE_CHANGED then
-		local win = tolua.cast( widget:FindWidget("myWindow"), "AWindow" )
-		if win ~= nil then
-			win:SetText("Hello ".. widget:GetId() .. "!" )
-		end
+        local win = tolua.cast( widget:FindWidget("myWindow"), "AWindow" )
+        if win ~= nil then
+            win:SetText("Hello ".. widget:GetId() .. "!" )
+        end
     end
 end
 

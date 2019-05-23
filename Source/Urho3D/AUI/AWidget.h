@@ -298,6 +298,11 @@ class URHO3D_API AWidget : public Object, public tb::TBWidgetDelegate
     //@ASBindGen Function AddRef_arg-1
     AWidget* GetNext();
 
+    //@ASBindGen Function AddRef_arg-1
+	AWidget* GetChildFromIndex(int index) const;
+    //@ASBindGen Function
+    int numChildren() const;
+
     //@ASBindGen Function AddRef_arg0
     bool IsAncestorOf(AWidget* widget);
 

@@ -1,0 +1,12 @@
+# AButtonGrid widget layout file
+TBLayout: axis: y, id: buttongridcontainer
+	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
+		text: "AButtonGrid widget\nThis widget can display a regular sized grid of buttons."
+	TBTextField: id: spacer, text: "   "
+# there is NO TBButtonGrid widget, its entirely an Atomic Widget, so, we`ll add it with code
+	TBTextField: id: "uibuttongridlower", text: "   "
+	TBLayout:
+		TBButton: state: disabled, text: "AButtonGrid help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uibuttongrid.html"
+		TBButton: text: "AButtonGrid application code", id: uibuttongridcode
+		TBButton: text: "AButtonGrid layout code", id: uibuttongridlayout
+

@@ -53,3 +53,12 @@ elements
 	Gauge
 		bitmap gauge.png
 
+	ButtonIcon
+		bitmap buttona.png
+	LayoutIcon
+		bitmap layouta.png
+	TextFieldIcon
+		bitmap texta.png
+
+
+

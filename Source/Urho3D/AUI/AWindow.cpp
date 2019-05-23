@@ -109,6 +109,14 @@ AWindow::~AWindow()
 
 bool AWindow::OnEvent(const tb::TBWidgetEvent &ev)
 {
+	// user can override the closing of a window
+    if (ev.type == EVENT_TYPE_CUSTOM && ev.ref_id == TBIDC("window_close_request"))
+    {
+        VariantMap eventData;
+        eventData[AWidgetEditCanceled::P_WIDGET] = this;
+        SendEvent(E_AWIDGETEDITCANCELED, eventData);
+        return true;
+    }
     return AWidget::OnEvent(ev);
 }
 
@@ -118,6 +126,22 @@ void AWindow::SetAxis(UI_AXIS axis)
         return;
 
     widget_->SetAxis((AXIS) axis);
+}
+
+void AWindow::SetCloseDelegate ( bool setdel )
+{
+    if (!widget_)
+        return;
+
+    ((TBWindow*)widget_)->SetCloseDelegate (setdel);
+}
+
+bool AWindow::GetCloseDelegate ()
+{
+    if (!widget_)
+        return false;
+
+    return ((TBWindow*)widget_)->GetCloseDelegate();
 }
 
 #ifdef URHO3D_ANGELSCRIPT

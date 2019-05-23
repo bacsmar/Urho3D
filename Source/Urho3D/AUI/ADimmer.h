@@ -36,6 +36,11 @@ public:
     ADimmer(Context* context, bool createWidget = true);
     virtual ~ADimmer();
 
+#ifdef URHO3D_ANGELSCRIPT
+    /// Angelscript Register object factory. (semi-manditory)
+    static void RegisterObject(Context* context);
+#endif
+
 protected:
 
     virtual bool OnEvent(const tb::TBWidgetEvent &ev) override;

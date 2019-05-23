@@ -15,6 +15,7 @@ TBWindow::TBWindow()
 {
 // ATOMIC BEGIN
     m_axis = AXIS_Y;
+    m_close_delegate = false;
 // ATOMIC END
     SetSkinBg(TBIDC("TBWindow"), WIDGET_INVOKE_INFO_NO_CALLBACKS);
     AddChild(&m_mover);
@@ -256,7 +257,21 @@ bool TBWindow::OnEvent(const TBWidgetEvent &ev)
     if (ev.target == &m_close_button)
     {
         if (ev.type == EVENT_TYPE_CLICK)
-            Close();
+        {
+            if ( !m_close_delegate )
+            {
+                Close();
+            }
+            else // user handles Close action in delegate class
+            {
+                TBWidgetEvent ev(EVENT_TYPE_CUSTOM);
+                // TBIDC does not register the TBID with the UI system, so do it this way
+                TBID refid("window_close_request");
+                ev.ref_id = refid;
+                // forward to delegate
+                TBWidget::OnEvent(ev);
+            }
+        }
         return true;
     }
     return TBWidget::OnEvent(ev);
