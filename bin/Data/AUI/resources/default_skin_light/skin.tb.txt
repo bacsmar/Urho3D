@@ -545,13 +545,13 @@ elements
 		expand 4
 
 	TBCheckBox.uilistview
-		bitmap arrow_right_dark.png
+		bitmap listview_open.png
 		type Image
 		overrides
 			element TBCheckBox.uilistview_selected
 				state selected
 	TBCheckBox.uilistview_selected
-		bitmap arrow_down_dark.png
+		bitmap listview_closed.png
 		type Image
 
 	# == ToggleButton skins ====================================================================================

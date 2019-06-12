@@ -1,0 +1,44 @@
+# AScrollContainer widget layout file
+TBLayout: config: "YAGAG", skin: TBWindow
+	TBLayout: axis: x, margin: 5, size: preferred, distribution: gravity, distribution-position: left right, skin: TBWindow
+		TBPulldownMenu: text: "  File  ", skin: 0, id: "FileMenu"
+			items:
+				item: text: "New", id: FileNew
+				item: text: "Open...", id: FileOpen
+				item: text: "-"
+				item: text: "Save", id: FileSave, state: disabled
+				item: text: "Save As...", id: FileSaveAs
+				item: text: "-"
+				item: text: "Close", id: FileClose, state: disabled
+				item: text: "Exit", id: FileExit
+		TBPulldownMenu: text: "  Edit  ", skin: 0, id: "EditMenu"
+			items:
+				item: text: "Undo", id: EditUndo, state: disabled
+				item: text: "Redo", id: EditRedo, state: disabled
+		TBPulldownMenu: text: "  View  ", skin: 0, id: "ViewMenu"
+			items:
+				item: text: "Toggle Toolbar", id: ViewToolbar
+				item: text: "Toggle Statusbar", id: ViewStatusbar
+				item: text: "Toggle Theme", id: ViewTheme
+				item: text: "Preferences...", id: ViewPreferences
+		TBPulldownMenu: text: "  Recent  ", skin: 0, id: "RecentMenu"
+		TBPulldownMenu: text: "  Help  ", skin: 0, id: "HelpMenu"
+			items:
+				item: text: "Help...", id: HelpHelp
+				item: text: "About uEdit...", id: HelpAbout
+	TBLayout: axis: x, distribution-position: left right, size: available, margin: 5, id: uedit_toolbar
+		lp: min-height: 30, max-height: 30, pref-height: 30
+		TBWidget
+		TBButton: id: newtb, skin: UEdit.new, tooltip: New
+		TBButton: id: opentb, skin: UEdit.open, tooltip: Open
+		TBButton: id: savetb, skin: UEdit.save, tooltip: Save, state: disabled
+		TBButton: id: undotb, skin: UEdit.undo, tooltip: Undo, state: disabled
+		TBButton: id: redotb, skin: UEdit.redo, tooltip: Redo, state: disabled
+	TBTabContainer:
+		gravity all
+		id uedit_tabcontainer
+		tabs
+	TBLayout: config: "XACAC", id: uedit_statusbar
+		lp: min-height: 22, max-height: 22, pref-height: 22
+		TBTextField: id: LogText, text: "This is the uEdit text editor", text-align: left
+

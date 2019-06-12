@@ -1,0 +1,59 @@
+<color #0bb4f8>uEdit Help</color>
+<hr>
+uEdit is a simple text editor for plain-text files. It uses tabs to open more than one file at once. The menus and toolbar will adjust to the current tabbed file's needs, for example, the Save entry will only be available if there has been a change to the file. Files to load may be specified on the command line, if your OS supports that kind of a thing, and you can also drop files into the editor, once again, if your OS cooperates.
+
+File Menu items:
+"New" (Shortcut Ctrl+N)  Allows you to create a new text file.
+"Open..."  (Shortcut Ctrl+O)  This brings up a File Finder to seek a file to open into a tab. It will start the search using the file path of the current tab.
+"Save" (Shortcut Ctrl+S)  This will save the current tab to the file's original location.
+"Save As..."  This brings up a File Finder to save the current tab to a different name and location. Once saved, the tab will reflect the new file name.
+"Close" (Shortcut Ctrl+W) This closes the current tab. It also adds the file into the Recent menu.
+"Exit" (Shortcut Ctrl+Q) This will exit the program, and query if you'd like to save any changed files before the exit is performed. Alt+F4 and the window frame close can also be used to exit the program, but no checking is done.
+
+Edit Menu items:
+"Undo"  (Shortcut Ctrl+Z)  This entry will allow you to undo text changes in the tab editor. If there are no changes, this entry is grayed out.
+"Redo" (Shortcut Ctrl+Y)  This entry will allow you to redo undone text changes in the tab editor. If there are no changes, this entry is grayed out.
+
+View Menu items:
+"Toggle Toolbar"  This entry toggles the toolbar visibility. Now you see it, now you don't.
+"Toggle Statusbar"  This entry toggles the statusbar visibility at the bottom of the program.
+"Toggle Theme"  This switches the program between the dark and light theme. 
+"Preferences..." This brings up the Preferences window, which can change and save program settings.
+
+Recent Menu items:
+  This is a dynamic menu of the last files that have been loaded into the program. To be included in this menu, the tab file must be "Closed", if the file is opened and then the program is exited, the file will not be included in this list. There can be upto 14 files in this menu, once that number is exceeded, the oldest files will be removed to make room for the new entries. This menu is also saved when the program is exited, and restored on the next invocation.
+  
+Help Menu items:
+"Help..." (Shortcut Ctrl+F1)  This entry brings up this informative information window.
+"About uEdit..."  This brings up a window describing the progam and version number.
+
+Toolbar items:
+Each item has an icon from the Tango icon suite, and a tooltip which describes each buton's function.
+"New"  Allows you to create a new text file.
+"Open"   This brings up a File Finder to seek a file to open into a tab. It will start the search using the file path of the current tab.
+"Save"  This will save the current tab to the file's original location.
+"Undo"   This entry will allow you to undo text changes in the tab editor.
+"Redo"  This entry will allow you to redo undone text changes in the tab editor.
+
+Tabs Items:
+  Each file gets a tabbed editor, the tab displays the filename, with a prepended '*' if the file has been changed, and it has a tooltip which displays it's full pathname. In each editor, there is a context menu for some common editting functions, such as Cut, Copy, Paste, Delete and SelectAll.
+
+Statusbar items:
+   This area contains a text field to display some information of dubious quality and frequency.
+
+Preferences Window
+   This window contains some settings which can be changed and saved. Some of the changes will occur in the current program only on newly opened files.
+Font Name
+  Change the editor font: "Vera", "AnonymousPro", "BlueHighway".
+Font Size
+  Adjust the font size, in points : "8", "10", "12", "14", "16", "18", "20", "24", "32", "40", "56".
+Editor Skin
+  Change the editor colors independent of the theme, the selections are : "None", "lite_cell", "dark_cell", "sheet_cell".
+Theme
+  The theme for the program : "Dark", "Light".
+Show Toolbar
+  This checkbox allows you to either show or hide the toolbar.
+Show Statusbar
+ This checkbox allows you to either show or hide the statusbar.
+Clear Recent Menu
+  Pressing this buttun will immediately clear the contents of the Recent files menu. Begone old files.

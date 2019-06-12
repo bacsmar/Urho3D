@@ -1,0 +1,44 @@
+# hi dpi desktop skin definitions and DPI warping.
+description
+	base-dpi 64
+	supported-dpi 24 48 96 192 288 384
+elements
+	background_solid
+		background-color #3b3b3b
+		padding 10
+	uiwidget_solid
+		background-color #666666
+		padding 10
+	sheet_cell
+		background-color #f4f2d3
+		padding 10
+	lite_cell
+		text-color #000000
+		background-color #faf6ee
+		padding 10
+	dark_cell
+		text-color #faf6ee
+		background-color #000000
+		padding 10
+	TBEditField.selection
+		cut 2
+		bitmap selection2.png
+	UEdit.new
+		bitmap document-new.png
+		type Image
+	UEdit.open
+		bitmap document-open.png
+		type Image
+	UEdit.save
+		bitmap document-save.png
+		type Image
+	UEdit.saveas
+		bitmap document-save-as.png
+		type Image
+	UEdit.redo
+		bitmap edit-redo.png
+		type Image
+	UEdit.undo
+		bitmap edit-undo.png
+		type Image
+

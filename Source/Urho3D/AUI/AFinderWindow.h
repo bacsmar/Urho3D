@@ -55,6 +55,7 @@ public:
 
 protected:
 
+    void HandleResultReturn(StringHash eventType, VariantMap& eventData); /// event handler for pressing return 
     void HandleCreateBookmark(StringHash eventType, VariantMap& eventData); /// event handler for bookmark creation
     void HandleCreateFolder(StringHash eventType, VariantMap& eventData); /// event handler for folder creation
     virtual bool OnEvent(const tb::TBWidgetEvent &ev) override; /// general event handler

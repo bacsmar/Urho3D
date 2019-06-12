@@ -1,0 +1,69 @@
+# launcher configuration
+TBLayout: distribution: gravity, distribution-position: left
+	lp: pref-height: 480, pref-width: 640
+	axis y
+	TBScrollContainer: gravity all
+		TBLayout: spacing: 5, axis: Y
+# ------arg1
+			TBLayout: config: "XPCGL"
+				TBTextField: id: pae1, text: "Font Name"
+					lp: pref-width: 128dp
+				TBSelectDropdown: gravity: all, text-align: left, id: selectFontName, value: 0
+					lp: min-width: 128dp
+					items:
+						item: text: "Vera"
+						item: text: "AnonymousPro"
+						item: text: "BlueHighway"
+# ------arg2
+			TBLayout: config: "XPCGL"
+				TBTextField: id: pae2, text: "Font Size"
+					lp: pref-width: 128dp
+				TBSelectDropdown: gravity: all, text-align: left, id: selectFontSize, value: 4
+					lp: min-width: 128dp
+					items:
+						item: text: "8"
+						item: text: "10"
+						item: text: "12"
+						item: text: "14"
+						item: text: "16"
+						item: text: "18"
+						item: text: "20"
+						item: text: "24"
+						item: text: "32"
+						item: text: "40"
+						item: text: "56"
+# ------arg3
+			TBLayout: config: "XPCGL"
+				TBTextField: id: pae3, text: "Editor Skin" 
+					lp: pref-width: 128dp
+				TBSelectDropdown: gravity: all, text-align: left, id: selectEditorSkin, value: 0
+					lp: min-width: 128dp
+					items:
+						item: text: "None"
+						item: text: "lite_cell"
+						item: text: "dark_cell"
+						item: text: "sheet_cell"
+# ------arg4
+			TBLayout: config: "XPCGL"
+				TBTextField: id: pae4, text: "Theme" 
+					lp: pref-width: 128dp
+				TBSelectDropdown: gravity: all, text-align: left, id: selectTheme, value: 0
+					lp: min-width: 128dp
+					items:
+						item: text: "Dark"
+						item: text: "Light"
+# ------arg5
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal5, text: "Show Toolbar"
+					TBCheckBox: id: selectToolbar, value: 1
+					lp: pref-width: 128dp
+# ------arg6
+			TBLayout: config: "XPCGL"
+				TBClickLabel: id: pal6, text: "Show Statusbar"
+					TBCheckBox: id: selectStatusbar, value: 1
+					lp: pref-width: 128dp
+# ------arg7
+			TBLayout: config: "XPCGL"
+				TBButton: text: "Clear Recent Menu", id: ClearRecentButton
+					lp: pref-width: 128dp
+

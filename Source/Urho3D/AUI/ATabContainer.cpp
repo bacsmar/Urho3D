@@ -70,7 +70,7 @@ AWidget* ATabContainer::GetCurrentPageWidget()
 int ATabContainer::GetNumPages()
 {
     if (!widget_)
-        return 0;
+        return -1;
 
     return ((TBTabContainer*)widget_)->GetNumPages();
 
@@ -147,7 +147,7 @@ bool ATabContainer::OnEvent(const tb::TBWidgetEvent &ev)
 int ATabContainer::GetCurrentPage()
 {
     if (!widget_)
-        return 0;
+        return -1;
 
     return ((TBTabContainer*)widget_)->GetCurrentPage();
 
@@ -159,14 +159,19 @@ bool ATabContainer::DeletePage( int page )
     if (!widget_ || page < 0 || page > GetNumPages() - 1)
         return false;
 
+    int lastcurrentpg = GetCurrentPage();
+    
     ALayout *uil = GetTabLayout();
     if (uil)
     {
         AWidget* mytab = NULL;
         int nn=0; 
         for (AWidget *child = uil->GetFirstChild(); child; child = child->GetNext())
-            if (nn++ == page)
+        {
+            if (nn == page)
                 mytab = child;
+            nn++;
+        }
         if (mytab)
         {
             mytab->UnsubscribeFromAllEvents();
@@ -180,8 +185,11 @@ bool ATabContainer::DeletePage( int page )
         AWidget* mypage = NULL;
         int nn=0; 
         for (AWidget *child = pages->GetFirstChild(); child; child = child->GetNext())
-            if (nn++ == page)
+        {
+            if (nn == page)
                 mypage = child;
+            nn++;
+        }
         if (mypage)
         {
             mypage->UnsubscribeFromAllEvents();
@@ -190,6 +198,9 @@ bool ATabContainer::DeletePage( int page )
     }
     
     Invalidate();
+    
+    if (lastcurrentpg == 0)
+        widget_->SetValue(-1); // reset the current page
 
     // tab container "feature", can not set it to the page number that was removed.
     int num = 0;

@@ -27,6 +27,7 @@
 #include "../IO/FileSystem.h"
 #include "../IO/Log.h"
 #include "../IO/File.h"
+#include "../Core/Timer.h"
 
 #include "../AUI/AUI.h"
 #include "../AUI/AEvents.h"
@@ -80,6 +81,9 @@ void AFinderWindow::FindFile(const String& title, const String& preset, int dimm
 
     if ( ((TBFinderWindow*)widget_)->Show(title.CString(), preset.CString(), dimmer, width, height) )
     {
+        AWidget *ares = GetResultWidget();
+        SubscribeToEvent(ares, E_AWIDGETEDITCOMPLETE, URHO3D_HANDLER(AFinderWindow, HandleResultReturn ));
+
         CreateBookmarks();
         PresetCurrentPath(preset);
         UpdateUiPath();
@@ -149,7 +153,11 @@ bool AFinderWindow::OnEvent(const tb::TBWidgetEvent &ev)
         SubscribeToEvent(newBookmarkPtr_, E_APROMPTCOMPLETE, URHO3D_HANDLER(AFinderWindow, HandleCreateBookmark ));
 
         String prospect = "";
+#ifdef _WIN32
+        char delim = '\\';
+#else
         char delim = '/';
+#endif
         Vector <String> tokens = currentPath_.Split(delim, false);
         prospect = tokens[ tokens.Size()-1 ]; // get the last folder name as preset
     
@@ -210,10 +218,44 @@ bool AFinderWindow::OnEvent(const tb::TBWidgetEvent &ev)
     {
         ASelectList *filelist = static_cast<ASelectList *>(GetFilesWidget());
         ComposePath( filelist->GetSelectedItemString() );
+        
+        // from AViewInput.cpp double click detection
+        static double last_time = 0;
+        static int counter = 1;
+
+        Time* tt = GetSubsystem<Time>();
+        double timex = tt->GetElapsedTime() * 1000;
+        if (timex < last_time + 600)
+            counter++;
+        else
+            counter = 1;
+
+        if ( counter > 1 )
+        {
+            String nprospect = GetNativePath(currentPath_ + filelist->GetSelectedItemString() );
+            FileSystem* filesystem = GetSubsystem<FileSystem>();
+            bool ex = filesystem->FileExists(nprospect);
+            if ( finderMode_ == 0 && ex ) // finding a file
+            {
+                AUI* aui = GetSubsystem<AUI>();
+                VariantMap eventData;
+                eventData[AFinderComplete::P_TITLE] = "FinderWindow";
+                eventData[AFinderComplete::P_SELECTED] = nprospect;
+                eventData[AFinderComplete::P_REASON] = "OK";
+                ConvertEvent(this, aui->WrapWidget(ev.target), ev, eventData);
+                SendEvent(E_AFINDERCOMPLETE, eventData);
+                counter = 1;
+                last_time = timex;
+               ((TBFinderWindow*)widget_)->Close();
+                if (eventData[WidgetEvent::P_HANDLED].GetBool())
+                    return true;
+            }
+        }
+        last_time = timex;
         return true;
     }
 
-    if ( ev.type == EVENT_TYPE_CLICK && (ev.ref_id ==  UIFINDEROKBUTTONID|| ev.ref_id == UIFINDERCANCELBUTTONID ) ) // clicked ok or cancel button
+    if ( ev.type == EVENT_TYPE_CLICK && (ev.ref_id ==  UIFINDEROKBUTTONID || ev.ref_id == UIFINDERCANCELBUTTONID ) ) // clicked ok or cancel button
     {
         AUI* ui = GetSubsystem<AUI>();
         VariantMap eventData;
@@ -233,7 +275,17 @@ bool AFinderWindow::OnEvent(const tb::TBWidgetEvent &ev)
             if ( finderMode_ == 0 ) // finding a file
             {   // get from widget, in case the user had been typing.
                 AWidget *ewidget = GetResultWidget(); 
-                if( ewidget) eventData[AFinderComplete::P_SELECTED] = ewidget->GetText();
+                if( ewidget)
+                {
+                    String seltext = ewidget->GetText();
+                    if ( !IsAbsolutePath(seltext) )
+                    {
+                        String nprospect = GetNativePath(currentPath_ + seltext);
+                        eventData[AFinderComplete::P_SELECTED] = nprospect;
+                    }
+                    else
+                        eventData[AFinderComplete::P_SELECTED] = seltext;
+                }
             }
             else  // finding a folder
             {
@@ -251,6 +303,36 @@ bool AFinderWindow::OnEvent(const tb::TBWidgetEvent &ev)
 
     return AWindow::OnEvent(ev);
 }
+
+void AFinderWindow::HandleResultReturn(StringHash eventType, VariantMap& eventData)
+{
+    AWidget *widget = (AWidget *)eventData[AWidgetEditComplete::P_WIDGET].GetPtr();
+    if ( widget == NULL ) return;
+    else
+    {
+        AUI* aui = GetSubsystem<AUI>();
+        VariantMap eventData;
+        eventData[AFinderComplete::P_TITLE] = "FinderWindow";
+        eventData[AFinderComplete::P_REASON] = "OK";
+
+        String seltext = widget->GetText();
+        if ( !IsAbsolutePath(seltext) )
+        {
+            String nprospect = GetNativePath(currentPath_ + seltext);
+            eventData[AFinderComplete::P_SELECTED] = nprospect;
+        }
+        else
+            eventData[AFinderComplete::P_SELECTED] = seltext;
+
+        tb::TBWidgetEvent ev(tb::EVENT_TYPE_CUSTOM);
+        ev.ref_id = tb::TBID("edit_complete");
+        ev.target = widget->GetInternalWidget();
+        ConvertEvent(this, aui->WrapWidget(ev.target), ev, eventData);
+        SendEvent(E_AFINDERCOMPLETE, eventData);
+        ((TBFinderWindow*)widget_)->Close();
+    }
+}
+
 
 void AFinderWindow::HandleCreateBookmark(StringHash eventType, VariantMap& eventData)
 {
@@ -337,9 +419,10 @@ AWidget* AFinderWindow::GetFilesWidget()
 // where the finder starts
 void AFinderWindow::PresetCurrentPath( const String& preset ) 
 {
+    String npreset = GetNativePath (preset);
     FileSystem* filesystem = GetSubsystem<FileSystem>();
-    if ( !preset.Empty() && filesystem->DirExists (preset) )
-        SetCurrentPath (preset);
+    if ( !npreset.Empty() && filesystem->DirExists (npreset) )
+        SetCurrentPath (npreset);
     else
         SetCurrentPath ( filesystem->GetUserDocumentsDir() );
 }
@@ -347,26 +430,26 @@ void AFinderWindow::PresetCurrentPath( const String& preset )
 // set the current path value
 void AFinderWindow::SetCurrentPath( const String& string ) 
 { 
-    currentPath_ = string;
+    currentPath_ = GetNativePath(string);
 }
 
 //using the list, jam things together, we'll either get another path or a file.
 void AFinderWindow::ComposePath (const String& string )
 {
     String prospect = currentPath_ + string;
+    String nprospect = GetNativePath(prospect);
 
     FileSystem* filesystem = GetSubsystem<FileSystem>();
- 
-    if ( !filesystem->FileExists ( prospect ) )  // its a dir, feel the joy
+    if ( !filesystem->FileExists ( nprospect ) )  // its a dir, feel the joy
     {
-        SetCurrentPath( prospect + "/" );  // add the trailing slash, OR ELSE
+        SetCurrentPath( AddTrailingSlash(nprospect));  // add the trailing slash, OR ELSE
         UpdateUiPath();
         UpdateUiList();
         UpdateUiResult();
     }
     else  // its a file
     {
-        resultPath_ = prospect;
+        resultPath_ = nprospect;
         UpdateUiResult();
     }
 }
@@ -386,13 +469,15 @@ void AFinderWindow::CreateBookmarks()
     if ( filesystem->DirExists ( basepath + "Videos" )) CreateBookmark ( "Videos", basepath + "Videos/" );
     if ( filesystem->DirExists ( basepath + "Downloads")) CreateBookmark ( "Downloads", basepath + "Downloads/" );
 #elif defined(_WIN32)
-    if ( filesystem->DirExists ( basepath )) CreateBookmark ( "Home", basepath );
-    if ( filesystem->DirExists ( basepath + "Desktop")) CreateBookmark ( "Desktop", basepath + "Desktop/" );
-    if ( filesystem->DirExists ( basepath + "Documents")) CreateBookmark ( "Documents", basepath + "Documents/" );
-    if ( filesystem->DirExists ( basepath + "Downloads")) CreateBookmark ( "Downloads", basepath + "Downloads/" );
-    if ( filesystem->DirExists ( basepath + "Music")) CreateBookmark ( "Music", basepath + "Music/" );
-    if ( filesystem->DirExists ( basepath + "Pictures" )) CreateBookmark ( "Pictures", basepath + "Pictures/" );
-    if ( filesystem->DirExists ( basepath + "Videos" )) CreateBookmark ( "Videos", basepath + "Videos/" );
+    String winpath = GetNativePath(basepath);
+    winpath.Replace( "Documents\\", "" ); // basepath points to user\Documents, strip it off
+    if ( filesystem->DirExists ( winpath )) CreateBookmark ( "Home", basepath );
+    if ( filesystem->DirExists ( winpath + "Desktop")) CreateBookmark ( "Desktop", AddTrailingSlash(winpath) + "Desktop\\" );
+    if ( filesystem->DirExists ( winpath + "Documents")) CreateBookmark ( "Documents", AddTrailingSlash(winpath) + "Documents\\" );
+    if ( filesystem->DirExists ( winpath + "Downloads")) CreateBookmark ( "Downloads", AddTrailingSlash(winpath) + "Downloads\\" );
+    if ( filesystem->DirExists ( winpath + "Music")) CreateBookmark ( "Music", AddTrailingSlash(winpath) + "Music\\" );
+    if ( filesystem->DirExists ( winpath + "Pictures" )) CreateBookmark ( "Pictures", AddTrailingSlash(winpath) + "Pictures\\" );
+    if ( filesystem->DirExists ( winpath + "Videos" )) CreateBookmark ( "Videos", AddTrailingSlash(winpath) + "Videos\\" );
 #elif defined(__APPLE__)
     if ( filesystem->DirExists ( basepath )) CreateBookmark ( "Home", basepath );
     if ( filesystem->DirExists ( basepath + "Documents")) CreateBookmark ( "Documents", basepath + "Documents/" );
@@ -411,23 +496,45 @@ void AFinderWindow::CreateBookmarks()
 void AFinderWindow::GoFolderUp()
 {
     String prospect = "";
+    String cpx = GetNativePath(currentPath_);
+#ifdef _WIN32
+    char delim = '\\';
+#else
     char delim = '/';
-    Vector <String> tokens = currentPath_.Split(delim, false);
+#endif
+    Vector <String> tokens = cpx.Split(delim, false);
+
  
     if ( tokens.Size() == 0 ) // were at the top
+    {
+#ifdef _WIN32
+        prospect = "";
+#else
         prospect = "/";
+#endif
+    }
     else
     {
         int nn = 0;
         for ( nn=0; nn<tokens.Size()-1; nn++ )
         {
+#ifdef _WIN32
+            if ( nn != 0)
+                prospect += delim;
+#else
             prospect += delim;
+#endif
             prospect += tokens[nn];
         }
         prospect += delim;
     }
 
-    if ( prospect != currentPath_ ) 
+#ifdef _WIN32
+    if ( prospect.Compare( "\\" ) == 0 )
+        prospect = "";
+#endif
+
+    if ( prospect != cpx )
     {
         resultPath_ = "";
         SetCurrentPath (prospect);
@@ -473,7 +580,33 @@ void AFinderWindow::UpdateUiList()
     FileSystem* filesystem = GetSubsystem<FileSystem>();
     ASelectList *filelist = static_cast<ASelectList *>(GetFilesWidget());
     ASelectItemSource *fileSource = new ASelectItemSource(context_);
+
+#ifdef _WIN32
+    // do wacky(and dubious) drive search on windows
+    if ( currentPath_.Compare ("\\") == 0)
+    {
+        currentPath_ = "";
+    }
+
+    if ( currentPath_.Compare ("") == 0 )
+    {
+        fileSource->Clear();
+        for ( char nn='A'; nn<='Z'; nn++ )
+        {
+            String prospect = String(nn) + ":\\";
+            if ( filesystem->DirExists(prospect) && filesystem->CheckAccess(prospect) )
+            {
+                String idz = "DIR" + String(prospect);
+                fileSource->AddItem( new ASelectItem(context_, prospect, idz, "FolderIcon" ));
+            }
+        }
+        filelist->SetValue(-1);
+        filelist->SetSource(fileSource);
+        return;  //and get out, or else fall thru.
+    }
     
+#endif
+
     if ( filesystem->DirExists (currentPath_ ) )
     { 
         Vector <String> mydirs;
@@ -504,7 +637,8 @@ void AFinderWindow::UpdateUiList()
 void AFinderWindow::CreateFolder( const String& string )
 {
     FileSystem* filesystem = GetSubsystem<FileSystem>();
-    if ( filesystem->CreateDir( currentPath_ + string ) )
+    String mahfile = AddTrailingSlash(GetNativePath(currentPath_)) + string;
+    if ( filesystem->CreateDir( mahfile) )
     {
         UpdateUiList();
     }
@@ -513,6 +647,7 @@ void AFinderWindow::CreateFolder( const String& string )
 // utility to add a bookmark from the current path
 void AFinderWindow::CreateBookmark ( const String& bkname, const String&  bkpath ) 
 {
+    String npath = GetNativePath(bkpath);
     ASelectList *bklist = static_cast<ASelectList *>(GetBookmarksWidget());
     if (bklist ) 
     {
@@ -522,7 +657,7 @@ void AFinderWindow::CreateBookmark ( const String& bkname, const String&  bkpath
         if ( bklist->AddItem ( inspos, bkname, idz ) )
         {
             bookmarks_.Push(bkname);
-            bookmarkPaths_.Push (bkpath);
+            bookmarkPaths_.Push (npath);
             bookmarksDirty_ = 1;
         }
     }
@@ -552,20 +687,21 @@ void AFinderWindow::LoadBookmarks()
     FileSystem* filesystem = GetSubsystem<FileSystem>();
     String bkdata = "";
     String bkpath = "";
-    
+    String npath = "";
+
 #if defined(__ANDROID__) || defined(IOS)  || defined(TVOS)
     bkpath = filesystem->GetUserDocumentsDir(); // somewhere writable on mobile
 #else
     bkpath = filesystem->GetAppPreferencesDir("urho3d", "Bookmarks"); // desktop systems
 #endif
-    
-    bkpath += "/Bookmarks.txt";
-    if ( filesystem->FileExists ( bkpath ) )
+    npath = AddTrailingSlash(GetNativePath(bkpath));
+
+    npath += "Bookmarks.txt";
+    if ( filesystem->FileExists ( npath ) )
     {
-        File *fp = new File (context_, bkpath, FILE_READ);
+        File *fp = new File (context_, npath, FILE_READ);
         if(fp->IsOpen())
         {
-            /// ATOMIC ReadText missing
             fp->ReadText(bkdata);
             fp->Close();
         }
@@ -587,14 +723,16 @@ void AFinderWindow::SaveBookmarks()
     {
         FileSystem* filesystem = GetSubsystem<FileSystem>();
         String bkpath = "";
+        String npath = "";
 
 #if defined(__ANDROID__) || defined(IOS)  || defined(TVOS)
         bkpath = filesystem->GetUserDocumentsDir();
 #else
         bkpath = filesystem->GetAppPreferencesDir("urho3d", "Bookmarks");
 #endif
+        npath = AddTrailingSlash(GetNativePath(bkpath));
 
-        bkpath += "/Bookmarks.txt";
+    npath += "Bookmarks.txt";
         String bkdata = "";
         int nn=0, sep=-1;
         for ( nn = 0; nn<bookmarks_.Size(); nn++)
@@ -609,7 +747,7 @@ void AFinderWindow::SaveBookmarks()
             if ( bookmarks_[nn] == "-" ) 
                 sep = nn;
         }
-        File *fp = new File (context_, bkpath, FILE_WRITE);
+        File *fp = new File (context_, npath, FILE_WRITE);
         if(fp->IsOpen())
         {
             fp->Write ((const void *)bkdata.CString(), bkdata.Length() );
