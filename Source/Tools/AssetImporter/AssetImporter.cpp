@@ -144,6 +144,9 @@ String resourcePath_;
 String outPath_;
 String outName_;
 bool useSubdirs_ = true;
+bool prefabMode_ = false;
+String prefabName_;
+String lastAssetName_;
 bool localIDs_ = false;
 bool saveBinary_ = false;
 bool saveJson_ = false;
@@ -236,6 +239,7 @@ Quaternion ToQuaternion(const aiQuaternion& quat);
 Matrix3x4 ToMatrix3x4(const aiMatrix4x4& mat);
 aiMatrix4x4 ToAIMatrix4x4(const Matrix3x4& mat);
 String SanitateAssetName(const String& name);
+String FixP (const String& folder, const String& assetn);
 
 unsigned GetPivotlessBoneIndex(OutModel& model, const String& boneName);
 void ExtrapolatePivotlessAnimation(OutModel* model);
@@ -306,7 +310,10 @@ void Run(const Vector<String>& arguments)
             "-split <start> <end> (animation model only)\n"
             "            Split animation, will only import from start frame to end frame\n"
             "-np         Do not suppress $fbx pivot nodes (FBX files only)\n"
-        );
+            "-prefab     Adds Assetname Folders when saving assets, puts nodes in Objects folder.\n"
+            "-pname <string> Forces this name instead of the AssetName to Folders when saving assets.\n"
+            
+       );
     }
 
     context_->RegisterSubsystem(new FileSystem(context_));
@@ -464,6 +471,18 @@ void Run(const Vector<String>& arguments)
                     importStartTime_ = ToFloat(value);
                     importEndTime_ = ToFloat(value2);
                 }
+            }
+            else if (argument == "prefab")
+            {
+                useSubdirs_ = true;
+                prefabMode_ = true;
+            }
+            else if (argument == "pname" && !value.Empty())
+            {
+                useSubdirs_ = true;
+                prefabMode_ = true;
+                prefabName_ = value;
+                ++i;
             }
         }
     }
@@ -1493,8 +1512,12 @@ void ExportScene(const String& outName, bool asPrefab)
     outScene.rootNode_ = rootNode_;
 
     if (useSubdirs_)
-        context_->GetSubsystem<FileSystem>()->CreateDir(resourcePath_ + "Models");
-
+    {
+        context_->GetSubsystem<FileSystem>()->CreateDir(resourcePath_ + "Scenes");
+        context_->GetSubsystem<FileSystem>()->CreateDir(resourcePath_ + "Objects");
+        context_->GetSubsystem<FileSystem>()->CreateDir(resourcePath_ + FixP("Models", GetFileName(outName)) );
+        lastAssetName_ = GetFileName(outName);
+    }
     CollectSceneModels(outScene, rootNode_);
 
     // Save models, their material lists and animations
@@ -1521,7 +1544,7 @@ void CollectSceneModels(OutScene& scene, aiNode* node)
     {
         OutModel model;
         model.rootNode_ = node;
-        model.outName_ = resourcePath_ + (useSubdirs_ ? "Models/" : "") + SanitateAssetName(FromAIString(node->mName)) + ".mdl";
+        model.outName_ = resourcePath_ + (useSubdirs_ ? FixP("Models/", GetFileName(scene.outName_)) : "") + SanitateAssetName(FromAIString(node->mName)) + ".mdl";
         for (unsigned i = 0; i < meshes.Size(); ++i)
         {
             aiMesh* mesh = meshes[i].second_;
@@ -1693,7 +1716,10 @@ void BuildAndSaveScene(OutScene& scene, bool asPrefab)
                 model.bones_.Empty() ? modelNode->CreateComponent<StaticModel>() : modelNode->CreateComponent<AnimatedModel>());
 
         // Create a dummy model so that the reference can be stored
-        String modelName = (useSubdirs_ ? "Models/" : "") + GetFileNameAndExtension(model.outName_);
+        String submodel = "Models/";
+        if (asPrefab) submodel = FixP("Models/", GetFileName(scene.outName_) );
+        
+        String modelName = (useSubdirs_ ? submodel : "") + GetFileNameAndExtension(model.outName_);
         if (!cache->Exists(modelName))
         {
             auto* dummyModel = new Model(context_);
@@ -1777,9 +1803,19 @@ void BuildAndSaveScene(OutScene& scene, bool asPrefab)
         }
     }
 
+    String wrecked = scene.outName_;
+    if ( prefabMode_ )
+    {
+        String fname = GetFileNameAndExtension(scene.outName_);
+        if (!asPrefab)
+            wrecked.Replace( fname, "Scenes/"+fname);
+        else 
+            wrecked.Replace( fname, "Objects/"+fname);
+    }
+
     File file(context_);
-    if (!file.Open(scene.outName_, FILE_WRITE))
-        ErrorExit("Could not open output file " + scene.outName_);
+    if (!file.Open(wrecked, FILE_WRITE))
+        ErrorExit("Could not open output file " + wrecked ); //scene.outName_);
     if (!asPrefab)
     {
         if (saveBinary_)
@@ -1803,7 +1839,7 @@ void BuildAndSaveScene(OutScene& scene, bool asPrefab)
 void ExportMaterials(HashSet<String>& usedTextures)
 {
     if (useSubdirs_)
-        context_->GetSubsystem<FileSystem>()->CreateDir(resourcePath_ + "Materials");
+        context_->GetSubsystem<FileSystem>()->CreateDir(resourcePath_ + FixP("Materials", lastAssetName_));
 
     for (unsigned i = 0; i < scene_->mNumMaterials; ++i)
         BuildAndSaveMaterial(scene_->mMaterials[i], usedTextures);
@@ -1952,7 +1988,7 @@ void BuildAndSaveMaterial(aiMaterial* material, HashSet<String>& usedTextures)
 
     auto* fileSystem = context_->GetSubsystem<FileSystem>();
 
-    String outFileName = resourcePath_ + (useSubdirs_ ? "Materials/" : "" ) + matName + ".xml";
+    String outFileName = resourcePath_ + (useSubdirs_ ? FixP("Materials/", lastAssetName_): "" ) + matName + ".xml";
     if (noOverwriteMaterial_ && fileSystem->FileExists(outFileName))
     {
         PrintLine("Skipping save of existing material " + matName);
@@ -1972,7 +2008,7 @@ void CopyTextures(const HashSet<String>& usedTextures, const String& sourcePath)
     auto* fileSystem = context_->GetSubsystem<FileSystem>();
 
     if (useSubdirs_)
-        fileSystem->CreateDir(resourcePath_ + "Textures");
+        fileSystem->CreateDir(resourcePath_ + FixP("Textures",lastAssetName_));
 
     for (HashSet<String>::ConstIterator i = usedTextures.Begin(); i != usedTextures.End(); ++i)
     {
@@ -2013,7 +2049,7 @@ void CopyTextures(const HashSet<String>& usedTextures, const String& sourcePath)
         else
         {
             String fullSourceName = sourcePath + *i;
-            String fullDestName = resourcePath_ + (useSubdirs_ ? "Textures/" : "") + *i;
+            String fullDestName = resourcePath_ + (useSubdirs_ ? FixP("Textures/",lastAssetName_) : "") + *i;
 
             if (!fileSystem->FileExists(fullSourceName))
             {
@@ -2349,7 +2385,7 @@ String GetMeshMaterialName(aiMesh* mesh)
     if (matName.Trimmed().Empty())
         matName = GenerateMaterialName(material);
 
-    return (useSubdirs_ ? "Materials/" : "") + matName + ".xml";
+    return (useSubdirs_ ? FixP("Materials/",lastAssetName_) : "") + matName + ".xml";
 }
 
 String GenerateMaterialName(aiMaterial* material)
@@ -2370,7 +2406,7 @@ String GetMaterialTextureName(const String& nameIn)
     if (nameIn.Length() && nameIn[0] == '*')
         return GenerateTextureName(ToInt(nameIn.Substring(1)));
     else
-        return (useSubdirs_ ? "Textures/" : "") + nameIn;
+        return (useSubdirs_ ? FixP("Textures/",lastAssetName_) : "") + nameIn;
 }
 
 String GenerateTextureName(unsigned texIndex)
@@ -2380,9 +2416,9 @@ String GenerateTextureName(unsigned texIndex)
         // If embedded texture contains encoded data, use the format hint for file extension. Else save RGBA8 data as PNG
         aiTexture* tex = scene_->mTextures[texIndex];
         if (!tex->mHeight)
-            return (useSubdirs_ ? "Textures/" : "") + inputName_ + "_Texture" + String(texIndex) + "." + tex->achFormatHint;
+            return (useSubdirs_ ? FixP("Textures/",lastAssetName_) : "") + inputName_ + "_Texture" + String(texIndex) + "." + tex->achFormatHint;
         else
-            return (useSubdirs_ ? "Textures/" : "") + inputName_ + "_Texture" + String(texIndex) + ".png";
+            return (useSubdirs_ ? FixP("Textures/",lastAssetName_) : "") + inputName_ + "_Texture" + String(texIndex) + ".png";
     }
 
     // Should not go here
@@ -2623,6 +2659,28 @@ String SanitateAssetName(const String& name)
     fixedName.Replace("|", "");
 
     return fixedName;
+}
+
+String FixP (const String& folder, const String& assetn)
+{
+    if ( prefabMode_ )
+    {
+        String ender = "";
+        String seper = "/";
+        if ( folder.EndsWith ("/") )
+        {
+            ender = "/";
+            seper = "";
+        }
+        if ( prefabName_.Empty() )
+        {
+            if (assetn.Empty()) return folder;
+            return folder + seper + assetn + ender;
+        }
+        else
+            return folder + seper + prefabName_ + ender;
+    }
+    return folder;
 }
 
 unsigned GetPivotlessBoneIndex(OutModel& model, const String& boneName)

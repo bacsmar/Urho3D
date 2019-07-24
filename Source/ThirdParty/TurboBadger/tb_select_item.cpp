@@ -172,6 +172,7 @@ TBWidget *TBSelectItemSource::CreateItemWidget(int index, TBSelectItemViewer *vi
         if (TBSimpleLayoutItemWidget *itemwidget = new TBSimpleLayoutItemWidget(image, sub_source, string))
         {
             // ATOMIC BEGIN
+            itemwidget->SetID(GetItemID(index));
             if ( state == 0 ) itemwidget->SetState(WIDGET_STATE_DISABLED, true );
             else itemwidget->SetState(WIDGET_STATE_DISABLED, false );
             // ATOMIC END
@@ -182,6 +183,10 @@ TBWidget *TBSelectItemSource::CreateItemWidget(int index, TBSelectItemViewer *vi
     {
         if (TBSeparator *separator = new TBSeparator)
         {
+            // ATOMIC BEGIN
+            separator->SetID(TBIDC("SelectItemSeparator"));
+            // ATOMIC END
+
             separator->SetGravity(WIDGET_GRAVITY_ALL);
             separator->SetSkinBg(TBIDC("TBSelectItem.separator"));
             return separator;
@@ -193,6 +198,7 @@ TBWidget *TBSelectItemSource::CreateItemWidget(int index, TBSelectItemViewer *vi
         textfield->SetText(string);
         textfield->SetTextAlign(TB_TEXT_ALIGN_LEFT);
         // ATOMIC BEGIN
+        textfield->SetID(GetItemID(index));
         if ( state == 0 ) textfield->SetState(WIDGET_STATE_DISABLED, true );
         else textfield->SetState(WIDGET_STATE_DISABLED, false );
         // ATOMIC END

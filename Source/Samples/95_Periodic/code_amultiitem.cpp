@@ -91,7 +91,7 @@ void PeriodicApp::HandleAmultiitemEvent(StringHash eventType, VariantMap& eventD
             AppLog( "AMultiItem action : " + widget->GetId() + " was pressed ");
             AMultiItemSource *gsis = (AMultiItemSource*)context_->GetGlobalVar("multiitemptr").GetPtr();
             ASelectList* slist = static_cast<ASelectList*>(widget->FindWidget("AMultiItemList"));
-            AMultiItem *mi2 = new AMultiItem( context_, "ADD2", "TEXT", "Another Item",  88,0  );
+            AMultiItem *mi2 = new AMultiItem( context_, "ADD2", "CHECK", "Another",  88,0  );
             mi2->AddColumn ( "COLOR", "#3333FF", 44 );
             mi2->AddColumn ( "TEXT", "Col5", 44 );
             gsis->AddItem(mi2);

@@ -999,6 +999,7 @@ MultiItemWidget::MultiItemWidget(MultiItem *item) : TBLayout()
 
     if (item) // unpack the MultiItem recipe.
     {
+        SetID(item->id);
         int col = 0;
         int numcols = item->GetNumColumns();
         int prefheight = item->GetColumnHeight();
@@ -1070,6 +1071,22 @@ MultiItemWidget::MultiItemWidget(MultiItem *item) : TBLayout()
                     si->SetLayoutParams(*lpx);
                     AddChild (si);
                 }
+            }
+            else if ( widget.Equals("CHECK"))  // ClickLabel+Checkbox
+            {
+                TBClickLabel *cl = new TBClickLabel();
+                TBLayout *lo1 = cl->GetWidgetByIDAndType<TBLayout>(TBID(""));
+                TBWidget *first = lo1->GetFirstChild();
+                TBCheckBox *chk = new TBCheckBox();
+                chk->SetID(TBIDC("check"));
+                lo1->AddChildRelative(chk, WIDGET_Z_REL::WIDGET_Z_REL_BEFORE, first, WIDGET_INVOKE_INFO::WIDGET_INVOKE_INFO_NO_CALLBACKS);
+                cl->SetText(item->GetColumnStr(col));
+                cl->SetGravity(WIDGET_GRAVITY_ALL);
+                LayoutParams *lpx = new LayoutParams();
+                lpx->SetWidth(item->GetColumnWidth(col));
+                if ( prefheight > 0) lpx->SetHeight( prefheight);
+                cl->SetLayoutParams(*lpx);
+                AddChild(cl);
             }
             else // the default is TextField, left justified text
             {
