@@ -90,4 +90,30 @@ int RunApplication() \
 URHO3D_DEFINE_MAIN(RunApplication());
 #endif
 
+
+// ADD defines for main which collects argument 0 as the program name.
+
+// Macro for defining a main function which creates a Context and the application, then runs it
+#if !defined(IOS) && !defined(TVOS)
+#define URHO3D_DEFINE_APPLICATION_MAIN0(className) \
+int RunApplication() \
+{ \
+    Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); \
+    Urho3D::SharedPtr<className> application(new className(context)); \
+    return application->Run(); \
+} \
+URHO3D_DEFINE_MAIN0(RunApplication())
+#else
+// On iOS/tvOS we will let this function exit, so do not hold the context and application in SharedPtr's
+#define URHO3D_DEFINE_APPLICATION_MAIN0(className) \
+int RunApplication() \
+{ \
+    Urho3D::Context* context = new Urho3D::Context(); \
+    className* application = new className(context); \
+    return application->Run(); \
+} \
+URHO3D_DEFINE_MAIN0(RunApplication());
+#endif
+
+
 }

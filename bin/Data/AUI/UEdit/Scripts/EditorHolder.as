@@ -157,7 +157,7 @@ class EditorHolder
             if ( file !is null && file.open)
             {
                 String mystr = Editor.GetText();
-                if ( file.WriteString( mystr))
+                if ( file.WriteLine(mystr))
                 {
                     lastlen = mystr.length;
                     StringHash Orig(mystr);

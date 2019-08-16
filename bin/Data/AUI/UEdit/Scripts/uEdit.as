@@ -23,7 +23,7 @@ void Start()
 
     // this is how scripts get the command line args
     Array<String>@ args = GetArguments();
-    for (uint ii = 1; ii < args.length; ++ii)
+    for (uint ii = 2; ii < args.length; ++ii)
     {
         String argx = args[ii];
         if ( argx.Compare("-pp") == 0 ) { ii = ii + 1; continue; } // skip next arg

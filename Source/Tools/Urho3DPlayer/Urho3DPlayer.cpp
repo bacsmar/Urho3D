@@ -34,21 +34,52 @@
 #endif
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Resource/ResourceEvents.h>
+#include <Urho3D/IO/PackageFile.h>
 
 #include "Urho3DPlayer.h"
 
 #include <Urho3D/DebugNew.h>
 
-URHO3D_DEFINE_APPLICATION_MAIN(Urho3DPlayer);
+URHO3D_DEFINE_APPLICATION_MAIN0(Urho3DPlayer);
 
 Urho3DPlayer::Urho3DPlayer(Context* context) :
     Application(context),
-    commandLineRead_(false)
+    commandLineRead_(false),
+    allInOne_(false)
 {
 }
 
 void Urho3DPlayer::Setup()
 {
+// only on these platforms do all-in-one processing
+#if ( defined(__linux__) || defined(__APPLE__) || defined(_WIN32) )
+
+    // all-in-one processing, if name of Urho3DPlayer is changed, jump into action.
+    const Vector<String>& args = GetArguments();  
+   	if ( !args.Empty())
+    {
+        // get the base name of the program
+        String myname = GetFileName( args[0] );
+        if ( myname != "Urho3DPlayer" )
+        {
+            SharedPtr<PackageFile> package(new PackageFile(context_));
+            // attempt to open self, assuming the package file is appended to the executable.
+            if ( package->Open( args[0] ) ) 
+            {
+                allInOne_ = true;
+                GetSubsystem<ResourceCache>()->AddPackageFile(package);
+                // we need to clear this, so that "Data" resource path is not used 
+                engineParameters_["ResourcePaths"] = ""; 
+            }
+            else  // its not going to happen
+            {
+                allInOne_ = false;
+            } 
+        }
+    }
+
+#endif
+
     // Web platform depends on the resource system to read any data files. Skip parsing the command line file now
     // and try later when the resource system is live
 #ifndef __EMSCRIPTEN__
@@ -71,6 +102,19 @@ void Urho3DPlayer::Setup()
         }
     }
 #endif
+
+    // all-in-one processing
+    if ( allInOne_ ) 
+    {
+        SharedPtr<File> commandFile = GetSubsystem<ResourceCache>()->GetFile("CommandLine.txt", false);
+        if (commandFile)
+        {
+            String commandLine = commandFile->ReadLine();
+            commandFile->Close();
+            ParseArguments(commandLine, false); 
+            commandLineRead_ = true;
+        }
+    }
 
     // Check for script file name from the arguments
     GetScriptFileName();
@@ -169,7 +213,8 @@ void Urho3DPlayer::Start()
     }
 
     String extension = GetExtension(scriptFileName_);
-    if (extension != ".lua" && extension != ".luc")
+    if (extension != ".lua" && extension != ".luc" 
+        && (extension == ".as" || extension != ".asc"))
     {
 #ifdef URHO3D_ANGELSCRIPT
         // Instantiate and register the AngelScript subsystem
@@ -275,7 +320,10 @@ void Urho3DPlayer::HandleScriptReloadFailed(StringHash eventType, VariantMap& ev
 
 void Urho3DPlayer::GetScriptFileName()
 {
+    int scriptindex = 1; 
+    // because it reads it out of the commandline file, instead of the real commandline
+    if ( allInOne_ ) scriptindex = 0; 
     const Vector<String>& arguments = GetArguments();
-    if (arguments.Size() && arguments[0][0] != '-')
-        scriptFileName_ = GetInternalPath(arguments[0]);
+    if (arguments.Size() && arguments.Size() > scriptindex && arguments[scriptindex][0] != '-'  )
+        scriptFileName_ = GetInternalPath(arguments[scriptindex]);
 }

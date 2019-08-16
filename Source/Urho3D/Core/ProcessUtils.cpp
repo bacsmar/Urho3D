@@ -297,34 +297,37 @@ const Vector<String>& ParseArguments(const String& cmdLine, bool skipFirstArgume
 
     // Strip double quotes from the arguments
     for (unsigned i = 0; i < arguments.Size(); ++i)
+    {
         arguments[i].Replace("\"", "");
+        if ( i == 0 && arguments[i].StartsWith( ".") ) arguments[i].Replace ( "./","" ); 
+    }
 
     return arguments;
 }
 
-const Vector<String>& ParseArguments(const char* cmdLine)
+const Vector<String>& ParseArguments(const char* cmdLine, bool skipFirstArgument)
 {
-    return ParseArguments(String(cmdLine));
+    return ParseArguments(String(cmdLine), skipFirstArgument);
 }
 
-const Vector<String>& ParseArguments(const WString& cmdLine)
+const Vector<String>& ParseArguments(const WString& cmdLine, bool skipFirstArgument)
 {
-    return ParseArguments(String(cmdLine));
+    return ParseArguments(String(cmdLine), skipFirstArgument);
 }
 
-const Vector<String>& ParseArguments(const wchar_t* cmdLine)
+const Vector<String>& ParseArguments(const wchar_t* cmdLine, bool skipFirstArgument)
 {
-    return ParseArguments(String(cmdLine));
+    return ParseArguments(String(cmdLine), skipFirstArgument);
 }
 
-const Vector<String>& ParseArguments(int argc, char** argv)
+const Vector<String>& ParseArguments(int argc, char** argv, bool skipFirstArgument)
 {
     String cmdLine;
 
     for (int i = 0; i < argc; ++i)
         cmdLine.AppendWithFormat("\"%s\" ", (const char*)argv[i]);
 
-    return ParseArguments(cmdLine);
+    return ParseArguments(cmdLine, skipFirstArgument);
 }
 
 const Vector<String>& GetArguments()

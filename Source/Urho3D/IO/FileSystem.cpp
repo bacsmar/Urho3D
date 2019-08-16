@@ -438,11 +438,17 @@ bool FileSystem::SystemOpen(const String& fileName, const String& mode)
 {
     if (allowedPaths_.Empty())
     {
-        if (!FileExists(fileName) && !DirExists(fileName))
+        // ATOMIC BEGIN
+        // allow opening of http and file urls
+        if (!fileName.StartsWith("http://") && !fileName.StartsWith("https://") && !fileName.StartsWith("file://"))
         {
-            URHO3D_LOGERROR("File or directory " + fileName + " not found");
-            return false;
+            if (!FileExists(fileName) && !DirExists(fileName))
+            {
+                URHO3D_LOGERROR("File or directory " + fileName + " not found");
+                return false;
+            }
         }
+        // ATOMIC END
 
 #ifdef _WIN32
         bool success = (size_t)ShellExecuteW(nullptr, !mode.Empty() ? WString(mode).CString() : nullptr,

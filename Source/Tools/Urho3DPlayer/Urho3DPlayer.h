@@ -56,6 +56,8 @@ private:
     String scriptFileName_;
     /// Flag whether CommandLine.txt was already successfully read.
     bool commandLineRead_;
+    /// Flag for all-in-one processing, where the games's pak file is appended onto the executable.
+    bool allInOne_;
 
 #ifdef URHO3D_ANGELSCRIPT
     /// Script file.

@@ -50,13 +50,13 @@ URHO3D_API void PrintLine(const char* str, bool error = false);
 /// Parse arguments from the command line. First argument is by default assumed to be the executable name and is skipped.
 URHO3D_API const Vector<String>& ParseArguments(const String& cmdLine, bool skipFirstArgument = true);
 /// Parse arguments from the command line.
-URHO3D_API const Vector<String>& ParseArguments(const char* cmdLine);
+URHO3D_API const Vector<String>& ParseArguments(const char* cmdLine, bool skipFirstArgument = true);
 /// Parse arguments from a wide char command line.
-URHO3D_API const Vector<String>& ParseArguments(const WString& cmdLine);
+URHO3D_API const Vector<String>& ParseArguments(const WString& cmdLine, bool skipFirstArgument = true);
 /// Parse arguments from a wide char command line.
-URHO3D_API const Vector<String>& ParseArguments(const wchar_t* cmdLine);
+URHO3D_API const Vector<String>& ParseArguments(const wchar_t* cmdLine, bool skipFirstArgument = true);
 /// Parse arguments from argc & argv.
-URHO3D_API const Vector<String>& ParseArguments(int argc, char** argv);
+URHO3D_API const Vector<String>& ParseArguments(int argc, char** argv, bool skipFirstArgument = true);
 /// Return previously parsed arguments.
 URHO3D_API const Vector<String>& GetArguments();
 /// Read input from the console window. Return empty if no input.

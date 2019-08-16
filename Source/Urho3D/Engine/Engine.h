@@ -70,8 +70,8 @@ public:
     void Exit();
     /// Dump profiling information to the log.
     void DumpProfiler();
-    /// Dump information of all resources to the log.
-    void DumpResources(bool dumpFileName = false);
+    /// Dump information of all resources to the log or optionally to a file.
+    void DumpResources(bool dumpFileName = false, const String& resourceListFile = String::EMPTY );
     /// Dump information of all memory allocations to the log. Supported in MSVC debug mode only.
     void DumpMemory();
 

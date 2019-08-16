@@ -617,7 +617,7 @@ void Engine::DumpProfiler()
 #endif
 }
 
-void Engine::DumpResources(bool dumpFileName)
+void Engine::DumpResources(bool dumpFileName, const String& resourceListFile )
 {
 #ifdef URHO3D_LOGGING
     if (!Thread::IsMainThread())
@@ -627,16 +627,28 @@ void Engine::DumpResources(bool dumpFileName)
     const HashMap<StringHash, ResourceGroup>& resourceGroups = cache->GetAllResources();
     if (dumpFileName)
     {
-        URHO3D_LOGRAW("Used resources:\n");
+        SharedPtr<File> listFile = nullptr;
+        if (resourceListFile != String::EMPTY)
+        {
+            listFile = new File(context_, resourceListFile, FILE_WRITE );
+        }
+        
+        if ( listFile == nullptr )
+           URHO3D_LOGRAW("Used resources:\n");
+        String logstr;
         for (HashMap<StringHash, ResourceGroup>::ConstIterator i = resourceGroups.Begin(); i != resourceGroups.End(); ++i)
         {
             const HashMap<StringHash, SharedPtr<Resource> >& resources = i->second_.resources_;
-            if (dumpFileName)
+            for (HashMap<StringHash, SharedPtr<Resource> >::ConstIterator j = resources.Begin(); j != resources.End(); ++j)
             {
-                for (HashMap<StringHash, SharedPtr<Resource> >::ConstIterator j = resources.Begin(); j != resources.End(); ++j)
-                    URHO3D_LOGRAW(j->second_->GetName() + "\n");
+                logstr = j->second_->GetName() + "\n";
+                if ( listFile != nullptr )
+                    listFile->Write ( (void*)logstr.CString(), logstr.Length() );
+                else URHO3D_LOGRAW(logstr.CString());
             }
         }
+        if ( listFile != nullptr )
+            listFile->Close();
     }
     else
         URHO3D_LOGRAW(cache->PrintMemoryUsage() + "\n");
