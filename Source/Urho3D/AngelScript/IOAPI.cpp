@@ -383,6 +383,13 @@ void RegisterFileSystem(asIScriptEngine* engine)
     engine->RegisterObjectMethod("FileSystem", "String get_programDir() const", asMETHOD(FileSystem, GetProgramDir), asCALL_THISCALL);
     engine->RegisterObjectMethod("FileSystem", "String get_userDocumentsDir() const", asMETHOD(FileSystem, GetUserDocumentsDir), asCALL_THISCALL);
     engine->RegisterObjectMethod("FileSystem", "String get_temporaryDir() const", asMETHOD(FileSystem, GetTemporaryDir), asCALL_THISCALL);
+
+    engine->RegisterObjectMethod("FileSystem", "bool Exists(const String& pathName) const", asMETHOD(FileSystem, Exists), asCALL_THISCALL);
+    engine->RegisterObjectMethod("FileSystem", "bool CopyDir(const String& directoryIn, const String& directoryOut)", asMETHOD(FileSystem, CopyDir), asCALL_THISCALL);
+    engine->RegisterObjectMethod("FileSystem", "bool CreateDirs(const String& root, const String& subdirectory)", asMETHOD(FileSystem, CreateDirs), asCALL_THISCALL);
+    engine->RegisterObjectMethod("FileSystem", "bool CreateDirsRecursive(const String& directoryIn)", asMETHOD(FileSystem, CreateDirsRecursive), asCALL_THISCALL);
+    engine->RegisterObjectMethod("FileSystem", "bool RemoveDir(const String& directoryIn, bool recursive)", asMETHOD(FileSystem, RemoveDir), asCALL_THISCALL);
+
     engine->RegisterGlobalFunction("FileSystem@+ get_fileSystem()", asFUNCTION(GetFileSystem), asCALL_CDECL);
 
     engine->RegisterGlobalFunction("String GetPath(const String&in)", asFUNCTION(GetPath), asCALL_CDECL);

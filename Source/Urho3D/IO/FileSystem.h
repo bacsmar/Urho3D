@@ -104,6 +104,15 @@ public:
     /// Return path of temporary directory. Path always ends with a forward slash.
     String GetTemporaryDir() const;
 
+// ATOMIC BEGIN
+    /// Check if a file or directory exists at the specified path
+    bool Exists(const String& pathName) const { return FileExists(pathName) || DirExists(pathName); }
+    bool CopyDir(const String& directoryIn, const String& directoryOut);
+    bool CreateDirs(const String& root, const String& subdirectory);
+    bool CreateDirsRecursive(const String& directoryIn);
+    bool RemoveDir(const String& directoryIn, bool recursive);
+// ATOMIC END
+
 private:
     /// Scan directory, called internally.
     void ScanDirInternal

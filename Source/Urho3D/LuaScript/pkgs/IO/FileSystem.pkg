@@ -32,6 +32,13 @@ class FileSystem : public Object
     String GetUserDocumentsDir() const;
     String GetAppPreferencesDir(const String org, const String app) const;
     String GetTemporaryDir() const;
+
+    bool Exists(const String& pathName) const;
+    bool CopyDir(const String& directoryIn, const String& directoryOut);
+    bool CreateDirs(const String& root, const String& subdirectory);
+    bool CreateDirsRecursive(const String& directoryIn);
+    bool RemoveDir(const String& directoryIn, bool recursive);
+
 };
 
 String GetPath(const String fullPath);
