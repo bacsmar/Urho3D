@@ -15,6 +15,9 @@ class ResourceCache
     void SetFinishBackgroundResourcesMs(int ms);
 
     tolua_outside File* ResourceCacheGetFile @ GetFile(const String name);
+    //ATOMIC BEGIN
+    tolua_outside Resource* ResourceCacheGetTempResource @ GetTempResource(StringHash type, const String& name, bool sendEventOnFailure = true);
+    //ATOMIC END
 
     Resource* GetResource(const String type, const String name, bool sendEventOnFailure = true);
     Resource* GetExistingResource(const String type, const String name);
@@ -62,6 +65,11 @@ static int tolua_ResourceLuaAPI_GetCache00(lua_State* tolua_S)
 static File* ResourceCacheGetFile(ResourceCache* cache, const String& fileName)
 {
     return cache->GetFile(fileName).Detach();
+}
+
+static Resource* ResourceCacheGetTempResource(ResourceCache* cache, StringHash type, const String& name, bool sendEventOnFailure)
+{
+    return cache->GetTempResource(type, name, sendEventOnFailure).Detach();
 }
 
 static bool ResourceCacheBackgroundLoadResource(ResourceCache* cache, StringHash type, const String& fileName, bool sendEventOnFailure)

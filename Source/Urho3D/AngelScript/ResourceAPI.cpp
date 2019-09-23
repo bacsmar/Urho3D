@@ -59,6 +59,19 @@ static File* ResourceCacheGetFile(const String& name, ResourceCache* ptr)
     return file.Get();
 }
 
+// ATOMIC BEGIN
+static Resource* ResourceCacheGetTempResource( StringHash typex, const String& name, bool sendEventOnFailure, ResourceCache* ptr)
+{
+    SharedPtr<Resource> resx = ptr->GetTempResource(typex,name,sendEventOnFailure);
+    // The shared pointer will go out of scope, so have to increment the reference count
+    // (here an auto handle can not be used)
+    if (resx)
+        resx->AddRef();
+    return resx.Get();
+}
+// ATOMIC END
+
+
 static CScriptArray* ResourceCacheGetResources(StringHash type, ResourceCache* ptr)
 {
     PODVector<Resource*> resources;
@@ -158,6 +171,9 @@ static void RegisterResourceCache(asIScriptEngine* engine)
     engine->RegisterObjectMethod("ResourceCache", "void ReloadResourceWithDependencies(const String&in)", asMETHOD(ResourceCache, ReloadResourceWithDependencies), asCALL_THISCALL);
     engine->RegisterObjectMethod("ResourceCache", "bool Exists(const String&in) const", asMETHODPR(ResourceCache, Exists, (const String&) const, bool), asCALL_THISCALL);
     engine->RegisterObjectMethod("ResourceCache", "File@ GetFile(const String&in)", asFUNCTION(ResourceCacheGetFile), asCALL_CDECL_OBJLAST);
+    // ATOMIC BEGIN
+    engine->RegisterObjectMethod("ResourceCache", "Resource@ GetTempResource( StringHash, const String&in, bool sendEventOnFailure = true )", asFUNCTION(ResourceCacheGetTempResource), asCALL_CDECL_OBJLAST);
+    /// ATOMIC END
     engine->RegisterObjectMethod("ResourceCache", "String GetPreferredResourceDir(const String&in) const", asMETHOD(ResourceCache, GetPreferredResourceDir), asCALL_THISCALL);
     engine->RegisterObjectMethod("ResourceCache", "String SanitateResourceName(const String&in) const", asMETHOD(ResourceCache, SanitateResourceName), asCALL_THISCALL);
     engine->RegisterObjectMethod("ResourceCache", "String SanitateResourceDirName(const String&in) const", asMETHOD(ResourceCache, SanitateResourceDirName), asCALL_THISCALL);
@@ -219,6 +235,7 @@ static void RegisterImage(asIScriptEngine* engine)
     engine->RegisterObjectMethod("Image", "void SetPixel(int, int, int, const Color&in)", asMETHODPR(Image, SetPixel, (int, int, int, const Color&), void), asCALL_THISCALL);
     engine->RegisterObjectMethod("Image", "void SetPixelInt(int, int, uint)", asMETHODPR(Image, SetPixelInt, (int, int, unsigned), void), asCALL_THISCALL);
     engine->RegisterObjectMethod("Image", "void SetPixelInt(int, int, int, uint)", asMETHODPR(Image, SetPixelInt, (int, int, int, unsigned), void), asCALL_THISCALL);
+
     engine->RegisterObjectMethod("Image", "bool LoadColorLUT(File@+)", asFUNCTION(ImageLoadColorLUT), asCALL_CDECL_OBJLAST);
     engine->RegisterObjectMethod("Image", "bool LoadColorLUT(VectorBuffer&)", asFUNCTION(ImageLoadColorLUTVectorBuffer), asCALL_CDECL_OBJLAST);
     engine->RegisterObjectMethod("Image", "bool FlipHorizontal()", asMETHOD(Image, FlipHorizontal), asCALL_THISCALL);
@@ -451,6 +468,7 @@ static void ConstructXMLElementCopy(const XMLElement& element, XMLElement* ptr)
 {
     new(ptr) XMLElement(element);
 }
+
 
 static void DestructXMLElement(XMLElement* ptr)
 {
