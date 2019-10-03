@@ -153,9 +153,6 @@ UI::~UI() = default;
 
 void UI::SetCursor(Cursor* cursor)
 {
-    if (cursor_ == cursor)
-        return;
-
     // Remove old cursor (if any) and set new
     if (cursor_)
     {
@@ -238,6 +235,7 @@ bool UI::SetModalElement(UIElement* modalElement, bool enable)
         return false;
 
     // Currently only allow modal window
+
     if (modalElement->GetType() != Window::GetTypeStatic())
         return false;
 
@@ -542,6 +540,35 @@ void UI::Render(bool renderUICommand)
 
     uiRendered_ = true;
 }
+
+// ATOMIC BEGIN 
+
+/// rerenders the software cursor OVER the UI and AUI graphics
+void UI::RerenderCursor()
+{
+    // If the OS cursor is visible, do not render the UI's own cursor
+    if (GetSubsystem<Input>()->IsMouseVisible())
+    {
+        return;  // and dont waste my time
+    }
+
+    // Get batches from the cursor (and its possible children) last to draw it on top of everything
+    if (cursor_ && cursor_->IsVisible())
+    {
+        batches_.Clear();
+        vertexData_.Clear();
+        nonModalBatchSize_ = 0;
+        const IntVector2& rootSize = rootElement_->GetSize();
+        IntRect currentScissor = IntRect(0, 0, rootSize.x_, rootSize.y_);
+        cursor_->GetBatches(batches_, vertexData_, currentScissor);
+        GetBatches(batches_, vertexData_, cursor_, currentScissor);
+        nonModalBatchSize_ = batches_.Size();
+        SetVertexData(vertexBuffer_, vertexData_);
+        Render(vertexBuffer_, batches_, 0, nonModalBatchSize_);
+    }
+}
+
+// ATOMIC END
 
 void UI::DebugDraw(UIElement* element)
 {

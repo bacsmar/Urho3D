@@ -20,8 +20,6 @@
 // THE SOFTWARE.
 //
 
-/// \file
-
 #pragma once
 
 #include "../Core/Object.h"
@@ -82,6 +80,10 @@ public:
     void RenderUpdate();
     /// Render the UI. If renderUICommand is false (default), is assumed to be the default UI render to backbuffer called by Engine, and will be performed only once. Additional UI renders to a different rendertarget may be triggered from the renderpath.
     void Render(bool renderUICommand = false);
+    // ATOMIC BEGIN 
+    /// rerenders the software cursor OVER the (UI and) AUI graphics
+    void RerenderCursor();
+    // ATOMIC END
     /// Debug draw a UI element.
     void DebugDraw(UIElement* element);
     /// Load a UI layout from an XML file. Optionally specify another XML file for element style. Return the root element.

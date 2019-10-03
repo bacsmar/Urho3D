@@ -107,6 +107,8 @@ using namespace tb;
 #include "../AUI/ADragDrop.h"
 #endif
 
+#include "../UI/UI.h"
+
 #ifdef URHO3D_ANGELSCRIPT
 const char* AUI_CATEGORY = "AUI";  /// for Angelscript Binding
 #endif
@@ -452,6 +454,9 @@ void AUI::Render(bool resetRenderTargets)
 
         itr++;
     }
+
+    // JM  AUI gets a software cursor. Its the UIs, but what the heck.
+    GetSubsystem<UI>()->RerenderCursor();
 }
 
 
