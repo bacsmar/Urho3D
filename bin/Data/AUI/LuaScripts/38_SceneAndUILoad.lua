@@ -20,7 +20,7 @@ function Start()
     SetupViewport()
 
     -- Set the mouse mode to use in the sample
-    -- AUI controls dont work in this mode -- SampleInitMouseMode(MM_RELATIVE)
+    AUISetSoftMouse()
 
     -- Subscribe to global events for camera movement
     SubscribeToEvents()
@@ -45,18 +45,6 @@ function CreateScene()
 end
 
 function CreateUI()
-    -- Set up global UI style into the root UI element
-    local style = cache:GetResource("XMLFile", "UI/DefaultStyle.xml")
-    ui.root.defaultStyle = style
-
-    -- Create a Cursor UI element because we want to be able to hide and show it at will. When hidden, the mouse cursor will
-    -- control the camera, and when visible, it will interact with the UI
-    local cursor = ui.root:CreateChild("Cursor")
-    cursor:SetStyleAuto()
-    ui.cursor = cursor
-    -- Set starting position of the cursor at the rendering window center
-    cursor:SetPosition(graphics.width / 2, graphics.height / 2)
-
     AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/38_layout.ui.txt" )
     local uiview = aui:GetFocusedView()
     local check1 = uiview:FindWidget("check1");

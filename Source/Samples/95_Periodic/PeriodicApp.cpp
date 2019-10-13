@@ -56,6 +56,7 @@
 #include <Urho3D/AUI/ADimmer.h>
 #include <Urho3D/AUI/AListView.h>
 #include <Urho3D/AUI/AButtonGrid.h>
+#include <Urho3D/UI/UI.h>
 
 
 #include <Urho3D/Resource/XMLFile.h>
@@ -154,9 +155,21 @@ void PeriodicApp::SetWindowTitleAndIcon()
 //
 void PeriodicApp::DoSomething()
 {
-    GetSubsystem<Input>()->SetMouseVisible(true); // mousey on!
-
     ResourceCache* cache = GetSubsystem<ResourceCache>();
+
+    // enable the soft cursor instead of the system cursor.
+    UI* uui = GetSubsystem<UI>();
+    UIElement* root = uui->GetRoot();
+    XMLFile* uiStyle = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
+    root->SetDefaultStyle(uiStyle);
+    SharedPtr<Cursor> cursor(new Cursor(context_));
+    cursor->SetStyleAuto(uiStyle);
+    uui->SetCursor(cursor);
+    Graphics* graphics = GetSubsystem<Graphics>();
+    cursor->SetPosition(graphics->GetWidth() / 2, graphics->GetHeight() / 2);
+    GetSubsystem<Input>()->SetMouseMode(MM_FREE);
+    GetSubsystem<Input>()->SetMouseVisible(false);
+
     scene_ = new Scene(context_);
     scene_->CreateComponent<Octree>();
     Node* lightNode = scene_->CreateChild("DirectionalLight");

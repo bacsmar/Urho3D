@@ -29,6 +29,14 @@ void SampleStart()
     else if (input.numJoysticks == 0)
         // On desktop platform, do not detect touch when we already got a joystick
         SubscribeToEvent("TouchBegin", "HandleTouchBegin");
+ 
+    // Get some RPI(2) config
+    if ( GetPlatform() == "Raspberry Pi" ) 
+    {
+        renderer.reuseShadowMaps = false;
+        renderer.shadowQuality = SHADOWQUALITY_SIMPLE_16BIT;
+        renderer.textureQuality = QUALITY_MEDIUM;
+    }
 
     // Create logo
     CreateLogo();
@@ -155,6 +163,17 @@ void AUIInit ( String defaultFont, String defaultFontHandle, int defaultFontSize
     uiview.AddChild(lo0); // And make it show up.
 }
 
+void AUISetSoftMouse()
+{
+    XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
+    ui.root.defaultStyle = uiStyle;
+    Cursor@ cursor = Cursor();
+    cursor.SetStyleAuto(uiStyle);
+    ui.cursor = cursor;
+    cursor.SetPosition(graphics.width / 2, graphics.height / 2);
+    SampleInitMouseMode(MM_FREE);
+    input.mouseVisible = false;
+}
 
 void CreateConsoleAndDebugHud()
 {

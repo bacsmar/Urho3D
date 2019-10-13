@@ -25,9 +25,6 @@ void Start()
     // Create a scene which will not be actually rendered
     scene_ = Scene();
 
-    // Enable OS cursor
-    input.mouseVisible = true;
-
     poke_at_android();  // for settings load&save 
     
     CreateArgDatabase();
@@ -40,7 +37,7 @@ void Start()
     CreateAUI();
 
     // Set the mouse mode to use in the sample
-    SampleInitMouseMode(MM_FREE);
+    AUISetSoftMouse();
 }
 
 void CreateProgramDatabase()

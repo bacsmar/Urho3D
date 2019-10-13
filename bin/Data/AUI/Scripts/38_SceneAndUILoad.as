@@ -21,7 +21,7 @@ void Start()
     SetupViewport();
 
     // Set the mouse mode to use in the sample
-    // AUI controls dont work in this mode -- SampleInitMouseMode(MM_RELATIVE);
+    AUISetSoftMouse();
 
     // Subscribe to global events for camera movement
     SubscribeToEvents();
@@ -45,6 +45,7 @@ void CreateScene()
 
 void CreateUI()
 {
+/*
     // Set up global UI style into the root UI element
     XMLFile@ style = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
     ui.root.defaultStyle = style;
@@ -57,7 +58,6 @@ void CreateUI()
     // Set starting position of the cursor at the rendering window center
     cursor.SetPosition(graphics.width / 2, graphics.height / 2);
 
-/*
     // Load UI content prepared in the editor and add to the UI hierarchy
     UIElement@ layoutRoot = ui.LoadLayout(cache.GetResource("XMLFile", "UI/UILoadExample.xml"));
     ui.root.AddChild(layoutRoot);

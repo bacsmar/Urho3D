@@ -35,7 +35,7 @@ void Start()
     SetupViewport();
 
     // Set the mouse mode to use in the sample
-    SampleInitMouseMode(MM_RELATIVE);
+    AUISetSoftMouse();
 
     // Hook up to the frame update and render post-update events
     SubscribeToEvents();
@@ -154,6 +154,7 @@ void CreateScene()
 
 void CreateUI()
 {
+/*
     // Create a Cursor UI element because we want to be able to hide and show it at will. When hidden, the mouse cursor will
     // control the camera, and when visible, it will point the raycast target
     XMLFile@ style = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
@@ -162,7 +163,6 @@ void CreateUI()
     ui.cursor = cursor;
     // Set starting position of the cursor at the rendering window center
     cursor.SetPosition(graphics.width / 2, graphics.height / 2);
-/*
     // Construct new Text object, set string to display and font to use
     Text@ instructionText = ui.root.CreateChild("Text", INSTRUCTION);
     instructionText.text =

@@ -38,7 +38,7 @@ function Start()
     SetupViewport()
 
     -- Set the mouse mode to use in the sample
-    -- AUI doesnt activate in this mode -- SampleInitMouseMode(MM_RELATIVE)
+    AUISetSoftMouse()
 
     -- Hook up to necessary events
     SubscribeToEvents()
@@ -100,18 +100,6 @@ function CreateScene()
 end
 
 function CreateUI()
-    local uiStyle = cache:GetResource("XMLFile", "UI/DefaultStyle.xml")
-    -- Set style to the UI root so that elements will inherit it
-    ui.root.defaultStyle = uiStyle
-
-    -- Create a Cursor UI element because we want to be able to hide and show it at will. When hidden, the mouse cursor will
-    -- control the camera, and when visible, it will point the raycast target
-    local cursor = ui.root:CreateChild("Cursor")
-    cursor:SetStyleAuto(uiStyle)
-    ui.cursor = cursor
-    -- Set starting position of the cursor at the rendering window center
-    cursor:SetPosition(graphics.width / 2, graphics.height / 2)
-
     AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 16, "AUI/Scenes/17_layout.ui.txt" )
     local uiview = aui:GetFocusedView()
     connectButton = uiview:FindWidget("connectButton")

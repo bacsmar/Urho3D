@@ -50,8 +50,15 @@ ATextField@ logger;
 
 void Start()
 {
-    // Enable OS cursor
-    input.mouseVisible = true;
+    // Enable soft cursor
+    XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
+    ui.root.defaultStyle = uiStyle;
+    Cursor@ cursor = Cursor();
+    cursor.SetStyleAuto(uiStyle);
+    ui.cursor = cursor;
+    cursor.SetPosition(graphics.width / 2, graphics.height / 2);
+    input.mouseMode = MM_FREE;
+    input.mouseVisible = false;
 
     //Load scene
     Scene @scene_ = Scene();

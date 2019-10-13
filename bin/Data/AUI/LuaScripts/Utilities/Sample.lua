@@ -326,6 +326,17 @@ function AUIInit ( defaultFont, defaultFontHandle, defaultFontSize, layoutfile )
     end
 end
 
+--Enable the soft mouse for AUI
+function AUISetSoftMouse ()
+    local style = cache:GetResource("XMLFile", "UI/DefaultStyle.xml")
+    local cursor = ui.root:CreateChild("Cursor")
+    cursor:SetStyleAuto(style)
+    ui.cursor = cursor
+    cursor:SetPosition(graphics.width / 2, graphics.height / 2)
+    SampleInitMouseMode(MM_FREE)
+    input.mouseVisible = false
+end
+
 -- Create empty XML patch instructions for screen joystick layout if none defined
 function GetScreenJoystickPatchString()
     return ""

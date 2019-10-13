@@ -49,8 +49,14 @@ logger = nil
 
 function Start()
 
-    -- Enable OS cursor
-    input.mouseVisible = true
+    -- Enable soft cursor
+    local style = cache:GetResource("XMLFile", "UI/DefaultStyle.xml")
+    local cursor = ui.root:CreateChild("Cursor")
+    cursor:SetStyleAuto(style)
+    ui.cursor = cursor
+    cursor:SetPosition(graphics.width / 2, graphics.height / 2)
+    input.mouseMode = MM_FREE
+    input.mouseVisible = false
 
     -- Load scene
     local scene_ = Scene:new()

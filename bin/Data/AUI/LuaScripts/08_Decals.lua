@@ -21,7 +21,7 @@ function Start()
     SetupViewport()
 
     -- Set the mouse mode to use in the sample
-    SampleInitMouseMode(MM_RELATIVE)
+    AUISetSoftMouse()
 
     -- Hook up to the frame update and render post-update events
     SubscribeToEvents()
@@ -101,14 +101,6 @@ function CreateScene()
 end
 
 function CreateUI()
-    -- Create a Cursor UI element because we want to be able to hide and show it at will. When hidden, the mouse cursor will
-    -- control the camera, and when visible, it will point the raycast target
-    local style = cache:GetResource("XMLFile", "UI/DefaultStyle.xml")
-    local cursor = ui.root:CreateChild("Cursor")
-    cursor:SetStyleAuto(style)
-    ui.cursor = cursor
-    -- Set starting position of the cursor at the rendering window center
-    cursor:SetPosition(graphics.width / 2, graphics.height / 2)
 
     -- Construct new Text object, set string to display and font to use
     AUIInit ( "AUI/resources/default_font/vera.ttf", "Vera", 20, "AUI/Scenes/08_layout.ui.txt" )

@@ -48,7 +48,7 @@ void Start()
     SetupViewport();
 
     // Set the mouse mode to use in the sample
-    // AUI doesnt activate in this mode -- SampleInitMouseMode(MM_RELATIVE);
+    AUISetSoftMouse();
 
     // Hook up to necessary events
     SubscribeToEvents();
@@ -114,6 +114,7 @@ void CreateScene()
 
 void CreateUI()
 {
+/*
     XMLFile@ uiStyle = cache.GetResource("XMLFile", "UI/DefaultStyle.xml");
     // Set style to the UI root so that elements will inherit it
     ui.root.defaultStyle = uiStyle;
@@ -126,7 +127,6 @@ void CreateUI()
     // Set starting position of the cursor at the rendering window center
     cursor.SetPosition(graphics.width / 2, graphics.height / 2);
 
-/*
     // Construct the instructions text element
     instructionsText = ui.root.CreateChild("Text");
     instructionsText.text = "Use WASD keys to move and RMB to rotate view";
