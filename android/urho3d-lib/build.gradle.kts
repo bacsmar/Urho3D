@@ -33,10 +33,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion(27)
+    compileSdkVersion(28)
     defaultConfig {
         minSdkVersion(17)
-        targetSdkVersion(27)
+        targetSdkVersion(28)
         versionCode = 1
         versionName = project.version.toString()
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
@@ -86,7 +86,7 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        named("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
@@ -100,11 +100,17 @@ android {
             setBuildStagingDirectory(".cxx")
         }
     }
+    sourceSets {
+        getByName("main") {
+            java.srcDir("../../Source/ThirdParty/SDL/android-project/app/src/main/java")
+        }
+    }
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib-jdk8", kotlinVersion))
+    implementation("com.getkeepsafe.relinker:relinker:$relinkerVersion")
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("com.android.support.test:runner:$testRunnerVersion")
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$testEspressoVersion")
@@ -117,7 +123,7 @@ afterEvaluate {
     // When the buildDir is cleaned then we need a way to re-configure that part back
     // It is achieved by ensuring that CMake configuration phase is rerun
     tasks {
-        named<Task>("clean") {
+        "clean" {
             doLast {
                 android.externalNativeBuild.cmake.path?.touch()
             }
@@ -151,7 +157,7 @@ afterEvaluate {
                 }
             }
             if (System.getenv("CI") != null) {
-                named<Task>("externalNativeBuild$config") {
+                "externalNativeBuild$config" {
                     @Suppress("UnstableApiUsage")
                     timeout.set(Duration.ofMinutes(25))
                 }
@@ -181,8 +187,8 @@ tasks {
         doLast {
             val buildTree = File(android.externalNativeBuild.cmake.buildStagingDirectory, "cmake/release/$docABI")
             named<Exec>("makeDoc") {
-                // This is a hack - expect the first line to contain the path to the embedded CMake executable
-                executable = File(buildTree, "cmake_build_command.txt").readLines().first().split(":").last().trim()
+                // This is a hack - expect the first line to contain the path to the CMake executable
+                executable = File(buildTree, "build_command.txt").readLines().first().split(":").last().trim()
                 workingDir = buildTree
             }
             named<Zip>("documentationZip") {

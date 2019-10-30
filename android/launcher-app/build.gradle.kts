@@ -30,10 +30,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion(27)
+    compileSdkVersion(28)
     defaultConfig {
         minSdkVersion(17)
-        targetSdkVersion(27)
+        targetSdkVersion(28)
         applicationId = "com.github.urho3d.launcher"
         versionCode = 1
         versionName = project.version.toString()
@@ -71,7 +71,7 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        named("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
@@ -98,7 +98,7 @@ evaluationDependsOn(":android:urho3d-lib")
 
 afterEvaluate {
     tasks {
-        named<Task>("clean") {
+        "clean" {
             doLast {
                 android.externalNativeBuild.cmake.path?.touch()
             }
@@ -109,9 +109,7 @@ afterEvaluate {
         tasks {
             "externalNativeBuild$config" {
                 mustRunAfter(":android:urho3d-lib:externalNativeBuild$config")
-            }
-            if (System.getenv("CI") != null) {
-                named<Task>("externalNativeBuild$config") {
+                if (System.getenv("CI") != null) {
                     @Suppress("UnstableApiUsage")
                     timeout.set(Duration.ofMinutes(15))
                 }
