@@ -87,6 +87,11 @@ public:
     virtual bool OnEvent(const TBWidgetEvent &ev);
     virtual void OnProcess();
     virtual void OnResized(int old_w, int old_h);
+    //  ATOMIC BEGIN
+    int GetScrollX();
+    int GetScrollY();
+    virtual void OnScroll(int scroll_x, int scroll_y);
+    //  ATOMIC END
 
     virtual TBWidget *GetContentRoot() { return &m_root; }
 protected:

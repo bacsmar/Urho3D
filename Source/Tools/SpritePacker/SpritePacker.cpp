@@ -45,6 +45,11 @@ using namespace Urho3D;
 // number of nodes allocated to each packer info.  since this packer is not suited for real time purposes we can over allocate.
 const int PACKER_NUM_NODES = 4096;
 const int MAX_TEXTURE_SIZE = 2048;
+const int JPG_QUALITY = 86;
+
+// for big mode, increase max size to 4k from 2k
+int texture_max = MAX_TEXTURE_SIZE;
+int search_limit = 12;
 
 int main(int argc, char** argv);
 void Run(Vector<String>& arguments);
@@ -85,6 +90,8 @@ void Help()
         "-frameHeight Sets a fixed height for image and centers within frame.\n"
         "-frameWidth Sets a fixed width for image and centers within frame.\n"
         "-trim Trims excess transparent space from individual images offsets by frame size.\n"
+        "-jpg Saves output image as a jpg file rather than a png file.\n"
+        "-big Increases the maximum size of the output image to 4096x4096.\n"
         "-xml \'path\' Generates an SpriteSheet xml file at path.\n"
         "-debug Draws allocation boxes on sprite.\n");
 }
@@ -125,6 +132,7 @@ void Run(Vector<String>& arguments)
     unsigned frameHeight = 0;
     bool help = false;
     bool trim = false;
+    bool savepng = true;
 
     while (arguments.Size() > 0)
     {
@@ -146,6 +154,8 @@ void Run(Vector<String>& arguments)
             else if (arg == "-xml")  { spriteSheetFileName = arguments[0]; arguments.Erase(0); }
             else if (arg == "-h")  { help = true; break; }
             else if (arg == "-debug")  { debug = true; }
+            else if (arg == "-jpg")  { savepng = false; }
+            else if (arg == "-big")  { texture_max = MAX_TEXTURE_SIZE*2; search_limit = 13; }
         }
         else
             inputFiles.Push(arg);
@@ -254,15 +264,15 @@ void Run(Vector<String>& arguments)
         packerInfos.Push(packerInfo);
     }
 
-    int packedWidth = MAX_TEXTURE_SIZE;
-    int packedHeight = MAX_TEXTURE_SIZE;
+    int packedWidth = texture_max;
+    int packedHeight = texture_max;
     {
         // fill up an list of tries in increasing size and take the first win
         Vector<IntVector2> tries;
-        for(unsigned x=2; x<11; ++x)
+        for(unsigned x=2; x<search_limit; ++x)
         {
-            for(unsigned y=2; y<11; ++y)
-                tries.Push(IntVector2((1u<<x), (1u<<y)));
+            for(unsigned y=2; y<search_limit; ++y)
+               tries.Push(IntVector2((1u<<x), (1u<<y)));
         }
 
         // load rectangles
@@ -313,7 +323,7 @@ void Run(Vector<String>& arguments)
         }
         delete[] packerRects;
         if (!success)
-            ErrorExit("Could not allocate for all images.  The max sprite sheet texture size is " + String(MAX_TEXTURE_SIZE) + "x" + String(MAX_TEXTURE_SIZE) + ".");
+            ErrorExit("Could not allocate for all images.  The max sprite sheet texture size is " + String(MAX_TEXTURE_SIZE) + "x" + String(MAX_TEXTURE_SIZE) + ".\nTry adding -big to increase texture size to 4096 x 4096.");
     }
 
     // create image for spritesheet
@@ -401,7 +411,10 @@ void Run(Vector<String>& arguments)
     }
 
     URHO3D_LOGINFO("Saving output image.");
-    spriteSheetImage.SavePNG(outputFile);
+    if ( savepng )
+        spriteSheetImage.SavePNG(outputFile);
+    else 
+        spriteSheetImage.SaveJPG(outputFile, JPG_QUALITY);
 
     URHO3D_LOGINFO("Saving SpriteSheet xml file.");
     File spriteSheetFile(context);

@@ -89,6 +89,105 @@ bool AImageWidget::OnEvent(const tb::TBWidgetEvent &ev)
     return AWidget::OnEvent(ev);
 }
 
+/// Sprite Feature
+
+void AImageWidget::SetSprite(const String& imagePath)  /// load in xml sprite definition
+{
+    if (!widget_)
+        return;
+
+    ((TBImageWidget*) widget_)->SetSprite(imagePath.CString());
+}
+
+bool AImageWidget::SpriteMode() const  /// are we in sprite mode
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBImageWidget*) widget_)->SpriteMode();
+}
+
+int AImageWidget::GetSpriteWidth() const /// returns sprite[0] width 
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBImageWidget*) widget_)->GetSpriteWidth();
+}
+
+int AImageWidget::GetSpriteHeight() const /// returns sprite[0] height 
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBImageWidget*) widget_)->GetSpriteHeight();
+}
+
+int AImageWidget::GetNumSprites() const /// number of sprites loaded
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBImageWidget*) widget_)->GetNumSprites();
+}
+
+int AImageWidget::GetSpriteSpeed() const /// returns the sprite animation rate
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBImageWidget*) widget_)->GetSpriteSpeed();
+}
+
+void AImageWidget::SetSpriteSpeed( int speed)  /// sets the sprite animation rate
+{
+    if (!widget_)
+        return;
+
+    ((TBImageWidget*) widget_)->SetSpriteSpeed(speed);
+}
+
+void AImageWidget::SetSpriteFrame(int frame)  /// sets the displayed sprite frame
+{
+    if (!widget_)
+        return;
+
+    ((TBImageWidget*) widget_)->SetSpriteFrame(frame);
+}
+
+int AImageWidget::GetSpriteFrame() const /// returns the current sprite frame
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBImageWidget*) widget_)->GetSpriteFrame();
+}
+
+bool AImageWidget::IsRunning() /// is the animation enabled 
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBImageWidget*) widget_)->IsRunning();
+}
+
+void AImageWidget::Begin()  /// begin the animation, may be used instead of SetValue(1)
+{
+    if (!widget_)
+        return;
+
+    ((TBImageWidget*) widget_)->Begin();
+}
+
+void AImageWidget::End() /// stop the animation, may be used instead of SetValue(0)
+{
+    if (!widget_)
+        return;
+
+    ((TBImageWidget*) widget_)->End();
+}
+
+
 #if URHO3D_ANGELSCRIPT
 /// Angelscript Register object factory. (semi-manditory)
 void AImageWidget::RegisterObject(Context* context)

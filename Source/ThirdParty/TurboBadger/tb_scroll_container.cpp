@@ -208,12 +208,33 @@ PreferredSize TBScrollContainer::OnCalculatePreferredContentSize(const SizeConst
     return ps;
 }
 
+// ATOMIC BEGIN
+int TBScrollContainer::GetScrollX()
+{
+    return m_scrollbar_x.GetValue();
+}
+
+int TBScrollContainer::GetScrollY()
+{
+    return m_scrollbar_y.GetValue();
+}
+
+/// just emit an event when a scroll action occurs
+void TBScrollContainer::OnScroll(int scroll_x, int scroll_y)
+{
+    TBWidgetEvent ev(EVENT_TYPE_CHANGED);
+    InvokeEvent(ev);
+}
+
+// ATOMIC END
+
 bool TBScrollContainer::OnEvent(const TBWidgetEvent &ev)
 {
     if (ev.type == EVENT_TYPE_CHANGED && (ev.target == &m_scrollbar_x || ev.target == &m_scrollbar_y))
     {
         Invalidate();
         OnScroll(m_scrollbar_x.GetValue(), m_scrollbar_y.GetValue());
+        TBWidget::OnEvent(ev);   // ATOMIC
         return true;
     }
     else if (ev.type == EVENT_TYPE_WHEEL && ev.modifierkeys == TB_MODIFIER_NONE && !m_ignore_scroll_events)

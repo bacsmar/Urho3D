@@ -7,6 +7,20 @@ class AImageWidget : public AWidget
     void SetImage(const String& imagePath);
     int GetImageWidth() const;
     int GetImageHeight() const;
+    
+    // Sprite Feature
+    void SetSprite(const String& imagePath); 
+    bool SpriteMode() const; 
+    int GetSpriteWidth() const;
+    int GetSpriteHeight() const; 
+    int GetNumSprites() const;
+    int GetSpriteSpeed() const;
+    void SetSpriteSpeed( int speed); 
+    void SetSpriteFrame( int frame); 
+    int GetSpriteFrame() const;
+    bool IsRunning();
+    void Begin();
+    void End();
 };
 
 ${

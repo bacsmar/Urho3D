@@ -19,6 +19,8 @@ class AScrollContainer : public AWidget
     void SetAdaptContentSize(bool adapt);
     bool GetAdaptContentSize();
     void ScrollTo(int x, int y);
+    int GetScrollX();
+    int GetScrollY();
 };
 
 ${

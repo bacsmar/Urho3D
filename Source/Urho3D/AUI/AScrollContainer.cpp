@@ -104,6 +104,24 @@ UI_SCROLL_MODE AScrollContainer::GetScrollMode()
     return (UI_SCROLL_MODE) ((TBScrollContainer*) widget_)->GetScrollMode();
 }
 
+
+// return where scrolled to 
+int AScrollContainer::GetScrollX()
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBScrollContainer*) widget_)->GetScrollX();
+}
+
+int AScrollContainer::GetScrollY()
+{
+    if (!widget_)
+        return 0;
+
+    return ((TBScrollContainer*) widget_)->GetScrollY();
+}
+
 void AScrollContainer::ScrollTo(int x, int y)
 {
     if (!widget_)
@@ -114,6 +132,16 @@ void AScrollContainer::ScrollTo(int x, int y)
 
 bool AScrollContainer::OnEvent(const tb::TBWidgetEvent &ev)
 {
+    if (ev.type == EVENT_TYPE_CHANGED)
+    {
+        VariantMap eventData;
+        eventData[WidgetEvent::P_TARGET] = this;
+        eventData[WidgetEvent::P_TYPE] = UI_EVENT_TYPE_CHANGED;
+        eventData[WidgetEvent::P_X] = GetScrollX();
+        eventData[WidgetEvent::P_Y] = GetScrollY();
+        SendEvent(E_WIDGETEVENT, eventData);
+        return true;
+    }
     return AWidget::OnEvent(ev);
 }
 

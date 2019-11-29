@@ -531,6 +531,20 @@ template <class T> void RegisterAImageWidget (asIScriptEngine *engine, const cha
     engine->RegisterObjectMethod (className, "void SetImage (const String& imagePath) ", asMETHOD (T, SetImage), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "int GetImageWidth () const", asMETHOD (T, GetImageWidth), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "int GetImageHeight () const", asMETHOD (T, GetImageHeight), asCALL_THISCALL);
+// sprite feature
+    engine->RegisterObjectMethod (className, "void SetSprite (const String& imagePath) ", asMETHOD (T, SetSprite), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetSpriteWidth () const", asMETHOD (T, GetSpriteWidth), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetSpriteHeight () const", asMETHOD (T, GetSpriteHeight), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetNumSprites () const", asMETHOD (T, GetNumSprites), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetSpriteSpeed () const", asMETHOD (T, GetSpriteSpeed), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetSpriteSpeed (int speed) ", asMETHOD (T, SetSpriteSpeed), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void SetSpriteFrame (int frame) ", asMETHOD (T, SetSpriteFrame), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetSpriteFrame () const", asMETHOD (T, GetSpriteFrame), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool SpriteMode () const", asMETHOD (T, SpriteMode), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "bool IsRunning () ", asMETHOD (T, IsRunning), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void Begin () ", asMETHOD (T, Begin), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "void End () ", asMETHOD (T, End), asCALL_THISCALL);
+
 }
 
 
@@ -952,6 +966,8 @@ template <class T> void RegisterAScrollContainer (asIScriptEngine *engine, const
     engine->RegisterObjectMethod (className, "void SetAdaptContentSize (bool adapt) ", asMETHOD (T, SetAdaptContentSize), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "bool GetAdaptContentSize () ", asMETHOD (T, GetAdaptContentSize), asCALL_THISCALL);
     engine->RegisterObjectMethod (className, "void ScrollTo (int x, int y) ", asMETHOD (T, ScrollTo), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetScrollX () ", asMETHOD (T, GetScrollX), asCALL_THISCALL);
+    engine->RegisterObjectMethod (className, "int GetScrollY () ", asMETHOD (T, GetScrollY), asCALL_THISCALL);
 }
 
 void RegisterUI_SCROLL_MODE (asIScriptEngine *engine)

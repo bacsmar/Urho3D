@@ -68,7 +68,7 @@ double ASlider::GetMinValue() const
     if (!widget_)
         return 0.0;
 
-   return ((ASlider*) widget_)->GetMinValue();
+   return ((TBSlider*) widget_)->GetMinValue();
 }
 
 double ASlider::GetMaxValue() const
@@ -76,13 +76,13 @@ double ASlider::GetMaxValue() const
     if (!widget_)
         return 0.0;
 
-   return ((ASlider*) widget_)->GetMaxValue();
+   return ((TBSlider*) widget_)->GetMaxValue();
 }
 
 bool ASlider::OnEvent(const tb::TBWidgetEvent &ev)
 {
 /* 
-	HELP ATOMIC this make no sense to be in here, it does not produce a custom event or edit_complete
+    HELP ATOMIC this make no sense to be in here, it does not produce a custom event or edit_complete
     if (ev.type == EVENT_TYPE_CUSTOM && ev.ref_id == TBIDC("edit_complete"))
     {
         VariantMap eventData;

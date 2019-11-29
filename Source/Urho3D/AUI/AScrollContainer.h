@@ -74,6 +74,10 @@ public:
 
     //@ASBindGen Function
     void ScrollTo(int x, int y);
+    
+    // return where scrolled to
+    int GetScrollX();
+    int GetScrollY();
 
     /// This is overriden to add children to the widget that is being scrolled rather than the container
     virtual void AddChild(AWidget* child) override;

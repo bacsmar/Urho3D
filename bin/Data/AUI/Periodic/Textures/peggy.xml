@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<TextureAtlas imagePath="peggy.jpg">
+	<SubTexture name="peggy-1" x="0" y="0" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-2" x="320" y="0" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-3" x="640" y="0" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-4" x="960" y="0" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-5" x="1280" y="0" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-6" x="1600" y="0" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-7" x="0" y="200" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-8" x="320" y="200" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-9" x="640" y="200" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-10" x="960" y="200" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-11" x="1280" y="200" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-12" x="1600" y="200" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-13" x="0" y="400" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-14" x="320" y="400" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-15" x="640" y="400" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-16" x="960" y="400" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-17" x="1280" y="400" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-18" x="1600" y="400" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-19" x="0" y="600" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-20" x="320" y="600" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-21" x="640" y="600" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-22" x="960" y="600" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-23" x="1280" y="600" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+	<SubTexture name="peggy-24" x="1600" y="600" width="320" height="200" frameWidth="320" frameHeight="200" offsetX="0" offsetY="0" />
+</TextureAtlas>

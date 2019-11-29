@@ -46,6 +46,21 @@ public:
     //@ASBindGen Function
     int GetImageHeight() const;
 
+    /// Sprite Feature
+    void SetSprite(const String& imagePath);  /// load in xml sprite definition
+    bool SpriteMode() const;  /// are we in sprite mode
+    int GetSpriteWidth() const; /// returns sprite[0] width 
+    int GetSpriteHeight() const; /// returns sprite[0] height 
+    int GetNumSprites() const; /// number of sprites loaded
+    int GetSpriteSpeed() const; /// returns the sprite animation rate
+    void SetSpriteSpeed( int speed);  /// sets the sprite animation rate
+    void SetSpriteFrame( int frame);  /// sets the displayed sprite
+    int GetSpriteFrame() const;  /// returns the current sprite frame number
+    bool IsRunning(); /// is the animation enabled 
+    void Begin();  /// begin the animation, may be used instead of SetValue(1)
+    void End(); /// stop the animation, may be used instead of SetValue(0)
+
+
 #ifdef URHO3D_ANGELSCRIPT
     /// Angelscript Register object factory. (semi-manditory)
     static void RegisterObject(Context* context);

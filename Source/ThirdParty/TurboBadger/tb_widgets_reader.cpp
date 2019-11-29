@@ -453,6 +453,11 @@ void TBImageWidget::OnInflate(const INFLATE_INFO &info)
 {
     if (const char *filename = info.node->GetValueString("filename", nullptr))
         SetImage(filename);
+// ATOMIC BEGIN
+    SetSpriteSpeed(info.node->GetValueInt("spritespeed", 250));
+    if (const char *sprname = info.node->GetValueString("spritename", nullptr))
+        SetSprite(sprname);
+// ATOMIC END
     TBWidget::OnInflate(info);
 }
 

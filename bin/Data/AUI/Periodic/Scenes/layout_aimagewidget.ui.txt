@@ -1,11 +1,14 @@
 # AImageWidget layout file
 TBLayout: axis: y
 	TBEditField: multiline: 1, styling: 1, readonly: 1, adapt-to-content: 1, skin: "sheet_cell"
-		text: "AImageWidget\nThis widget can display an image from a file.\n"
+		text: "AImageWidget\nThis widget can display an image from a file.\n And it can play a sprite, when made with SpritePacker\n"
 	TBContainer
-		TBImageWidget: id: imagewidgetdemo, filename: "Textures/newbuilddetected_header.jpg"
-	TBButton: text: "Change image to colorwheel", id: imagecolor
-	TBButton: text: "Change image to newbuild", id: imagenewbuild
+		TBLayout: config: "XACAC"
+			TBImageWidget: id: imagewidgetdemo, filename: "Textures/newbuilddetected_header.jpg"
+			TBImageWidget: id: pgy, spritename: "Data/AUI/Periodic/Textures/peggy.xml", value: 1, spritespeed: 270
+	TBLayout: config: "XAPAC"
+		TBButton: text: "Change image to colorwheel", id: imagecolor
+		TBButton: text: "Change image to newbuild", id: imagenewbuild
 	TBTextField: id: spacer, text: "   "
 	TBLayout
 		TBButton: state: disabled, text: "AImageWidget help Document", url: "http://docs.atomicgameengine.com/api/classes/atomic.uiimagewidget.html"
