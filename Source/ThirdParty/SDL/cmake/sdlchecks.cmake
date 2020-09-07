@@ -22,7 +22,7 @@
 # Modified by Yao Wei Tjong for Urho3D, the modified portion is licensed under below license
 
 #
-# Copyright (c) 2008-2019 the Urho3D project.
+# Copyright (c) 2008-2020 the Urho3D project.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -294,7 +294,7 @@ endmacro()
 macro(CheckNAS)
   if(NAS)
     # Urho3D - bug fix - do not use check_include_file() for detection as it only works for host environment and not for rooted environment when cross-compiling
-    find_package (NetworkAudioSystem)
+    find_package (NAS)
     if(NAS_FOUND)
       include_directories (SYSTEM ${NAS_INCLUDE_DIRS})
       set(HAVE_NAS TRUE)
@@ -325,7 +325,7 @@ endmacro()
 macro(CheckSNDIO)
   if(SNDIO)
     # Urho3D - bug fix - do not use check_include_file() for detection as it only works for host environment and not for rooted environment when cross-compiling
-    find_package (RoarAudio)
+    find_package (SNDIO)
     if(SNDIO_FOUND)
       include_directories (SYSTEM ${SNDIO_INCLUDE_DIRS})
       set(HAVE_SNDIO TRUE)
@@ -1105,8 +1105,8 @@ endmacro(CheckRPI)
 macro(CheckKMSDRM)
   if(VIDEO_KMSDRM)
     # Urho3D - bug fix - do not use pkg-config tool for detection as it only works for host environment and not for rooted environment when cross-compiling
-    find_package (DirectRenderingManager)
-    find_package (GenericBufferManagement)
+    find_package (DRM)
+    find_package (GBM)
     if(DRM_FOUND AND GBM_FOUND)
       include_directories (SYSTEM ${DRM_INCLUDE_DIRS} ${GBM_INCLUDE_DIRS})
       set(HAVE_VIDEO_KMSDRM TRUE)

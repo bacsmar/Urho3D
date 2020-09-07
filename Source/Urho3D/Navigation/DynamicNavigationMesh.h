@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2019 the Urho3D project.
+// Copyright (c) 2008-2020 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ class Obstacle;
 
 class URHO3D_API DynamicNavigationMesh : public NavigationMesh
 {
-    URHO3D_OBJECT(DynamicNavigationMesh, NavigationMesh)
+    URHO3D_OBJECT(DynamicNavigationMesh, NavigationMesh);
 
     friend class Obstacle;
     friend struct MeshProcess;

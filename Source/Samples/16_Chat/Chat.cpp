@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2019 the Urho3D project.
+// Copyright (c) 2008-2020 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@
 #endif
 
 // Identifier for the chat network messages
-const int MSG_CHAT = 153;
+const int MSG_CHAT = 154;
 // UDP port we will use
 const unsigned short CHAT_SERVER_PORT = 2345;
 
